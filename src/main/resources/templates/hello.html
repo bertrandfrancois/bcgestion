@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Getting Started: Serving Web Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<div class="customersList" th:unless="${#lists.isEmpty(customers)}">
+
+		<h2 th:text="#{title.list}"></h2>
+
+		<table>
+			<thead>
+				<tr>
+					<th>Last Name</th>
+					<th>First Name</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="customer : ${customers}">
+					<td th:text="${customer.lastName}" />
+					<td th:text="${customer.firstName}" />
+<!-- 					<td><a th:href="@{'/removeCustomer'(id=${customer.id})}">delete</a></td> -->
+					<td><a th:href="@{'/removeCustomer/' + ${customer.id}}">delete</a></td>
+					<td><a th:href="@{'/editCustomer/' + ${customer.id}}">edit</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div>
+	<p>Add Customer</p>
+		<form action="#" th:action="@{/addCustomer}" th:object="${customer}" method="post">
+			<p><input type="text" th:field="*{lastName}" /></p> 
+			<p><input type="text" th:field="*{firstName}" /></p>
+			<p> <input type="submit" value="submit" /></p>
+		</form>
+	</div>
+	<div>
+	<p>Search Customer</p>
+		<form action="#" th:action="@{/searchCustomer}" th:object="${searchRequest}" method="post">
+			<p><input type="text" th:field="*{value}" /></p> 
+			<p> <input type="submit" value="submit" /></p>
+		</form>
+	</div>
+</body>
+</html>
