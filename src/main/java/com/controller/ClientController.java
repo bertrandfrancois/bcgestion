@@ -26,7 +26,7 @@ public class ClientController {
         return "clients";
     }
 
-    @PostMapping("/addClient")
+    @PostMapping("/clients")
     public String addCustomer(@Valid @ModelAttribute Client client, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "clients";
@@ -35,20 +35,20 @@ public class ClientController {
         return "redirect:/clients";
     }
 
-    @GetMapping("/editClient/{id}")
+    @GetMapping("/clients/{id}/edit")
     public String editClient(@PathVariable long id, Model model) {
         Client client = clientService.find(id);
         model.addAttribute("client", client);
         return "editClient";
     }
 
-    @PostMapping("/editClient")
+    @PostMapping("/clients/{id}/edit")
     public String editClient(@ModelAttribute Client client) {
         clientService.save(client);
         return "redirect:/clients";
     }
 
-    @GetMapping("/deleteClient/{id}")
+    @GetMapping("/clients/{id}/delete")
     public String deleteClient(@PathVariable long id) {
         clientService.delete(id);
         return "redirect:/clients";

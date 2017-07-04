@@ -1,6 +1,5 @@
 package com.beans;
 
-import com.enums.DocumentType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,14 +22,8 @@ public abstract class Document {
     @Column(name = "DOCUMENT_ID")
     private Long id;
 
-    @Column(name = "TYPE")
-    private DocumentType documentType;
-
     @Column(name = "CREATION_DATE")
     private Date creationDate;
-
-    @Column(name = "PAYMENT_DATE")
-    private Date paymentDate;
 
     @ManyToOne
     @JoinColumn(name = "CLIENT_ID")

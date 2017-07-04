@@ -18,6 +18,7 @@ import java.util.Date;
 public class Project {
 
     @Id
+    @GeneratedValue
     @Column(name = "PROJECT_ID")
     private Long id;
 

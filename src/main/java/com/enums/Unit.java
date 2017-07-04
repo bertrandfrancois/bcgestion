@@ -1,4 +1,4 @@
 package com.enums;
 
-public class Unit {
+public enum Unit {
 }

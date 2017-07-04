@@ -6,98 +6,101 @@
     <link rel='stylesheet' href='/webjars/bootstrap/3.2.0/css/bootstrap.min.css'/>
 </head>
 <body>
-<div class="customersList" th:unless="${#lists.isEmpty(clients)}">
+<div class="container-fluid">
+    <div class="col-lg-12">
+        <h2 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]] !</h2>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
+    </div>
+    <div th:unless="${#lists.isEmpty(clients)}" class="col-lg-6">
 
-    <h2 th:text="#{title.clients}"></h2>
+        <h2 th:text="#{title.clients}"></h2>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th th:text="#{client.lastName}"/>
-            <th th:text="#{client.firstName}"/>
-            <th th:text="#{address.street}"/>
-            <th th:text="#{address.postCode}"/>
-            <th th:text="#{address.city}"/>
-            <th th:text="#{client.mail}"/>
-            <th th:text="#{client.phoneNumber}"/>
-            <th th:text="#{client.taxNumber}"/>
-            <th></th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="client : ${clients}">
-            <td th:text="${client.lastName}"/>
-            <td th:text="${client.firstName}"/>
-            <td th:text="${client.address.street}"/>
-            <td th:text="${client.address.postCode}"/>
-            <td th:text="${client.address.city}"/>
-            <td th:text="${client.mail}"/>
-            <td th:text="${client.phoneNumber}"/>
-            <td th:text="${client.taxNumber}"/>
-            <td><a th:href="@{'/deleteClient/' + ${client.id}}">delete</a></td>
-            <td><a th:href="@{'/editClient/' + ${client.id}}">edit</a></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<div>
-
-    <form action="#" th:action="@{/addClient}" th:object="${client}" method="post">
         <table class="table">
+            <thead>
             <tr>
                 <th th:text="#{client.lastName}"/>
-                <td><input id="lastName" type="text" th:field="*{lastName}"/></td>
-                <td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="text-danger"></td>
-            </tr>
-            <tr>
                 <th th:text="#{client.firstName}"/>
-                <td><input id="firstName" type="text" th:field="*{firstName}"/></td>
-                <td th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-danger"/>
-            </tr>
-            <tr>
                 <th th:text="#{address.street}"/>
-                <td><input id="address" type="text" th:field="*{address.street}"/></td>
-                <td th:if="${#fields.hasErrors('address.street')}" th:errors="*{address.street}" class="text-danger"/>
-            </tr>
-            <tr>
                 <th th:text="#{address.postCode}"/>
-                <td><input id="postCode" type="text" th:field="*{address.postCode}"/></td>
-                <td th:if="${#fields.hasErrors('address.postCode')}" th:errors="*{address.postCode}"
-                    class="text-danger"/>
-            </tr>
-            <tr>
                 <th th:text="#{address.city}"/>
-                <td><input id="City" type="text" th:field="*{address.city}"/></td>
-                <td th:if="${#fields.hasErrors('address.city')}" th:errors="*{address.city}" class="text-danger"/>
-            </tr>
-            <tr>
                 <th th:text="#{client.mail}"/>
-                <td><input id="mail" type="text" th:field="*{mail}"/></td>
-                <td th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}" class="text-danger"/>
-            </tr>
-            <tr>
                 <th th:text="#{client.phoneNumber}"/>
-                <td><input id="phoneNumber" type="text" th:field="*{phoneNumber}"/></td>
-                <td th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="text-danger"/>
-            </tr>
-            <tr>
                 <th th:text="#{client.taxNumber}"/>
-                <td><input id="taxNumber" type="text" th:field="*{taxNumber}"/></td>
-                <td th:if="${#fields.hasErrors('taxNumber')}" th:errors="*{taxNumber}" class="text-danger"/>
+                <th></th>
+                <th></th>
             </tr>
-            <tr>
-                <td><input type="submit" value="submit"/></td>
-                <td></td>
+            </thead>
+            <tbody>
+            <tr th:each="client : ${clients}">
+                <td th:text="${client.lastName}"/>
+                <td th:text="${client.firstName}"/>
+                <td th:text="${client.address.street}"/>
+                <td th:text="${client.address.postCode}"/>
+                <td th:text="${client.address.city}"/>
+                <td th:text="${client.mail}"/>
+                <td th:text="${client.phoneNumber}"/>
+                <td th:text="${client.taxNumber}"/>
+                <td><a th:href="@{'/deleteClient/' + ${client.id}}">delete</a></td>
+                <td><a th:href="@{'/editClient/' + ${client.id}}">edit</a></td>
             </tr>
+            </tbody>
         </table>
-    </form>
-</div>
-<div>
-    <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]] !!!!</h1>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
-    </form>
+    </div>
+    <div class="col-lg-6">
+
+        <form action="#" th:action="@{/clients}" th:object="${client}" method="post">
+            <table class="table">
+                <tr>
+                    <th th:text="#{client.lastName}"/>
+                    <td><input id="lastName" type="text" th:field="*{lastName}"/></td>
+                    <td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="text-danger"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{client.firstName}"/>
+                    <td><input id="firstName" type="text" th:field="*{firstName}"/></td>
+                    <td th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-danger"/>
+                </tr>
+                <tr>
+                    <th th:text="#{address.street}"/>
+                    <td><input id="address" type="text" th:field="*{address.street}"/></td>
+                    <td th:if="${#fields.hasErrors('address.street')}" th:errors="*{address.street}"
+                        class="text-danger"/>
+                </tr>
+                <tr>
+                    <th th:text="#{address.postCode}"/>
+                    <td><input id="postCode" type="text" th:field="*{address.postCode}"/></td>
+                    <td th:if="${#fields.hasErrors('address.postCode')}" th:errors="*{address.postCode}"
+                        class="text-danger"/>
+                </tr>
+                <tr>
+                    <th th:text="#{address.city}"/>
+                    <td><input id="City" type="text" th:field="*{address.city}"/></td>
+                    <td th:if="${#fields.hasErrors('address.city')}" th:errors="*{address.city}" class="text-danger"/>
+                </tr>
+                <tr>
+                    <th th:text="#{client.mail}"/>
+                    <td><input id="mail" type="text" th:field="*{mail}"/></td>
+                    <td th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}" class="text-danger"/>
+                </tr>
+                <tr>
+                    <th th:text="#{client.phoneNumber}"/>
+                    <td><input id="phoneNumber" type="text" th:field="*{phoneNumber}"/></td>
+                    <td th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="text-danger"/>
+                </tr>
+                <tr>
+                    <th th:text="#{client.taxNumber}"/>
+                    <td><input id="taxNumber" type="text" th:field="*{taxNumber}"/></td>
+                    <td th:if="${#fields.hasErrors('taxNumber')}" th:errors="*{taxNumber}" class="text-danger"/>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="submit"/></td>
+                    <td></td>
+                </tr>
+            </table>
+        </form>
+    </div>
 </div>
 <!-- 	<div> -->
 <!-- 	<p>Search Customer</p> -->

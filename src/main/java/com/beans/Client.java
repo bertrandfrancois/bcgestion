@@ -17,6 +17,7 @@ import java.util.List;
 public class Client {
 
     @Id
+    @GeneratedValue
     @Column(name = "CLIENT_ID")
     private Long id;
 

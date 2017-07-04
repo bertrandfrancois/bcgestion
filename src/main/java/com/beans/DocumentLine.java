@@ -9,6 +9,7 @@ import javax.persistence.*;
 public class DocumentLine {
 
     @Id
+    @GeneratedValue
     @Column(name = "DOCUMENT_LINE_ID")
     private int id;
 
