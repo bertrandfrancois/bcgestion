@@ -1,6 +1,7 @@
 package com.controller;
 
 import com.beans.Client;
+import com.beans.Project;
 import com.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,15 @@ public class ClientController {
         }
         clientService.save(client);
         return "redirect:/clients";
+    }
+
+    @GetMapping("/clients/{id}")
+    public String showClient(@PathVariable long id, Model model) {
+        Client client = clientService.find(id);
+        Project project = new Project();
+        model.addAttribute("project", project);
+        model.addAttribute("client", client);
+        return "showClient";
     }
 
     @GetMapping("/clients/{id}/edit")

@@ -1,5 +1,6 @@
 package com.service;
 
+import com.beans.Client;
 import com.beans.Project;
 import com.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,9 @@ public class ProjectService implements BaseService<Project>{
     @Override
     public void delete(long id) {
 
+    }
+
+    public Project findByClient(Client client) {
+        return projectRepository.findByClient(client);
     }
 }
