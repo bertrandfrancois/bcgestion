@@ -12,9 +12,11 @@
                 <i class="material-icons" role="presentation">arrow_drop_down</i>
                 <span class="visuallyhidden">Accounts</span>
             </button>
-                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-                    <li class="mdl-menu__item"><i class="material-icons">add</i><a class="mdl-navigation__link" th:href="@{/logout}">Logout</a></li>
-                </ul>
+            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
+                <a class="mdl-navigation__link" th:href="@{/logout}">
+                    <li class="mdl-menu__item"><i class="material-icons">eject</i>Logout</li>
+                </a>
+            </ul>
         </div>
     </header>
     <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
