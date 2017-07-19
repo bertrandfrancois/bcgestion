@@ -1,0 +1,64 @@
+<!doctype html>
+
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments/head :: head"></head>
+<body>
+<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+    <header th:replace="fragments/header :: header"></header>
+    <div th:replace="fragments/menu :: menu"></div>
+    <main class="mdl-layout__content mdl-color--grey-100">
+        <div class="mdl-grid demo-content">
+            <form action="#" th:action="@{/newClient}" th:object="${client}" method="post">
+                <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                            <input class="mdl-textfield__input" id="lastName" type="text" th:field="*{lastName}"/>
+                            <label class="mdl-textfield__label" for="lastName" th:text="#{client.lastName}"></label>
+                            <!--<td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="text-danger"></td>-->
+
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                            <input class="mdl-textfield__input" id="firstName" type="text" th:field="*{firstName}"/>
+                            <label class="mdl-textfield__label" for="firstName" th:text="#{client.firstName}"></label>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                            <input class="mdl-textfield__input" id="street" type="text" th:field="*{address.street}"/>
+                            <label class="mdl-textfield__label" for="street" th:text="#{address.street}"></label>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                            <input class="mdl-textfield__input" id="postCode" type="text"
+                                   th:field="*{address.postCode}"/>
+                            <label class="mdl-textfield__label" for="postCode" th:text="#{address.postCode}"></label>
+                        </div>
+                    </div>
+                    <div class="mdl-cell mdl-cell--6-col mdl-grid">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                            <input class="mdl-textfield__input" id="city" type="text" th:field="*{address.city}"/>
+                            <label class="mdl-textfield__label" for="city" th:text="#{address.city}"></label>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                            <input class="mdl-textfield__input" id="phoneNumber" type="text" th:field="*{phoneNumber}"/>
+                            <label class="mdl-textfield__label" for="phoneNumber"
+                                   th:text="#{client.phoneNumber}"></label>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                            <input class="mdl-textfield__input" id="mail" type="text" th:field="*{mail}"/>
+                            <label class="mdl-textfield__label" for="mail" th:text="#{client.mail}"></label>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                            <input class="mdl-textfield__input" id="taxNumber" type="text" th:field="*{taxNumber}"/>
+                            <label class="mdl-textfield__label" for="taxNumber" th:text="#{client.taxNumber}"></label>
+                        </div>
+                    </div>
+                    <div class="mdl-cell mdl-cell--12-col">
+                        <button type="submit" class="mdl-button mdl-js-ripple-effect mdl-button--primary">Agree</button>
+                        <a th:href="#{/clients}" class="mdl-button close mdl-js-ripple-effect">Annuler</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+</body>
+</html>

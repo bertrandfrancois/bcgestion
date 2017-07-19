@@ -26,11 +26,17 @@ public class ClientController {
         model.addAttribute("clients", clientService.findAll());
         return "clients";
     }
+    @GetMapping("/newClient")
+    public String newClient(Model model) {
+        model.addAttribute("client", new Client());
+        model.addAttribute("clients", clientService.findAll());
+        return "new_client";
+    }
 
-    @PostMapping("/clients")
+    @PostMapping("/newClient")
     public String addCustomer(@Valid @ModelAttribute Client client, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "clients";
+            return "new_client";
         }
         clientService.save(client);
         return "redirect:/clients";

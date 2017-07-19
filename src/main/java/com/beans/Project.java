@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -39,6 +40,9 @@ public class Project {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name = "END_DATE")
     private Date endDate;
+
+    @OneToMany(mappedBy = "project")
+    private List<Document> documents;
 
     @ManyToOne
     @JoinColumn(name = "CLIENT_ID")

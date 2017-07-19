@@ -1,115 +1,47 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.thymeleaf.org">
-<head>
-    <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel='stylesheet' href='/webjars/bootstrap/3.2.0/css/bootstrap.min.css'/>
-</head>
+<!doctype html>
+
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments/head :: head"></head>
 <body>
-<div class="container-fluid">
-    <div class="col-lg-12">
-        <h2 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]] !</h2>
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Sign Out"/>
-        </form>
-    </div>
-    <div th:unless="${#lists.isEmpty(clients)}" class="col-lg-12">
-
-        <h2 th:text="#{title.clients}"></h2>
-
-        <table class="table">
-            <thead>
-            <tr>
-                <th th:text="#{client.lastName}"/>
-                <th th:text="#{client.firstName}"/>
-                <th th:text="#{address.street}"/>
-                <th th:text="#{address.postCode}"/>
-                <th th:text="#{address.city}"/>
-                <th th:text="#{client.mail}"/>
-                <th th:text="#{client.phoneNumber}"/>
-                <th th:text="#{client.taxNumber}"/>
-                <th>delete</th>
-                <th>edit</th>
-                <th>show</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="client : ${clients}">
-                <td th:text="${client.lastName}"/>
-                <td th:text="${client.firstName}"/>
-                <td th:text="${client.address.street}"/>
-                <td th:text="${client.address.postCode}"/>
-                <td th:text="${client.address.city}"/>
-                <td th:text="${client.mail}"/>
-                <td th:text="${client.phoneNumber}"/>
-                <td th:text="${client.taxNumber}"/>
-                <td><a th:href="@{'/deleteClient/' + ${client.id}}">delete</a></td>
-                <td><a th:href="@{'/editClient/' + ${client.id}}">edit</a></td>
-                <td><a th:href="@{'/clients/' + ${client.id}}">show</a></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="col-lg-12">
-
-        <form action="#" th:action="@{/clients}" th:object="${client}" method="post">
-            <table class="table">
-                <tr>
-                    <th th:text="#{client.lastName}"/>
-                    <td><input id="lastName" type="text" th:field="*{lastName}"/></td>
-                    <td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="text-danger"></td>
-                </tr>
-                <tr>
-                    <th th:text="#{client.firstName}"/>
-                    <td><input id="firstName" type="text" th:field="*{firstName}"/></td>
-                    <td th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-danger"/>
-                </tr>
-                <tr>
-                    <th th:text="#{address.street}"/>
-                    <td><input id="address" type="text" th:field="*{address.street}"/></td>
-                    <td th:if="${#fields.hasErrors('address.street')}" th:errors="*{address.street}"
-                        class="text-danger"/>
-                </tr>
-                <tr>
-                    <th th:text="#{address.postCode}"/>
-                    <td><input id="postCode" type="text" th:field="*{address.postCode}"/></td>
-                    <td th:if="${#fields.hasErrors('address.postCode')}" th:errors="*{address.postCode}"
-                        class="text-danger"/>
-                </tr>
-                <tr>
-                    <th th:text="#{address.city}"/>
-                    <td><input id="City" type="text" th:field="*{address.city}"/></td>
-                    <td th:if="${#fields.hasErrors('address.city')}" th:errors="*{address.city}" class="text-danger"/>
-                </tr>
-                <tr>
-                    <th th:text="#{client.mail}"/>
-                    <td><input id="mail" type="text" th:field="*{mail}"/></td>
-                    <td th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}" class="text-danger"/>
-                </tr>
-                <tr>
-                    <th th:text="#{client.phoneNumber}"/>
-                    <td><input id="phoneNumber" type="text" th:field="*{phoneNumber}"/></td>
-                    <td th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="text-danger"/>
-                </tr>
-                <tr>
-                    <th th:text="#{client.taxNumber}"/>
-                    <td><input id="taxNumber" type="text" th:field="*{taxNumber}"/></td>
-                    <td th:if="${#fields.hasErrors('taxNumber')}" th:errors="*{taxNumber}" class="text-danger"/>
-                </tr>
-                <tr>
-                    <td><input type="submit" value="submit"/></td>
-                    <td></td>
-                </tr>
-            </table>
-        </form>
-    </div>
+<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+    <header th:replace="fragments/header :: header"></header>
+    <div th:replace="fragments/menu :: menu"></div>
+    <main class="mdl-layout__content mdl-color--grey-100">
+        <div class="mdl-grid demo-content">
+            <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+                <table class="mdl-data-table mdl-js-data-table mdl-cell mdl-cell--12-col">
+                    <thead>
+                    <tr>
+                        <th th:text="#{client.lastName}" class="mdl-data-table__cell--non-numeric cell-overflow"/>
+                        <th th:text="#{client.firstName}" class="mdl-data-table__cell--non-numeric cell-overflow"/>
+                        <th th:text="#{address.street}" class="mdl-data-table__cell--non-numeric cell-overflow"/>
+                        <th th:text="#{address.postCode}" class="mdl-data-table__cell--non-numeric cell-overflow"/>
+                        <th th:text="#{address.city}" class="mdl-data-table__cell--non-numeric cell-overflow"/>
+                        <th class="mdl-data-table__cell--non-numeric cell-overflow" th:text="show"/>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="client : ${clients}">
+                        <td th:text="${client.lastName}" class="mdl-data-table__cell--non-numeric cell-overflow"/>
+                        <td th:text="${client.firstName}" class="mdl-data-table__cell--non-numeric cell-overflow"/>
+                        <td th:text="${client.address.street}" class="mdl-data-table__cell--non-numeric cell-overflow"/>
+                        <td th:text="${client.address.postCode}" class="mdl-data-table__cell--non-numeric cell-overflow"/>
+                        <td th:text="${client.address.city}" class="mdl-data-table__cell--non-numeric cell-overflow"/>
+                        <td class="mdl-data-table__cell--non-numeric cell-overflow"><a th:href="@{'/clients/' + ${client.id}}"><i
+                                class="material-icons"><i class="material-icons">arrow_forward</i></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
 </div>
-<!-- 	<div> -->
-<!-- 	<p>Search Customer</p> -->
-<!-- 		<form action="#" th:action="@{/searchCustomer}" th:object="${searchRequest}" method="post"> -->
-<!-- 			<p><input type="text" th:field="*{value}" /></p>  -->
-<!-- 			<p> <input type="submit" value="submit" /></p> -->
-<!-- 		</form> -->
-<!-- 	</div> -->
+<a th:href="@{/newClient}" >
+    <button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" id="view-source">
+        <i class="material-icons">add</i>
+    </button>
+</a>
+<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 </body>
 </html>
