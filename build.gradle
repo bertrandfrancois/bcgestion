@@ -35,16 +35,3 @@ dependencies {
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
-
-task stage(type: Copy, dependsOn: [clean, build]) {
-	from jar.archivePath
-	into project.rootDir
-	rename {
-		'bcgestion.jar'
-	}
-}
-stage.mustRunAfter(clean)
-
-clean << {
-	project.file('bcgestion.jar').delete()
-}
