@@ -20,7 +20,9 @@ html, body {
 .mdl-data-table {
     table-layout:fixed;
 }
-
+.mdl-textfield__error {
+    visibility:visible !important;
+}
 .cell-overflow {
 overflow: hidden;
 text-overflow: ellipsis;
