@@ -1,47 +1,76 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
-<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.thymeleaf.org" lang="en">
 <head th:replace="fragments/head :: head"></head>
-<body>
-<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-    <header th:replace="fragments/header :: header"></header>
-    <div th:replace="fragments/menu :: menu"></div>
-    <main class="mdl-layout__content mdl-color--grey-100">
-        <div class="mdl-grid demo-content">
-            <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
-                <table class="mdl-data-table mdl-js-data-table mdl-cell mdl-cell--12-col">
-                    <thead>
-                    <tr>
-                        <th th:text="#{client.lastName}" class="mdl-data-table__cell--non-numeric cell-overflow"/>
-                        <th th:text="#{client.firstName}" class="mdl-data-table__cell--non-numeric cell-overflow"/>
-                        <th th:text="#{address.street}" class="mdl-data-table__cell--non-numeric cell-overflow"/>
-                        <th th:text="#{address.postCode}" class="mdl-data-table__cell--non-numeric cell-overflow"/>
-                        <th th:text="#{address.city}" class="mdl-data-table__cell--non-numeric cell-overflow"/>
-                        <th class="mdl-data-table__cell--non-numeric cell-overflow" th:text="show"/>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="client : ${clients}">
-                        <td th:text="${client.lastName}" class="mdl-data-table__cell--non-numeric cell-overflow"/>
-                        <td th:text="${client.firstName}" class="mdl-data-table__cell--non-numeric cell-overflow"/>
-                        <td th:text="${client.address.street}" class="mdl-data-table__cell--non-numeric cell-overflow"/>
-                        <td th:text="${client.address.postCode}" class="mdl-data-table__cell--non-numeric cell-overflow"/>
-                        <td th:text="${client.address.city}" class="mdl-data-table__cell--non-numeric cell-overflow"/>
-                        <td class="mdl-data-table__cell--non-numeric cell-overflow"><a th:href="@{'/clients/' + ${client.id}}"><i
-                                class="material-icons"><i class="material-icons">arrow_forward</i></i></a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+<!-- Navigation-->
+<nav th:replace="fragments/nav :: nav"></nav>
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#" th:text="#{menu.home}"></a>
+            </li>
+            <li class="breadcrumb-item active"><span th:text="#{menu.quick.access}"></span></li>
+        </ol>
+        <div class="card mb-3">
+            <div class="card-header text-white bg-primary">
+                <i class="fa fa-users">&nbsp;</i><span th:text="#{menu.clients}"></span>
+                <button type="button" class="btn btn-outline-success"><i class="fa fa-user-plus" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-condensed table-hover" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th th:text="#{client.lastName}"></th>
+                            <th th:text="#{client.firstName}"></th>
+                            <th th:text="#{address.street}"></th>
+                            <th th:text="#{address.cp}"></th>
+                            <th th:text="#{address.city}"></th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="client : ${clients}">
+                            <td th:text="${client.lastName}"></td>
+                            <td th:text="${client.firstName}"></td>
+                            <td th:text="${client.address.street}"></td>
+                            <td th:text="${client.address.postCode}"></td>
+                            <td th:text="${client.address.city}"></td>
+                            <td>
+                                <a th:href="@{'/clients/' + ${client.id}}">
+                                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </main>
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+    <footer class="sticky-footer">
+        <div class="container">
+            <div class="text-center">
+            </div>
+        </div>
+    </footer>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fa fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div th:replace="fragments/logout :: logout"></div>
+
+    <!-- Bootstrap core JavaScript-->
+    <th:block th:include="fragments/scripts :: scripts"/>
 </div>
-<a th:href="@{/newClient}" >
-    <button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" id="view-source">
-        <i class="material-icons">person_add</i>
-    </button>
-</a>
-<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 </body>
 </html>
