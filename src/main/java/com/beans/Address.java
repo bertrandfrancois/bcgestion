@@ -1,5 +1,6 @@
 package com.beans;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import javax.validation.constraints.Size;
 
 @Embeddable
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class Address {

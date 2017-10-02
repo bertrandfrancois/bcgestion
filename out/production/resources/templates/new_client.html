@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:replace="fragments/head :: head"></head>
+
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+<!-- Navigation-->
+<nav th:replace="fragments/nav :: nav"></nav>
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#" th:text="#{menu.home}"></a>
+            </li>
+            <!--<li class="breadcrumb-item active"><span th:text="#{menu.quick.access}"></span> </li>-->
+        </ol>
+
+        <div class="card">
+            <div class="card-header"><i class="fa fa-user-plus">&nbsp;</i><span
+                    th:text="#{card.title.add.client}"></span></div>
+            <div class="card-body">
+                <form th:action="@{/clients/create}" th:object="${client}" method="post">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="lastName" th:text="#{client.lastName}" class="text-primary"></label>
+                                <input class="form-control" id="lastName" type="text"
+                                       th:placeholder="#{client.lastName}" th:field="*{lastName}"/>
+                                <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+                                      class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="firstName" th:text="#{client.firstName}" class="text-primary"></label>
+                                <input class="form-control" id="firstName" type="text"
+                                       th:placeholder="#{client.firstName}" th:field="*{firstName}"/>
+                                <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+                                      class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="street" th:text="#{address.street}" class="text-primary"></label>
+                                <input class="form-control" id="street" type="text"
+                                       th:placeholder="#{address.street}" th:field="*{address.street}"/>
+                                <span th:if="${#fields.hasErrors('address.street')}" th:errors="*{address.street}"
+                                      class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="postCode" th:text="#{address.postCode}" class="text-primary"></label>
+                                <input class="form-control" id="postCode" type="text"
+                                       th:placeholder="#{address.postCode}" th:field="*{address.postCode}"/>
+                                <span th:if="${#fields.hasErrors('address.postCode')}" th:errors="*{address.postCode}"
+                                      class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="city" th:text="#{address.city}" class="text-primary"></label>
+                                <input class="form-control" id="city" type="text"
+                                       th:placeholder="#{address.city}" th:field="*{address.city}"/>
+                                <span th:if="${#fields.hasErrors('address.city')}" th:errors="*{address.city}"
+                                      class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="mail" th:text="#{client.mail}" class="text-primary"></label>
+                                <input class="form-control" id="mail" type="text"
+                                       th:placeholder="#{client.mail}" th:field="*{mail}"/>
+                                <span th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"
+                                      class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="phoneNumber" th:text="#{client.phoneNumber}" class="text-primary"></label>
+                                <input class="form-control" id="phoneNumber" type="text"
+                                       th:placeholder="#{client.phoneNumber}" th:field="*{phoneNumber}"/>
+                                <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"
+                                      class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="taxNumber" th:text="#{client.taxNumber}" class="text-primary"></label>
+                                <input class="form-control" id="taxNumber" type="text"
+                                       th:placeholder="#{client.taxNumber}" th:field="*{taxNumber}"/>
+                                <span th:if="${#fields.hasErrors('taxNumber')}" th:errors="*{taxNumber}"
+                                      class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+    <footer class="sticky-footer">
+        <div class="container">
+            <div class="text-center">
+            </div>
+        </div>
+    </footer>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fa fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div th:replace="fragments/logout :: logout"></div>
+
+    <!-- Bootstrap core JavaScript-->
+    <th:block th:include="fragments/scripts :: scripts"/>
+
+</div>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package com.service;
 
 import com.beans.Client;
+import com.google.common.collect.Lists;
 import com.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class ClientService implements BaseService<Client> {
 
     @Override
     public List<Client> findAll() {
-        return (List<Client>) clientRepository.findAll();
+        return Lists.newArrayList(clientRepository.findAll());
     }
 
     @Override
