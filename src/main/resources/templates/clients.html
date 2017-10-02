@@ -17,10 +17,11 @@
             <li class="breadcrumb-item active"><span th:text="#{menu.quick.access}"></span></li>
         </ol>
         <div class="card mb-3">
-            <div class="card-header text-white bg-primary">
+            <div class="card-header">
                 <i class="fa fa-users">&nbsp;</i><span th:text="#{menu.clients}"></span>
-                <button type="button" class="btn btn-outline-success"><i class="fa fa-user-plus" aria-hidden="true"></i>
-                </button>
+                <a th:href="@{/clients/create}" class="btn btn-primary btn-sm float-right">
+                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                </a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">

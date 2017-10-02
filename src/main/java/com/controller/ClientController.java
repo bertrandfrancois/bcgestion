@@ -26,15 +26,15 @@ public class ClientController {
         model.addAttribute("clients", clientService.findAll());
         return "clients";
     }
-    @GetMapping("/newClient")
-    public String newClient(Model model) {
+    @GetMapping("/clients/create")
+    public String showCreateClient(Model model) {
         model.addAttribute("client", new Client());
         model.addAttribute("clients", clientService.findAll());
         return "new_client";
     }
 
-    @PostMapping("/newClient")
-    public String addCustomer(@Valid @ModelAttribute Client client, BindingResult bindingResult, Model model) {
+    @PostMapping("/clients/create")
+    public String createClient(@Valid @ModelAttribute Client client, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "new_client";
         }
