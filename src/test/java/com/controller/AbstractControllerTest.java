@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @Import(WebSecurityConfig.class)
-public class AbstractControllerTest {
+public abstract class AbstractControllerTest {
 
     @MockBean
     private UserRepository userRepository;

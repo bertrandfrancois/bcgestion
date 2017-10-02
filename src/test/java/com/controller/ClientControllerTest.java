@@ -1,14 +1,19 @@
 package com.controller;
 
 import com.beans.Client;
+import com.config.WebSecurityConfig;
+import com.repository.UserRepository;
 import com.service.ClientService;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.testbuilder.ClientTestBuilder.client;
@@ -19,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ClientController.class)
-public class ClientControllerTest extends AbstractControllerTest {
+public class ClientControllerTest extends AbstractControllerTest{
 
     @Autowired
     private MockMvc mvc;
