@@ -26,12 +26,14 @@ public class ClientTestBuilder {
 
     private List<Document> documents = Lists.newArrayList();
 
+    private Long id = null;
+
     public static ClientTestBuilder client() {
         return new ClientTestBuilder();
     }
 
     public Client build() {
-        return new Client(null, lastName, firstName, address, phoneNumber, mail, taxNumber, projects, documents);
+        return new Client(id, lastName, firstName, address, phoneNumber, mail, taxNumber, projects, documents);
     }
 
     public ClientTestBuilder withLastName(String lastName) {
@@ -71,6 +73,11 @@ public class ClientTestBuilder {
 
     public ClientTestBuilder withDocuments(List<Document> documents) {
         this.documents = documents;
+        return this;
+    }
+
+    public ClientTestBuilder withId(Long id) {
+        this.id = id;
         return this;
     }
 }
