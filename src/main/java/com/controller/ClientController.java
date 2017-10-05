@@ -27,9 +27,8 @@ public class ClientController {
         return "clients";
     }
     @GetMapping("/clients/create")
-    public String showCreateClient(Model model) {
+    public String createClient(Model model) {
         model.addAttribute("client", new Client());
-        model.addAttribute("clients", clientService.findAll());
         return "new_client";
     }
 

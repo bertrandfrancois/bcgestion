@@ -1,25 +1,30 @@
 package com.controller;
 
 import com.beans.Client;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
+import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.service.ClientService;
+import com.testbuilder.ClientTestBuilder;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 
 import static com.testbuilder.ClientTestBuilder.client;
-import static org.hamcrest.core.StringContains.containsString;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 @WithMockUser
 @RunWith(SpringRunner.class)
@@ -27,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ClientControllerTest {
 
     @Autowired
-    private MockMvc mvc;
+    private WebClient webClient;
 
     @MockBean
     private ClientService clientService;
@@ -36,37 +41,84 @@ public class ClientControllerTest {
 
     @Before
     public void setUp() throws Exception {
-        client = client().build();
+        client = client()
+                .withId(1L)
+                .build();
+
         otherClient = client()
-                .withFirstName("Bat")
-                .withLastName("man")
+                .withId(2L)
+                .withFirstName("Jane")
                 .build();
     }
 
     @Test
     public void clients() throws Exception {
-
         given(clientService.findAll()).willReturn(Lists.newArrayList(client, otherClient));
 
-        mvc.perform(get("/clients")
-                .accept(MediaType.TEXT_PLAIN))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("John")))
-                .andExpect(content().string(containsString("Doe")))
-                .andExpect(content().string(containsString("Bat")))
-                .andExpect(content().string(containsString("man")));
-    }
+        HtmlPage page = webClient.getPage("/clients");
+        HtmlTable table = page.getHtmlElementById("dataTable");
 
-    @Test
-    public void showCreateClient() throws Exception {
+        assertThat(table.getRowCount()).isEqualTo(3);
+        assertThat(table.getCellAt(1, 0).asText()).isEqualTo(client.getLastName());
+        assertThat(table.getCellAt(1, 1).asText()).isEqualTo(client.getFirstName());
+        assertThat(table.getCellAt(1, 2).asText()).isEqualTo(client.getAddress().getStreet());
+        assertThat(table.getCellAt(1, 4).asText()).isEqualTo(client.getAddress().getCity());
+        assertThat(table.getCellAt(1, 3).asText()).isEqualTo(client.getAddress().getPostCode());
     }
 
     @Test
     public void createClient() throws Exception {
+        HtmlPage page = webClient.getPage("/clients/create");
+        HtmlForm form = page.getFormByName("createClient");
+        form.getInputByName("lastName").setValueAttribute("Doe");
+        form.getInputByName("firstName").setValueAttribute("John");
+        form.getInputByName("address.street").setValueAttribute("street");
+        form.getInputByName("address.postCode").setValueAttribute("12345");
+        form.getInputByName("address.city").setValueAttribute("city");
+        form.getInputByName("mail").setValueAttribute("mail@mail.com");
+        form.getInputByName("phoneNumber").setValueAttribute("phoneNumber");
+        form.getInputByName("taxNumber").setValueAttribute("taxNumber");
+
+        HtmlSubmitInput button = form.getInputByName("Valider");
+
+        HtmlPage click = button.click();
+
+        verify(clientService).save(Mockito.any(Client.class));
+    }
+
+    @Test
+    public void createClient_withValidationErrors() throws Exception {
+        HtmlPage page = webClient.getPage("/clients/create");
+        HtmlForm form = page.getFormByName("createClient");
+        form.getInputByName("lastName").setValueAttribute("Doe");
+        form.getInputByName("firstName").setValueAttribute("John");
+        form.getInputByName("address.street").setValueAttribute("street");
+        form.getInputByName("address.postCode").setValueAttribute("12345");
+        form.getInputByName("address.city").setValueAttribute("city");
+        form.getInputByName("mail").setValueAttribute("mail");
+        form.getInputByName("phoneNumber").setValueAttribute("phoneNumber");
+        form.getInputByName("taxNumber").setValueAttribute("taxNumber");
+
+        HtmlSubmitInput button = form.getInputByName("Valider");
+
+        HtmlPage click = button.click();
+        verify(clientService, never()).save(Mockito.any(Client.class));
     }
 
     @Test
     public void showClient() throws Exception {
+        given(clientService.find(1)).willReturn(client);
+        HtmlPage page = webClient.getPage("/clients/1");
+        HtmlTable table = page.getHtmlElementById("clientDetail");
+
+        assertThat(table.getCellAt(0, 1).asText()).isEqualTo(client.getLastName());
+        assertThat(table.getCellAt(1, 1).asText()).isEqualTo(client.getFirstName());
+        assertThat(table.getCellAt(2, 1).asText()).isEqualTo(client.getAddress().getStreet());
+        assertThat(table.getCellAt(3, 1).asText()).isEqualTo(client.getAddress().getPostCode());
+        assertThat(table.getCellAt(4, 1).asText()).isEqualTo(client.getAddress().getCity());
+        assertThat(table.getCellAt(5, 1).asText()).isEqualTo(client.getMail());
+        assertThat(table.getCellAt(6, 1).asText()).isEqualTo(client.getPhoneNumber());
+        assertThat(table.getCellAt(7, 1).asText()).isEqualTo(client.getTaxNumber());
     }
 
     @Test

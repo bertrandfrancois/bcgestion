@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
-<head th:replace="fragments/head :: head"></head>
+<head th:replace="fragments/head :: head_table"></head>
 
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -38,11 +38,11 @@
                         </thead>
                         <tbody>
                         <tr th:each="client : ${clients}">
-                            <td th:text="${client.lastName}"></td>
-                            <td th:text="${client.firstName}"></td>
-                            <td th:text="${client.address.street}"></td>
-                            <td th:text="${client.address.postCode}"></td>
-                            <td th:text="${client.address.city}"></td>
+                            <td th:text="${client.lastName}" id="lastName"></td>
+                            <td th:text="${client.firstName}" id="firstName"></td>
+                            <td th:text="${client.address.street}" id="street"></td>
+                            <td th:text="${client.address.postCode}" id="postCode"></td>
+                            <td th:text="${client.address.city}" id="city"></td>
                             <td>
                                 <a th:href="@{'/clients/' + ${client.id}}">
                                     <i class="fa fa-arrow-right" aria-hidden="true"></i>
@@ -71,7 +71,7 @@
     <div th:replace="fragments/logout :: logout"></div>
 
     <!-- Bootstrap core JavaScript-->
-    <th:block th:include="fragments/scripts :: scripts"/>
+    <th:block th:include="fragments/scripts :: scripts_table"/>
 </div>
 </body>
 </html>

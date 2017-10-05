@@ -23,7 +23,7 @@
             <div class="card-header"><i class="fa fa-user-plus">&nbsp;</i><span
                     th:text="#{menu.new.client}"></span></div>
             <div class="card-body">
-                <form th:action="@{/clients/create}" th:object="${client}" method="post">
+                <form th:action="@{/clients/create}" name="createClient" th:object="${client}" method="post">
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
@@ -82,7 +82,7 @@
                     </div>
                     <div class="form-group">
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block" th:text="#{button.validate}"></button>
+                    <input type="submit" class="btn btn-primary btn-block" th:name="#{button.validate}"/>
                 </form>
             </div>
         </div>
