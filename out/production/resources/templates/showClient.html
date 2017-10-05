@@ -19,6 +19,10 @@
             </li>
             <li class="breadcrumb-item active"><span th:text="#{menu.client.detail}"></span></li>
         </ol>
+        <div class="alert alert-success alert-dismissable" th:if="${param.success}">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <i class="fa fa-check" aria-hidden="true"></i>&nbsp;<span th:text="#{info.client.edit.success}"></span>
+        </div>
         <div class="row">
             <div class="col-lg-6">
                 <div class="card mb-3">

@@ -7,12 +7,9 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.service.ClientService;
-import com.testbuilder.ClientTestBuilder;
-import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -20,8 +17,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static com.testbuilder.ClientTestBuilder.client;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -53,7 +51,7 @@ public class ClientControllerTest {
 
     @Test
     public void clients() throws Exception {
-        given(clientService.findAll()).willReturn(Lists.newArrayList(client, otherClient));
+        given(clientService.findAll()).willReturn(newArrayList(client, otherClient));
 
         HtmlPage page = webClient.getPage("/clients");
         HtmlTable table = page.getHtmlElementById("dataTable");
@@ -81,13 +79,13 @@ public class ClientControllerTest {
 
         HtmlSubmitInput button = form.getInputByName("Valider");
 
-        HtmlPage click = button.click();
+        button.click();
 
         verify(clientService).save(Mockito.any(Client.class));
     }
 
     @Test
-    public void createClient_withValidationErrors() throws Exception {
+    public void createClient_withValidationErrors_invalidMail() throws Exception {
         HtmlPage page = webClient.getPage("/clients/create");
         HtmlForm form = page.getFormByName("createClient");
         form.getInputByName("lastName").setValueAttribute("Doe");
@@ -95,13 +93,14 @@ public class ClientControllerTest {
         form.getInputByName("address.street").setValueAttribute("street");
         form.getInputByName("address.postCode").setValueAttribute("12345");
         form.getInputByName("address.city").setValueAttribute("city");
-        form.getInputByName("mail").setValueAttribute("mail");
+        form.getInputByName("mail").setValueAttribute("invalidMail");
         form.getInputByName("phoneNumber").setValueAttribute("phoneNumber");
         form.getInputByName("taxNumber").setValueAttribute("taxNumber");
 
         HtmlSubmitInput button = form.getInputByName("Valider");
 
-        HtmlPage click = button.click();
+        button.click();
+
         verify(clientService, never()).save(Mockito.any(Client.class));
     }
 
@@ -123,10 +122,30 @@ public class ClientControllerTest {
 
     @Test
     public void editClient() throws Exception {
+        given(clientService.find(1)).willReturn(client);
+
+        HtmlPage page = webClient.getPage("/clients/1/edit");
+        HtmlForm form = page.getFormByName("editClient");
+        form.getInputByName("firstName").setValueAttribute("Jane");
+        HtmlSubmitInput button = form.getInputByName("Valider");
+
+        button.click();
+
+        verify(clientService).save(Mockito.any(Client.class));
     }
 
     @Test
-    public void editClient1() throws Exception {
+    public void editClient_withValidationErrors_invalidLastName() throws Exception {
+        given(clientService.find(1)).willReturn(client);
+
+        HtmlPage page = webClient.getPage("/clients/1/edit");
+        HtmlForm form = page.getFormByName("editClient");
+        form.getInputByName("firstName").setValueAttribute("");
+        HtmlSubmitInput button = form.getInputByName("Valider");
+
+        button.click();
+
+        verify(clientService, never()).save(Mockito.any(Client.class));
     }
 
     @Test

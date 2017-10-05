@@ -26,6 +26,7 @@ public class ClientController {
         model.addAttribute("clients", clientService.findAll());
         return "clients";
     }
+
     @GetMapping("/clients/create")
     public String createClient(Model model) {
         model.addAttribute("client", new Client());
@@ -54,13 +55,16 @@ public class ClientController {
     public String editClient(@PathVariable long id, Model model) {
         Client client = clientService.find(id);
         model.addAttribute("client", client);
-        return "editClient";
+        return "edit_client";
     }
 
     @PostMapping("/clients/{id}/edit")
-    public String editClient(@ModelAttribute Client client) {
+    public String editClient(@PathVariable long id, @Valid @ModelAttribute Client client, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "edit_client";
+        }
         clientService.save(client);
-        return "redirect:/clients";
+        return "redirect:/clients/" + id + "?success";
     }
 
     @GetMapping("/clients/{id}/delete")

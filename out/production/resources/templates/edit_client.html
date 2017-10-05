@@ -16,14 +16,20 @@
             <li class="breadcrumb-item">
                 <a th:href="@{/clients}" th:text="#{menu.clients}"></a>
             </li>
-            <li class="breadcrumb-item active"><span th:text="#{menu.new.client}"></span></li>
+            <li class="breadcrumb-item">
+                <a th:href="@{'/clients/' + ${client.id}}" th:text="#{menu.client.detail}"></a>
+            </li>
+
+            <li class="breadcrumb-item active"><span th:text="#{menu.edit.client}"></span></li>
         </ol>
 
         <div class="card">
-            <div class="card-header"><i class="fa fa-user-plus">&nbsp;</i><span
-                    th:text="#{menu.new.client}"></span></div>
+            <div class="card-header"><i class="fa fa-edit">&nbsp;</i><span
+                    th:text="#{menu.edit.client}"></span></div>
             <div class="card-body">
-                <form th:action="@{/clients/create}" name="createClient" th:object="${client}" method="post">
+                <form th:action="@{'/clients/' + ${client.id} + '/edit'}" name="editClient" th:object="${client}"
+                      method="post">
+                    <input class="form-control" id="id" type="hidden" th:field="*{id}"/>
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
@@ -88,7 +94,7 @@
                                    th:value="#{button.validate}"/>
                         </div>
                         <div class="col-lg-6">
-                            <a th:href="@{/clients}" class="btn btn-danger btn-block"><span th:text="#{button.cancel}"></span></a>
+                            <a th:href="@{'/clients/' + ${client.id}}" class="btn btn-danger btn-block"><span th:text="#{button.cancel}"></span></a>
                         </div>
                     </div>
                 </form>
