@@ -28,6 +28,7 @@ public class ProdWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .permitAll()
+                .successForwardUrl("/home")
                 .failureUrl("/login?error=true")
                 .and()
                 .logout()
