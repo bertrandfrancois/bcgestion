@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@Profile("prod")
+@Profile({"prod", "dev_secure"})
 public class ProdWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired

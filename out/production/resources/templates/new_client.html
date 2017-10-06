@@ -84,11 +84,12 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <input type="submit" class="btn btn-primary btn-block" th:name="#{button.validate}"
-                                   th:value="#{button.validate}"/>
+                            <button type="submit" class="btn btn-primary btn-block"
+                                    th:text="#{button.validate}"></button>
                         </div>
                         <div class="col-lg-6">
-                            <a th:href="@{/clients}" class="btn btn-danger btn-block"><span th:text="#{button.cancel}"></span></a>
+                            <a th:href="@{/clients}" class="btn btn-danger btn-block"><span
+                                    th:text="#{button.cancel}"></span></a>
                         </div>
                     </div>
                 </form>

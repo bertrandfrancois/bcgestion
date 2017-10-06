@@ -2,10 +2,7 @@ package com.controller;
 
 import com.beans.Client;
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
-import com.gargoylesoftware.htmlunit.html.HtmlTable;
+import com.gargoylesoftware.htmlunit.html.*;
 import com.service.ClientService;
 import org.junit.Before;
 import org.junit.Test;
@@ -77,8 +74,8 @@ public class ClientControllerTest {
         form.getInputByName("phoneNumber").setValueAttribute("phoneNumber");
         form.getInputByName("taxNumber").setValueAttribute("taxNumber");
 
-        HtmlSubmitInput button = form.getInputByName("Valider");
-
+        HtmlButton button = form.getOneHtmlElementByAttribute("button", "type",
+                "submit");
         button.click();
 
         verify(clientService).save(Mockito.any(Client.class));
@@ -97,7 +94,8 @@ public class ClientControllerTest {
         form.getInputByName("phoneNumber").setValueAttribute("phoneNumber");
         form.getInputByName("taxNumber").setValueAttribute("taxNumber");
 
-        HtmlSubmitInput button = form.getInputByName("Valider");
+        HtmlButton button = form.getOneHtmlElementByAttribute("button", "type",
+                "submit");
 
         button.click();
 
@@ -127,7 +125,8 @@ public class ClientControllerTest {
         HtmlPage page = webClient.getPage("/clients/1/edit");
         HtmlForm form = page.getFormByName("editClient");
         form.getInputByName("firstName").setValueAttribute("Jane");
-        HtmlSubmitInput button = form.getInputByName("Valider");
+        HtmlButton button = form.getOneHtmlElementByAttribute("button", "type",
+                "submit");
 
         button.click();
 
@@ -141,8 +140,9 @@ public class ClientControllerTest {
         HtmlPage page = webClient.getPage("/clients/1/edit");
         HtmlForm form = page.getFormByName("editClient");
         form.getInputByName("firstName").setValueAttribute("");
-        HtmlSubmitInput button = form.getInputByName("Valider");
-
+//        HtmlSubmitInput button = form.getInputByName("Valider");
+        HtmlButton button = form.getOneHtmlElementByAttribute("button", "type",
+                "submit");
         button.click();
 
         verify(clientService, never()).save(Mockito.any(Client.class));
