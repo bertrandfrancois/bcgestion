@@ -32,7 +32,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile group: 'org.thymeleaf.extras', name:"thymeleaf-extras-springsecurity4", version:'2.1.2.RELEASE'
 	runtime('mysql:mysql-connector-java')
-	compileOnly('org.projectlombok:lombok')
+	provided 'org.projectlombok:lombok:1.16.18'
 	testCompile 'net.sourceforge.htmlunit:htmlunit:2.27'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.security:spring-security-test')
