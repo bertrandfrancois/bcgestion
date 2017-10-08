@@ -8,4 +8,5 @@ import com.beans.Client;
 @Repository
 public interface ClientRepository extends CrudRepository<Client, Long>{
 
+    Client findTopByOrderByIdDesc();
 }

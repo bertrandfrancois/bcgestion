@@ -54,4 +54,8 @@ public class ClientRepositoryTest {
         assertThat(repository.findAll()).containsOnly(otherClient);
     }
 
+    @Test
+    public void findTopByOrderByIdDesc() throws Exception {
+        assertThat(repository.findTopByOrderByIdDesc()).isEqualTo(otherClient);
+    }
 }

@@ -1,48 +1,31 @@
 <!DOCTYPE html>
 <html xmlns="http://www.thymeleaf.org" xmlns:th="http://www.w3.org/1999/xhtml"
       lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <meta name="description" content=""/>
-    <meta name="author" content=""/>
-    <title>Login</title>
-    <!-- Bootstrap core CSS-->
-    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
-    <!-- Custom fonts for this template-->
-    <link th:href="@{/vendor/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
-    <!-- Custom styles for this template-->
-    <link th:href="@{/css/sb-admin.css}" rel="stylesheet"/>
-</head>
+<head th:replace="fragments/head :: head"></head>
 
 <body class="bg-dark">
 <div class="container">
     <div class="card card-login mx-auto mt-5">
-        <div class="card-header">Login</div>
+        <div class="card-header" th:text="#{menu.login}"></div>
         <div class="card-body">
             <form th:action="@{/login}" method="post">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">User</label>
-                    <input class="form-control" id="exampleInputEmail1" type="text" aria-describedby="emailHelp" placeholder="User" name="username"/>
+                    <label for="username" th:text="#{user.username}"></label>
+                    <input class="form-control" id="username" type="text" aria-describedby="emailHelp" name="username"/>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input class="form-control" id="exampleInputPassword1" type="password" placeholder="Password" name="password"/>
+                    <label for="password" th:text="#{user.password}"></label>
+                    <input class="form-control" id="password" type="password" name="password"/>
                 </div>
                 <div class="form-group">
                 </div>
-                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <button type="submit" class="btn btn-primary btn-block" th:text="#{button.login}"></button>
             </form>
         </div>
     </div>
 </div>
 <!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/popper/popper.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-<!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<th:block th:include="fragments/scripts :: scripts"/>
 </body>
 
 </html>

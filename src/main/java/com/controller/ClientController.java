@@ -39,7 +39,8 @@ public class ClientController {
             return "new_client";
         }
         clientService.save(client);
-        return "redirect:/clients";
+        Client newClient = clientService.findLastClient();
+        return "redirect:/clients/"+ newClient.getId() +"?createSuccess";
     }
 
     @GetMapping("/clients/{id}")
@@ -64,7 +65,7 @@ public class ClientController {
             return "edit_client";
         }
         clientService.save(client);
-        return "redirect:/clients/" + id + "?success";
+        return "redirect:/clients/" + id + "?editSuccess";
     }
 
     @GetMapping("/clients/{id}/delete")

@@ -63,4 +63,10 @@ public class ClientServiceTest {
         verify(clientRepository).delete(1L);
     }
 
+    @Test
+    public void findLastClient() throws Exception {
+        given(clientRepository.findTopByOrderByIdDesc()).willReturn(client);
+
+        assertThat(clientService.findLastClient()).isEqualTo(client);
+    }
 }

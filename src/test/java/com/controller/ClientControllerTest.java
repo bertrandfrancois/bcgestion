@@ -1,9 +1,11 @@
 package com.controller;
 
 import com.beans.Client;
+import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
 import com.service.ClientService;
+import com.testbuilder.ClientTestBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,6 +65,9 @@ public class ClientControllerTest {
 
     @Test
     public void createClient() throws Exception {
+        given(clientService.findLastClient()).willReturn(client().withId(1L).build());
+        given(clientService.find(1L)).willReturn(client().withId(1L).build());
+
         HtmlPage page = webClient.getPage("/clients/create");
         HtmlForm form = page.getFormByName("createClient");
         form.getInputByName("lastName").setValueAttribute("Doe");
@@ -76,9 +81,12 @@ public class ClientControllerTest {
 
         HtmlButton button = form.getOneHtmlElementByAttribute("button", "type",
                 "submit");
-        button.click();
+        Page clientPage = button.click();
+
+        assertThat(clientPage.getUrl().getPath()).isEqualTo("/clients/1");
 
         verify(clientService).save(Mockito.any(Client.class));
+        verify(clientService).findLastClient();
     }
 
     @Test
@@ -100,11 +108,12 @@ public class ClientControllerTest {
         button.click();
 
         verify(clientService, never()).save(Mockito.any(Client.class));
+        verify(clientService, never()).findLastClient();
     }
 
     @Test
     public void showClient() throws Exception {
-        given(clientService.find(1)).willReturn(client);
+        given(clientService.find(1L)).willReturn(client);
         HtmlPage page = webClient.getPage("/clients/1");
         HtmlTable table = page.getHtmlElementById("clientDetail");
 
@@ -120,7 +129,7 @@ public class ClientControllerTest {
 
     @Test
     public void editClient() throws Exception {
-        given(clientService.find(1)).willReturn(client);
+        given(clientService.find(1L)).willReturn(client);
 
         HtmlPage page = webClient.getPage("/clients/1/edit");
         HtmlForm form = page.getFormByName("editClient");
