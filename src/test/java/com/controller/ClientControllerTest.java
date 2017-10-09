@@ -5,10 +5,11 @@ import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
 import com.service.ClientService;
-import com.testbuilder.ClientTestBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -33,6 +34,9 @@ public class ClientControllerTest {
 
     @MockBean
     private ClientService clientService;
+
+    @Captor
+    private ArgumentCaptor<Client> editedClient;
 
     private Client client, otherClient;
 
@@ -139,7 +143,8 @@ public class ClientControllerTest {
 
         button.click();
 
-        verify(clientService).save(Mockito.any(Client.class));
+        verify(clientService).save(editedClient.capture());
+        assertThat(editedClient.getValue().getFirstName()).isEqualTo("Jane");
     }
 
     @Test
@@ -149,7 +154,6 @@ public class ClientControllerTest {
         HtmlPage page = webClient.getPage("/clients/1/edit");
         HtmlForm form = page.getFormByName("editClient");
         form.getInputByName("firstName").setValueAttribute("");
-//        HtmlSubmitInput button = form.getInputByName("Valider");
         HtmlButton button = form.getOneHtmlElementByAttribute("button", "type",
                 "submit");
         button.click();
@@ -159,5 +163,14 @@ public class ClientControllerTest {
 
     @Test
     public void deleteClient() throws Exception {
+        given(clientService.find(1L)).willReturn(client);
+        HtmlPage page = webClient.getPage("/clients/1");
+        HtmlForm form = page.getFormByName("deleteClient");
+        HtmlButton button = form.getOneHtmlElementByAttribute("button", "type",
+                "submit");
+        Page clientsPage = button.click();
+        assertThat(clientsPage.getUrl().getPath()).isEqualTo("/clients");
+        verify(clientService).delete(1L);
+
     }
 }

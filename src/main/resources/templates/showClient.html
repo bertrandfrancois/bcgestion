@@ -32,9 +32,13 @@
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fa fa-user">&nbsp;</i><span th:text="#{menu.client.detail}"></span>
+                        <a data-toggle="modal" data-target="#deleteClient"
+                           class="btn btn-danger btn-sm float-right" style="margin-left:5px;">
+                            <i class="fa fa-trash text-white" aria-hidden="true"></i>
+                        </a>
                         <a th:href="@{'/clients/' + ${client.id} + '/edit'}" class="btn btn-primary btn-sm float-right">
                             <i class="fa fa-edit" aria-hidden="true"></i>
-                        </a>
+                        </a>&nbsp;
                     </div>
 
                     <div class="card-body">
@@ -92,7 +96,8 @@
         <i class="fa fa-angle-up"></i>
     </a>
     <!-- Logout Modal-->
-    <div th:replace="fragments/logout :: logout"></div>
+    <div th:replace="fragments/modals :: logout"></div>
+    <div th:replace="fragments/modals :: deleteClient"></div>
 
     <!-- Bootstrap core JavaScript-->
     <th:block th:include="fragments/scripts :: scripts"/>
