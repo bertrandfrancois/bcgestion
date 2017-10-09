@@ -5,6 +5,7 @@ import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
 import com.service.ClientService;
+import com.testbuilder.ClientTestBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,7 +37,7 @@ public class ClientControllerTest {
     private ClientService clientService;
 
     @Captor
-    private ArgumentCaptor<Client> editedClient;
+    private ArgumentCaptor<Client> createdClient, editedClient;
 
     private Client client, otherClient;
 
@@ -89,7 +90,8 @@ public class ClientControllerTest {
 
         assertThat(clientPage.getUrl().getPath()).isEqualTo("/clients/1");
 
-        verify(clientService).save(Mockito.any(Client.class));
+        verify(clientService).save(createdClient.capture());
+        assertThat(createdClient.getValue()).isEqualToComparingFieldByFieldRecursively(ClientTestBuilder.client().build());
         verify(clientService).findLastClient();
     }
 

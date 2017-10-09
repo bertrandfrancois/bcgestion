@@ -1,5 +1,6 @@
 package com.beans;
 
+import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,8 +57,8 @@ public class Client {
     private String taxNumber;
 
     @OneToMany(mappedBy = "client")
-    private List<Project> projects;
+    private List<Project> projects = Lists.newArrayList();
 
     @OneToMany(mappedBy = "client")
-    private List<Document> documents;
+    private List<Document> documents = Lists.newArrayList();
 }
