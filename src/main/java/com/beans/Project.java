@@ -1,5 +1,7 @@
 package com.beans;
 
+import com.google.common.collect.Lists;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "PROJECTS")
 public class Project {
 
@@ -32,17 +35,17 @@ public class Project {
     private Address address;
 
     @NotNull
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     @Column(name = "START_DATE")
     private Date startDate;
 
     @NotNull
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     @Column(name = "END_DATE")
     private Date endDate;
 
     @OneToMany(mappedBy = "project")
-    private List<Document> documents;
+    private List<Document> documents = Lists.newArrayList();
 
     @ManyToOne
     @JoinColumn(name = "CLIENT_ID")

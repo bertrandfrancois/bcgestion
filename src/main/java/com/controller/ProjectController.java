@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("clients/{id}")
+@RequestMapping("/clients/{id}")
 public class ProjectController {
 
     @Autowired
@@ -22,25 +22,27 @@ public class ProjectController {
     @Autowired
     private ClientService clientService;
 
-    @GetMapping("/projects")
-    public String clientProjects(@PathVariable long id, Model model) {
+    @GetMapping("/projects/create")
+    public String createProject(@PathVariable long id, Model model) {
         Project project = new Project();
+        Client client = clientService.find(id);
         model.addAttribute("project", project);
-        return "projects";
+        model.addAttribute("client", client);
+        return "create_project";
     }
 
-    @PostMapping("/projects")
-    public String add(@Valid @ModelAttribute Project project,
-                      @PathVariable long id,
-                      BindingResult bindingResult,
-                      Model model) {
-
-        if (bindingResult.hasErrors()) {
-            return "projects";
-        }
+    @PostMapping("/projects/create")
+    public String saveProject(@Valid @ModelAttribute Project project,
+                              BindingResult bindingResult,
+                              @PathVariable long id,
+                              Model model) {
         Client client = clientService.find(id);
+        model.addAttribute("client", client);
+        if (bindingResult.hasErrors()) {
+            return "create_project";
+        }
         project.setClient(client);
         projectService.save(project);
-        return "redirect:/clients";
+        return "redirect:/clients/" + id;
     }
 }
