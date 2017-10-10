@@ -37,8 +37,8 @@ public class ProjectController {
                               @PathVariable long id,
                               Model model) {
         Client client = clientService.find(id);
-        model.addAttribute("client", client);
         if (bindingResult.hasErrors()) {
+            model.addAttribute("client", client);
             return "create_project";
         }
         project.setClient(client);
