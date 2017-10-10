@@ -31,7 +31,8 @@ dependencies {
 	compile 'com.google.guava:guava:22.0'
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile group: 'org.thymeleaf.extras', name:"thymeleaf-extras-springsecurity4", version:'2.1.2.RELEASE'
-	runtime('mysql:mysql-connector-java')
+    compile group: 'com.lowagie', name: 'itext', version: '2.1.7'
+    runtime('mysql:mysql-connector-java')
 	compileOnly 'org.projectlombok:lombok:1.16.18'
 	testCompile 'net.sourceforge.htmlunit:htmlunit:2.27'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
