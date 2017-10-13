@@ -43,4 +43,25 @@
         </form>
     </div>
 </div>
+<div class="modal fade" id="deleteProject" tabindex="-1" role="dialog" aria-labelledby="deleteProjectLabel"
+     aria-hidden="true" th:fragment="deleteProject">
+    <div class="modal-dialog" role="document">
+        <form th:action="@{'./' + ${project.id} + '/delete'}" name="deleteProject" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteProjectLabel"><span th:text="#{menu.delete.project}"></span></h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body"><span th:text="#{message.delete.project}"></span>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal" th:text="#{button.cancel}"></button>
+                    <button type="submit" class="btn btn-danger" th:text="#{button.delete}"></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 </html>

@@ -106,9 +106,9 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="project : ${client.projects}">
-                                    <td th:text="#{project.description}"></td>
+                                    <td th:text="${project.description}"></td>
                                     <td>
-                                        <a th:href="@{'./projects/' + ${project.id}}">
+                                        <a th:href="@{'./' + ${client.id} +'/projects/' + ${project.id}}">
                                             <i class="fa fa-arrow-right" aria-hidden="true"></i>
                                         </a>
                                     </td>

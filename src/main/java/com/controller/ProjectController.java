@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/clients/{id}")
+@RequestMapping("/clients/{clientId}")
 public class ProjectController {
 
     @Autowired
@@ -22,10 +22,19 @@ public class ProjectController {
     @Autowired
     private ClientService clientService;
 
+    @GetMapping("/projects/{projectId}")
+    public String createProject(@PathVariable("clientId") long clientId, @PathVariable("projectId") long projectId, Model model) {
+        Project project = projectService.find(projectId);
+        Client client = clientService.find(clientId);
+        model.addAttribute("project", project);
+        model.addAttribute("client", client);
+        return "project_detail";
+    }
+
     @GetMapping("/projects/create")
-    public String createProject(@PathVariable long id, Model model) {
+    public String createProject(@PathVariable("clientId") long clientId, Model model) {
         Project project = new Project();
-        Client client = clientService.find(id);
+        Client client = clientService.find(clientId);
         model.addAttribute("project", project);
         model.addAttribute("client", client);
         return "create_project";
@@ -34,15 +43,16 @@ public class ProjectController {
     @PostMapping("/projects/create")
     public String saveProject(@Valid @ModelAttribute Project project,
                               BindingResult bindingResult,
-                              @PathVariable long id,
+                              @PathVariable ("clientId") long clientId,
                               Model model) {
-        Client client = clientService.find(id);
+        Client client = clientService.find(clientId);
         if (bindingResult.hasErrors()) {
             model.addAttribute("client", client);
             return "create_project";
         }
         project.setClient(client);
         projectService.save(project);
-        return "redirect:/clients/" + id;
+        Project lastProject = projectService.findLastProject();
+        return "redirect:/clients/" + clientId + "/projects/" +lastProject.getId();
     }
 }

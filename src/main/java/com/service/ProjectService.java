@@ -30,7 +30,7 @@ public class ProjectService implements BaseService<Project>{
 
     @Override
     public Project find(long id) {
-        return null;
+        return projectRepository.findOne(id);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class ProjectService implements BaseService<Project>{
 
     }
 
-    public Project findByClient(Client client) {
-        return projectRepository.findByClient(client);
+    public Project findLastProject() {
+        return projectRepository.findTopByOrderByIdDesc();
     }
 }

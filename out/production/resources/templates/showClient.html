@@ -45,37 +45,75 @@
                         <div class="table-responsive">
                             <table class="table table-condensed table-hover table-striped" id="clientDetail">
                                 <tr>
-                                    <th th:text="#{client.lastName}"/>
-                                    <td th:text="${client.lastName}"/>
+                                    <th th:text="#{client.lastName}"></th>
+                                    <td th:text="${client.lastName}"></td>
                                 </tr>
                                 <tr>
-                                    <th th:text="#{client.firstName}"/>
-                                    <td th:text="${client.firstName}"/>
+                                    <th th:text="#{client.firstName}"></th>
+                                    <td th:text="${client.firstName}"></td>
                                 </tr>
                                 <tr>
-                                    <th th:text="#{address.street}"/>
-                                    <td th:text="${client.address.street}"/>
+                                    <th th:text="#{address.street}"></th>
+                                    <td th:text="${client.address.street}"></td>
                                 </tr>
                                 <tr>
-                                    <th th:text="#{address.postCode}"/>
-                                    <td th:text="${client.address.postCode}"/>
+                                    <th th:text="#{address.postCode}"></th>
+                                    <td th:text="${client.address.postCode}"></td>
                                 </tr>
                                 <tr>
-                                    <th th:text="#{address.city}"/>
-                                    <td th:text="${client.address.city}"/>
+                                    <th th:text="#{address.city}"></th>
+                                    <td th:text="${client.address.city}"></td>
                                 </tr>
                                 <tr>
-                                    <th th:text="#{client.mail}"/>
-                                    <td th:text="${client.mail}"/>
+                                    <th th:text="#{client.mail}"></th>
+                                    <td th:text="${client.mail}"></td>
                                 </tr>
                                 <tr>
-                                    <th th:text="#{client.phoneNumber}"/>
-                                    <td th:text="${client.phoneNumber}"/>
+                                    <th th:text="#{client.phoneNumber}"></th>
+                                    <td th:text="${client.phoneNumber}"></td>
                                 </tr>
                                 <tr>
-                                    <th th:text="#{client.taxNumber}"/>
-                                    <td th:text="${client.taxNumber}"/>
+                                    <th th:text="#{client.taxNumber}"></th>
+                                    <td th:text="${client.taxNumber}"></td>
                                 </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fa fa-wrench">&nbsp;</i><span th:text="#{menu.projects}"></span>
+                        <a th:href="@{'./'+ ${client.id} +'/projects/create'}"
+                           class="btn btn-primary btn-sm float-right">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </a>&nbsp;
+                    </div>
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-condensed table-hover table-striped" id="projects">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <span th:text="#{project.description}"></span>
+                                    </th>
+                                    <th>
+                                        <span th:text="#{menu.detail}"></span>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="project : ${client.projects}">
+                                    <td th:text="${project.description}"></td>
+                                    <td>
+                                        <a th:href="@{'./' + ${client.id} +'/projects/' + ${project.id}}">
+                                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>
