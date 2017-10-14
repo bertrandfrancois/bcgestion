@@ -32,8 +32,6 @@
         </div>
         <div class="row">
             <div class="col-lg-6">
-                <!--<div class="col-lg-6">-->
-                <!--<div class="card mb-3">-->
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fa fa-user">&nbsp;</i><span th:text="#{menu.project.detail}"></span>
@@ -78,42 +76,44 @@
                     </div>
                 </div>
             </div>
-            <!--<div class="card-header">-->
-            <!--<i class="fa fa-wrench">&nbsp;</i><span th:text="#{menu.projects}"></span>-->
-            <!--<a th:href="@{'./'+ ${client.id} +'/projects/create'}"-->
-            <!--class="btn btn-primary btn-sm float-right">-->
-            <!--<i class="fa fa-plus" aria-hidden="true"></i>-->
-            <!--</a>&nbsp;-->
-            <!--</div>-->
+            <div class="col-lg-6">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fa fa-wrench">&nbsp;</i><span th:text="#{menu.documents}"></span>
+                        <a th:href="@{'./'+ ${project.id} +'/documents/create'}"
+                           class="btn btn-primary btn-sm float-right">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </a>&nbsp;
+                    </div>
 
-            <!--<div class="card-body">-->
-            <!--<div class="table-responsive">-->
-            <!--<table class="table table-condensed table-hover table-striped" id="projects">-->
-            <!--<thead>-->
-            <!--<tr>-->
-            <!--<th>-->
-            <!--<span th:text="#{project.description}"></span>-->
-            <!--</th>-->
-            <!--<th>-->
-            <!--<span th:text="#{menu.detail}"></span>-->
-            <!--</th>-->
-            <!--</tr>-->
-            <!--</thead>-->
-            <!--<tbody>-->
-            <!--<tr th:each="project : ${client.projects}">-->
-            <!--<td th:text="${project.description}"></td>-->
-            <!--<td>-->
-            <!--<a th:href="@{'./projects/' + ${project.id}}">-->
-            <!--<i class="fa fa-arrow-right" aria-hidden="true"></i>-->
-            <!--</a>-->
-            <!--</td>-->
-            <!--</tr>-->
-            <!--</tbody>-->
-            <!--</table>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-condensed table-hover table-striped" id="projects">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <span th:text="#{document.code}"></span>
+                                    </th>
+                                    <th>
+                                        <span th:text="#{menu.detail}"></span>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="document : ${project.documents}">
+                                    <td th:text="${document.code}"></td>
+                                    <td>
+                                        <a th:href="@{'./' + ${project.id} +'/documents/' + ${document.id}}">
+                                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- /.container-fluid-->

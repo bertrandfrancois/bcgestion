@@ -16,4 +16,8 @@ public class Price {
 
     @Column(name = "PRICE")
     private BigDecimal price;
+
+    public Price(BigDecimal price) {
+        this.price = price;
+    }
 }

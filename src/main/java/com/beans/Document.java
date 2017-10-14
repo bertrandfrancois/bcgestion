@@ -3,14 +3,16 @@ package com.beans;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
-@Entity(name = "DOCUMENT")
+@Entity(name = "DOCUMENTS")
 @Inheritance(strategy = SINGLE_TABLE)
 @DiscriminatorColumn(name = "TYPE")
 @Getter
@@ -19,10 +21,15 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
 public abstract class Document {
 
     @Id
+    @GeneratedValue
     @Column(name = "DOCUMENT_ID")
     private Long id;
 
+    @Column(name = "DOCUMENT_CODE")
+    private String code;
+
     @Column(name = "CREATION_DATE")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date creationDate;
 
     @ManyToOne
@@ -35,9 +42,9 @@ public abstract class Document {
 
     @OneToMany
     @JoinColumn(name = "DOCUMENT_ID")
-    private List<DocumentLine> documentLines;
+    protected List<DocumentLine> documentLines;
 
-    public abstract Price subTotal();
+    public abstract BigDecimal subTotal();
 
-    public abstract Price total();
+    public abstract BigDecimal total();
 }

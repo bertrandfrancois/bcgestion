@@ -2,10 +2,16 @@ package com.beans;
 
 
 import com.enums.Unit;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity(name = "DOCUMENT_LINES")
+@Getter
+@Setter
 public class DocumentLine {
 
     @Id
@@ -13,12 +19,20 @@ public class DocumentLine {
     @Column(name = "DOCUMENT_LINE_ID")
     private int id;
 
+    @Column(name = "DESCRIPTION")
+    private String description;
+
     @Enumerated(EnumType.STRING)
     private Unit unit;
 
-    @Embedded
-    private Quantity quantity;
+    @NumberFormat(pattern = "###,##0.000")
+    private BigDecimal quantity;
 
-    @Embedded
-    private Price price;
+    @NumberFormat(pattern = "###,##0.00")
+    private BigDecimal price;
+
+    public BigDecimal getTotal(){
+        return price.multiply(quantity);
+
+    }
 }
