@@ -96,4 +96,19 @@ public class ProjectControllerTest {
         Assertions.assertThat(table.getCellAt(5, 1).asText()).isEqualTo(createdProject.getAddress().getCity());
 
     }
+
+    @Test
+    public void editProject() throws Exception {
+        HtmlPage page = webClient.getPage("/clients/1/projects/5/edit");
+        HtmlForm form = page.getFormByName("editProject");
+        form.getInputByName("description").setValueAttribute("editedDescription");
+        HtmlButton button = form.getOneHtmlElementByAttribute("button", "type",
+                "submit");
+
+        Page detailPage = button.click();
+
+        verify(projectService).save(capturedProject.capture());
+        assertThat(capturedProject.getValue().getDescription()).isEqualTo("editedDescription");
+        assertThat(detailPage.getUrl().getPath()).isEqualTo("/clients/1/projects/5");
+    }
 }

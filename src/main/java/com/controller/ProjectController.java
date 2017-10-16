@@ -43,7 +43,7 @@ public class ProjectController {
     @PostMapping("/projects/create")
     public String saveProject(@Valid @ModelAttribute Project project,
                               BindingResult bindingResult,
-                              @PathVariable ("clientId") long clientId,
+                              @PathVariable("clientId") long clientId,
                               Model model) {
         Client client = clientService.find(clientId);
         if (bindingResult.hasErrors()) {
@@ -53,6 +53,31 @@ public class ProjectController {
         project.setClient(client);
         projectService.save(project);
         Project lastProject = projectService.findLastProject();
-        return "redirect:/clients/" + clientId + "/projects/" +lastProject.getId();
+        return "redirect:/clients/" + clientId + "/projects/" + lastProject.getId();
+    }
+
+    @GetMapping("/projects/{projectId}/edit")
+    public String editProject(@PathVariable("clientId") long clientId,
+                              @PathVariable("projectId") long projectId,
+                              Model model) {
+        Project project = projectService.find(projectId);
+        Client client = clientService.find(clientId);
+        model.addAttribute("project", project);
+        model.addAttribute("client", client);
+        return "edit_project";
+    }
+
+    @PostMapping("/projects/{projectId}/edit")
+    public String editProject(@Valid @ModelAttribute Project project,
+                              BindingResult bindingResult,
+                              @PathVariable("clientId") long clientId,
+                              Model model) {
+        Client client  = clientService.find(clientId);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("client", client);
+            return "edit_project";
+        }
+        projectService.save(project);
+        return "redirect:/clients/" + clientId + "/projects/" + project.getId();
     }
 }
