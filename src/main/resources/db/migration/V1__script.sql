@@ -17,7 +17,7 @@ PASSWORD VARCHAR(60) NOT NULL
 )
 ENGINE = InnoDB;
 
-insert into users values('admin', '$2a$10$lqa.0P8bsTPgbWLMYGc16O9C/q//yGbXuWKibgFBMzmY9s3ZrOaWq');
+insert into USERS values('admin', '$2a$10$lqa.0P8bsTPgbWLMYGc16O9C/q//yGbXuWKibgFBMzmY9s3ZrOaWq');
 
 CREATE TABLE PROJECTS(
 PROJECT_ID INT(10) PRIMARY KEY auto_increment NOT NULL,
