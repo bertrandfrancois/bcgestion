@@ -1,9 +1,3 @@
-drop table document_lines;
-drop table documents;
-drop table projects;
-drop table users;
-drop table clients;
-
 CREATE TABLE clients (
 CLIENT_ID INT(10) PRIMARY KEY auto_increment NOT NULL,
 LAST_NAME VARCHAR(30) NOT NULL,
