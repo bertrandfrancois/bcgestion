@@ -37,7 +37,7 @@ public class ProdWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(username -> userRepository.findOne(username))
+        auth.userDetailsService(username -> userRepository.findById(username).get())
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
 }

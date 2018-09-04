@@ -28,12 +28,12 @@ public class ClientService implements BaseService<Client> {
 
     @Override
     public Client find(long id) {
-        return clientRepository.findOne(id);
+        return clientRepository.findById(id).get();
     }
 
     @Override
     public void delete(long id) {
-        clientRepository.delete(id);
+        clientRepository.deleteById(id);
     }
 
     public Client findLastClient() {

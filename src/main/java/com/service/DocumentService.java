@@ -27,7 +27,7 @@ public class DocumentService implements BaseService<Document> {
 
     @Override
     public Document find(long id) {
-        return documentRepository.findOne(id);
+        return documentRepository.findById(id).get();
     }
 
     @Override
