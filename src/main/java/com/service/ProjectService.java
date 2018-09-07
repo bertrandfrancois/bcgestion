@@ -15,8 +15,12 @@ import static com.google.common.collect.Lists.newArrayList;
 @Transactional
 public class ProjectService implements BaseService<Project>{
 
+    private final ProjectRepository projectRepository;
+
     @Autowired
-    private ProjectRepository projectRepository;
+    public ProjectService(ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
+    }
 
     @Override
     public List<Project> findAll() {
@@ -24,8 +28,8 @@ public class ProjectService implements BaseService<Project>{
     }
 
     @Override
-    public void save(Project param) {
-        projectRepository.save(param);
+    public Project save(Project param) {
+        return projectRepository.save(param);
     }
 
     @Override
@@ -36,9 +40,5 @@ public class ProjectService implements BaseService<Project>{
     @Override
     public void delete(long id) {
 
-    }
-
-    public Project findLastProject() {
-        return projectRepository.findTopByOrderByIdDesc();
     }
 }

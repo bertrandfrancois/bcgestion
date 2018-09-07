@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class HomeController {
 
     @GetMapping("/home")
-    public String home(Model model) {
+    public String home() {
         return "home";
     }
 
     @PostMapping("/home")
-    public String loginHome(Model model) {
+    public String loginHome() {
         return "home";
     }
 }

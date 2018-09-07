@@ -1,5 +1,6 @@
 package com.beans;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,9 +12,7 @@ import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
 
 @Embeddable
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 public class TaxRate {
 
     @Column(name = "TAX_RATE")

@@ -3,9 +3,11 @@ package com.controller;
 import com.beans.Client;
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.*;
+import com.gargoylesoftware.htmlunit.html.HtmlButton;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.service.ClientService;
-import com.testbuilder.ClientTestBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,13 +39,13 @@ public class ClientControllerTest {
     private ClientService clientService;
 
     @Captor
-    private ArgumentCaptor<Client> createdClient, editedClient;
+    private ArgumentCaptor<Client> capturedClient, editedClient;
 
-    private Client client, otherClient;
+    private Client createdClient, otherClient;
 
     @Before
-    public void setUp() throws Exception {
-        client = client()
+    public void setUp() {
+        createdClient = client()
                 .withId(1L)
                 .build();
 
@@ -55,23 +57,23 @@ public class ClientControllerTest {
 
     @Test
     public void clients() throws Exception {
-        given(clientService.findAll()).willReturn(newArrayList(client, otherClient));
+        given(clientService.findAll()).willReturn(newArrayList(createdClient, otherClient));
 
         HtmlPage page = webClient.getPage("/clients");
         HtmlTable table = page.getHtmlElementById("dataTable");
 
         assertThat(table.getRowCount()).isEqualTo(3);
-        assertThat(table.getCellAt(1, 0).asText()).isEqualTo(client.getLastName());
-        assertThat(table.getCellAt(1, 1).asText()).isEqualTo(client.getFirstName());
-        assertThat(table.getCellAt(1, 2).asText()).isEqualTo(client.getAddress().getStreet());
-        assertThat(table.getCellAt(1, 4).asText()).isEqualTo(client.getAddress().getCity());
-        assertThat(table.getCellAt(1, 3).asText()).isEqualTo(client.getAddress().getPostCode());
+        assertThat(table.getCellAt(1, 0).asText()).isEqualTo(createdClient.getLastName());
+        assertThat(table.getCellAt(1, 1).asText()).isEqualTo(createdClient.getFirstName());
+        assertThat(table.getCellAt(1, 2).asText()).isEqualTo(createdClient.getAddress().getStreet());
+        assertThat(table.getCellAt(1, 4).asText()).isEqualTo(createdClient.getAddress().getCity());
+        assertThat(table.getCellAt(1, 3).asText()).isEqualTo(createdClient.getAddress().getPostCode());
     }
 
     @Test
     public void createClient() throws Exception {
-        given(clientService.findLastClient()).willReturn(client().withId(1L).build());
-        given(clientService.find(1L)).willReturn(client().withId(1L).build());
+        given(clientService.save(capturedClient.capture())).willReturn(createdClient);
+        given(clientService.find(1L)).willReturn(createdClient);
 
         HtmlPage page = webClient.getPage("/clients/create");
         HtmlForm form = page.getFormByName("createClient");
@@ -85,14 +87,12 @@ public class ClientControllerTest {
         form.getInputByName("taxNumber").setValueAttribute("taxNumber");
 
         HtmlButton button = form.getOneHtmlElementByAttribute("button", "type",
-                "submit");
+                                                              "submit");
         Page clientPage = button.click();
 
         assertThat(clientPage.getUrl().getPath()).isEqualTo("/clients/1");
 
-        verify(clientService).save(createdClient.capture());
-        assertThat(createdClient.getValue()).isEqualToComparingFieldByFieldRecursively(ClientTestBuilder.client().build());
-        verify(clientService).findLastClient();
+        assertThat(capturedClient.getValue()).isEqualToIgnoringGivenFields(createdClient, "id");
     }
 
     @Test
@@ -109,39 +109,38 @@ public class ClientControllerTest {
         form.getInputByName("taxNumber").setValueAttribute("taxNumber");
 
         HtmlButton button = form.getOneHtmlElementByAttribute("button", "type",
-                "submit");
+                                                              "submit");
 
         button.click();
 
         verify(clientService, never()).save(Mockito.any(Client.class));
-        verify(clientService, never()).findLastClient();
     }
 
     @Test
     public void showClient() throws Exception {
-        given(clientService.find(1L)).willReturn(client);
+        given(clientService.find(1L)).willReturn(createdClient);
         HtmlPage page = webClient.getPage("/clients/1");
         HtmlTable table = page.getHtmlElementById("clientDetail");
 
-        assertThat(table.getCellAt(0, 1).asText()).isEqualTo(client.getLastName());
-        assertThat(table.getCellAt(1, 1).asText()).isEqualTo(client.getFirstName());
-        assertThat(table.getCellAt(2, 1).asText()).isEqualTo(client.getAddress().getStreet());
-        assertThat(table.getCellAt(3, 1).asText()).isEqualTo(client.getAddress().getPostCode());
-        assertThat(table.getCellAt(4, 1).asText()).isEqualTo(client.getAddress().getCity());
-        assertThat(table.getCellAt(5, 1).asText()).isEqualTo(client.getMail());
-        assertThat(table.getCellAt(6, 1).asText()).isEqualTo(client.getPhoneNumber());
-        assertThat(table.getCellAt(7, 1).asText()).isEqualTo(client.getTaxNumber());
+        assertThat(table.getCellAt(0, 1).asText()).isEqualTo(createdClient.getLastName());
+        assertThat(table.getCellAt(1, 1).asText()).isEqualTo(createdClient.getFirstName());
+        assertThat(table.getCellAt(2, 1).asText()).isEqualTo(createdClient.getAddress().getStreet());
+        assertThat(table.getCellAt(3, 1).asText()).isEqualTo(createdClient.getAddress().getPostCode());
+        assertThat(table.getCellAt(4, 1).asText()).isEqualTo(createdClient.getAddress().getCity());
+        assertThat(table.getCellAt(5, 1).asText()).isEqualTo(createdClient.getMail());
+        assertThat(table.getCellAt(6, 1).asText()).isEqualTo(createdClient.getPhoneNumber());
+        assertThat(table.getCellAt(7, 1).asText()).isEqualTo(createdClient.getTaxNumber());
     }
 
     @Test
     public void editClient() throws Exception {
-        given(clientService.find(1L)).willReturn(client);
+        given(clientService.find(1L)).willReturn(createdClient);
 
         HtmlPage page = webClient.getPage("/clients/1/edit");
         HtmlForm form = page.getFormByName("editClient");
         form.getInputByName("firstName").setValueAttribute("Jane");
         HtmlButton button = form.getOneHtmlElementByAttribute("button", "type",
-                "submit");
+                                                              "submit");
 
         button.click();
 
@@ -151,13 +150,13 @@ public class ClientControllerTest {
 
     @Test
     public void editClient_withValidationErrors_invalidLastName() throws Exception {
-        given(clientService.find(1)).willReturn(client);
+        given(clientService.find(1)).willReturn(createdClient);
 
         HtmlPage page = webClient.getPage("/clients/1/edit");
         HtmlForm form = page.getFormByName("editClient");
         form.getInputByName("firstName").setValueAttribute("");
         HtmlButton button = form.getOneHtmlElementByAttribute("button", "type",
-                "submit");
+                                                              "submit");
         button.click();
 
         verify(clientService, never()).save(Mockito.any(Client.class));
@@ -165,14 +164,17 @@ public class ClientControllerTest {
 
     @Test
     public void deleteClient() throws Exception {
-        given(clientService.find(1L)).willReturn(client);
+        webClient.getOptions().setJavaScriptEnabled(true);
+        webClient.getOptions().setCssEnabled(true);
+        given(clientService.find(1L)).willReturn(createdClient);
         HtmlPage page = webClient.getPage("/clients/1");
-        HtmlForm form = page.getFormByName("deleteClient");
-        HtmlButton button = form.getOneHtmlElementByAttribute("button", "type",
-                "submit");
-        Page clientsPage = button.click();
-        assertThat(clientsPage.getUrl().getPath()).isEqualTo("/clients");
-        verify(clientService).delete(1L);
+        HtmlPage deleteClientLink = page.getHtmlElementById("deleteClientLink").click();
+        webClient.waitForBackgroundJavaScript(10000);
 
+        HtmlForm form = deleteClientLink.getFormByName("deleteClient");
+        HtmlButton button = form.getOneHtmlElementByAttribute("button", "type", "submit");
+        Page clientsPage = button.click();
+
+        verify(clientService).delete(1L);
     }
 }

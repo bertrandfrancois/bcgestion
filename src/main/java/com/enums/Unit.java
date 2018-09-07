@@ -1,5 +1,8 @@
 package com.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum Unit {
 
     FF("ff");
@@ -11,7 +14,4 @@ public enum Unit {
         this.unit = unit;
     }
 
-    public String getUnit() {
-        return unit;
-    }
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
-<head th:replace="fragments/head :: head"></head>
+<head th:replace="fragments/head :: head_default"></head>
 
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -33,7 +33,8 @@
                     <div class="card-header">
                         <i class="fa fa-user">&nbsp;</i><span th:text="#{menu.client.detail}"></span>
                         <a data-toggle="modal" data-target="#deleteClient"
-                           class="btn btn-danger btn-sm float-right" style="margin-left:5px;">
+                           class="btn btn-danger btn-sm float-right" style="margin-left:5px;"
+                        id="deleteClientLink">
                             <i class="fa fa-trash text-white" aria-hidden="true"></i>
                         </a>
                         <a th:href="@{'/clients/' + ${client.id} + '/edit'}" class="btn btn-primary btn-sm float-right">

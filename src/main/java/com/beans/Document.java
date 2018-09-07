@@ -1,5 +1,7 @@
 package com.beans;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,8 +17,8 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
 @Entity(name = "DOCUMENTS")
 @Inheritance(strategy = SINGLE_TABLE)
 @DiscriminatorColumn(name = "TYPE")
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
 @NoArgsConstructor
 public abstract class Document {
 

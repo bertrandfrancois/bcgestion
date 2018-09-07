@@ -16,11 +16,15 @@ import javax.validation.Valid;
 @RequestMapping("/clients/{clientId}")
 public class ProjectController {
 
-    @Autowired
-    private ProjectService projectService;
+    private final ProjectService projectService;
+
+    private final ClientService clientService;
 
     @Autowired
-    private ClientService clientService;
+    public ProjectController(ProjectService projectService, ClientService clientService) {
+        this.projectService = projectService;
+        this.clientService = clientService;
+    }
 
     @GetMapping("/projects/{projectId}")
     public String createProject(@PathVariable("clientId") long clientId, @PathVariable("projectId") long projectId, Model model) {
@@ -51,8 +55,7 @@ public class ProjectController {
             return "create_project";
         }
         project.setClient(client);
-        projectService.save(project);
-        Project lastProject = projectService.findLastProject();
+        Project lastProject = projectService.save(project);
         return "redirect:/clients/" + clientId + "/projects/" + lastProject.getId();
     }
 

@@ -1,27 +1,30 @@
 package com.service;
 
 import com.beans.Project;
+import com.config.MockitoTest;
 import com.repository.ProjectRepository;
 import com.testbuilder.ProjectTestBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-@RunWith(SpringRunner.class)
-@WebMvcTest(ProjectService.class)
-public class ProjectServiceTest {
+public class ProjectServiceTest extends MockitoTest {
 
-    @Autowired
+    @InjectMocks
     private ProjectService projectService;
 
-    @MockBean
+    @Mock
     private ProjectRepository projectRepository;
 
     private Project project;
@@ -32,30 +35,22 @@ public class ProjectServiceTest {
     }
 
     @Test
-    public void findAll() throws Exception {
+    public void findAll() {
     }
 
     @Test
-    public void save() throws Exception {
+    public void save() {
     }
 
     @Test
-    public void find() throws Exception {
-        given(projectRepository.findOne(1L)).willReturn(project);
+    public void find() {
+        given(projectRepository.findById(1L)).willReturn(Optional.of(project));
 
         assertThat(projectService.find(1L)).isEqualTo(project);
     }
 
     @Test
-    public void delete() throws Exception {
-    }
-
-    @Test
-    public void findLastProject() throws Exception {
-        given(projectRepository.findTopByOrderByIdDesc()).willReturn(project);
-
-        assertThat(projectService.findLastProject()).isEqualTo(project);
-
+    public void delete() {
     }
 
 }

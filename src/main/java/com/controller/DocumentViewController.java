@@ -15,8 +15,12 @@ import java.util.HashMap;
 @Controller
 public class DocumentViewController {
 
+    private final DocumentService documentService;
+
     @Autowired
-    private DocumentService documentService;
+    public DocumentViewController(DocumentService documentService) {
+        this.documentService = documentService;
+    }
 
     @GetMapping("/doc/{documentId}")
     public ModelAndView document(@PathVariable("documentId") long id, ModelAndView model) {

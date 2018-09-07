@@ -23,6 +23,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.text.ParseException;
+
 import static com.testbuilder.ClientTestBuilder.client;
 import static com.testbuilder.ProjectTestBuilder.project;
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -51,17 +53,18 @@ public class ProjectControllerTest {
     private Project createdProject;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws ParseException {
         webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
         client = client().withId(1L).build();
         createdProject = project().withClient(client).withId(5L).build();
         given(clientService.find(1L)).willReturn(client);
-        given(projectService.findLastProject()).willReturn(createdProject);
         given(projectService.find(5L)).willReturn(createdProject);
     }
 
     @Test
     public void createProject() throws Exception {
+        given(projectService.save(capturedProject.capture())).willReturn(createdProject);
+
         HtmlPage page = webClient.getPage("/clients/1/projects/create");
         HtmlForm form = page.getFormByName("createProject");
         form.getInputByName("description").setValueAttribute("description");
@@ -71,16 +74,13 @@ public class ProjectControllerTest {
         form.getInputByName("startDate").setValueAttribute("2017-01-01");
         form.getInputByName("endDate").setValueAttribute("2017-12-31");
         HtmlButton button = form.getOneHtmlElementByAttribute("button", "type",
-                "submit");
-
+                                                              "submit");
         Page detailPage = button.click();
 
-        verify(projectService).save(capturedProject.capture());
         assertThat(capturedProject.getValue()).isEqualToIgnoringGivenFields(createdProject, "id", "address");
         assertThat(capturedProject.getValue().getAddress()).isEqualToComparingFieldByField(createdProject.getAddress());
         assertThat(detailPage.getUrl().getPath()).isEqualTo("/clients/1/projects/5");
     }
-
 
     @Test
     public void showProject() throws Exception {
@@ -94,7 +94,6 @@ public class ProjectControllerTest {
         Assertions.assertThat(table.getCellAt(3, 1).asText()).isEqualTo(createdProject.getAddress().getStreet());
         Assertions.assertThat(table.getCellAt(4, 1).asText()).isEqualTo(createdProject.getAddress().getPostCode());
         Assertions.assertThat(table.getCellAt(5, 1).asText()).isEqualTo(createdProject.getAddress().getCity());
-
     }
 
     @Test
@@ -103,7 +102,7 @@ public class ProjectControllerTest {
         HtmlForm form = page.getFormByName("editProject");
         form.getInputByName("description").setValueAttribute("editedDescription");
         HtmlButton button = form.getOneHtmlElementByAttribute("button", "type",
-                "submit");
+                                                              "submit");
 
         Page detailPage = button.click();
 

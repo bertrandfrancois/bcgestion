@@ -19,14 +19,18 @@ import javax.validation.Valid;
 @RequestMapping("/clients/{clientId}/projects/{projectId}/documents")
 public class DocumentController {
 
-    @Autowired
-    private ClientService clientService;
+    private final ClientService clientService;
+
+    private final ProjectService projectService;
+
+    private final DocumentService documentService;
 
     @Autowired
-    private ProjectService projectService;
-
-    @Autowired
-    private DocumentService documentService;
+    public DocumentController(ClientService clientService, ProjectService projectService, DocumentService documentService) {
+        this.clientService = clientService;
+        this.projectService = projectService;
+        this.documentService = documentService;
+    }
 
     @GetMapping("/{documentId}")
     public String showProject(@PathVariable("clientId") long clientId,

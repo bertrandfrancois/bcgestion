@@ -25,7 +25,7 @@ public class ClientRepositoryTest {
     private Client client, otherClient;
 
     @Before
-    public void setup(){
+    public void setup() {
         client = client()
                 .build();
 
@@ -34,28 +34,22 @@ public class ClientRepositoryTest {
 
         this.entityManager.persist(client);
         this.entityManager.persist(otherClient);
-
     }
 
     @Test
-    public void findAll() throws Exception {
+    public void findAll() {
         assertThat(repository.findAll()).containsExactly(client, otherClient);
     }
 
     @Test
-    public void findOne() throws Exception {
-        assertThat(repository.findOne(client.getId())).isEqualTo(client);
+    public void findOne() {
+        assertThat(repository.findById(client.getId()).get()).isEqualTo(client);
     }
 
     @Test
-    public void delete() throws Exception {
-        repository.delete(client.getId());
+    public void delete() {
+        repository.deleteById(client.getId());
 
         assertThat(repository.findAll()).containsOnly(otherClient);
-    }
-
-    @Test
-    public void findTopByOrderByIdDesc() throws Exception {
-        assertThat(repository.findTopByOrderByIdDesc()).isEqualTo(otherClient);
     }
 }

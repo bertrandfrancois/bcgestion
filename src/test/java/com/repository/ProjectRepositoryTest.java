@@ -1,6 +1,8 @@
 package com.repository;
 
+import com.beans.Client;
 import com.beans.Project;
+import com.testbuilder.ClientTestBuilder;
 import com.testbuilder.ProjectTestBuilder;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,24 +24,20 @@ public class ProjectRepositoryTest {
     @Autowired
     private ProjectRepository repository;
 
-    private Project project, otherProject;
+    private Project project;
+    private Client client;
 
     @Before
     public void setUp() throws Exception {
         project = ProjectTestBuilder.project().build();
-        otherProject = ProjectTestBuilder.project().build();
-        entityManager.persist(project);
-        entityManager.persist(otherProject);
+        client = ClientTestBuilder.client().build();
+        project.setClient(client);
+        client.getProjects().add(project);
+        entityManager.persist(client);
     }
 
     @Test
-    public void findOne() throws Exception {
-        assertThat(repository.findOne(project.getId())).isEqualTo(project);
+    public void findOne() {
+        assertThat(repository.findById(project.getId()).get()).isEqualTo(project);
     }
-
-    @Test
-    public void findTopByOrderByIdDesc() throws Exception {
-        assertThat(repository.findTopByOrderByIdDesc()).isEqualTo(otherProject);
-    }
-
 }

@@ -10,17 +10,17 @@ import java.util.List;
 
 public class ClientTestBuilder {
 
-    private String lastName="Doe";
+    private String lastName = "Doe";
 
-    private String firstName="John";
+    private String firstName = "John";
 
     private Address address = new Address("street", "12345", "city");
 
-    private String phoneNumber="phoneNumber";
+    private String phoneNumber = "phoneNumber";
 
-    private String mail="mail@mail.com";
+    private String mail = "mail@mail.com";
 
-    private String taxNumber="taxNumber";
+    private String taxNumber = "taxNumber";
 
     private List<Project> projects = Lists.newArrayList();
 

@@ -2,7 +2,10 @@ package com.beans;
 
 
 import com.enums.Unit;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.NumberFormat;
 
@@ -10,8 +13,9 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity(name = "DOCUMENT_LINES")
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class DocumentLine {
 
     @Id

@@ -17,8 +17,12 @@ import javax.validation.Valid;
 @Controller
 public class ClientController {
 
+    private final ClientService clientService;
+
     @Autowired
-    private ClientService clientService;
+    public ClientController(ClientService clientService) {
+        this.clientService = clientService;
+    }
 
     @GetMapping("/clients")
     public String clients(Model model) {
@@ -38,8 +42,8 @@ public class ClientController {
         if (bindingResult.hasErrors()) {
             return "new_client";
         }
-        clientService.save(client);
-        Client newClient = clientService.findLastClient();
+        Client newClient = clientService.save(client);
+
         return "redirect:/clients/"+ newClient.getId() +"?createSuccess";
     }
 

@@ -6,7 +6,9 @@ public interface BaseService<T> {
 
     List<T> findAll();
 
-    void save(T param);
+//    void save(T param);
+
+    T save(T param);
 
     T find(long id);
 

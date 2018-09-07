@@ -31,12 +31,12 @@ public class ProjectTestBuilder {
 
     public Project build() {
         return new Project(id,
-                description,
-                address,
-                startDate,
-                endDate,
-                Lists.newArrayList(),
-                client);
+                           description,
+                           address,
+                           startDate,
+                           endDate,
+                           Lists.newArrayList(),
+                           client);
     }
 
     public ProjectTestBuilder withId(long id) {

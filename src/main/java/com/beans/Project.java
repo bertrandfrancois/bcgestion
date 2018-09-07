@@ -2,20 +2,19 @@ package com.beans;
 
 import com.google.common.collect.Lists;
 import lombok.*;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity(name = "PROJECTS")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Project {
 
     @Id

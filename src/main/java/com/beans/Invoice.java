@@ -1,5 +1,7 @@
 package com.beans;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,8 +17,8 @@ import java.util.Date;
 
 @Entity
 @DiscriminatorValue("INVOICE")
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
 @NoArgsConstructor
 public class Invoice extends Document {
 

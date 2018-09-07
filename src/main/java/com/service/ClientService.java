@@ -13,8 +13,12 @@ import java.util.List;
 @Transactional
 public class ClientService implements BaseService<Client> {
 
+    private final ClientRepository clientRepository;
+
     @Autowired
-    private ClientRepository clientRepository;
+    public ClientService(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
+    }
 
     @Override
     public List<Client> findAll() {
@@ -22,8 +26,8 @@ public class ClientService implements BaseService<Client> {
     }
 
     @Override
-    public void save(Client client) {
-        clientRepository.save(client);
+    public Client save(Client client) {
+        return clientRepository.save(client);
     }
 
     @Override
@@ -34,9 +38,5 @@ public class ClientService implements BaseService<Client> {
     @Override
     public void delete(long id) {
         clientRepository.deleteById(id);
-    }
-
-    public Client findLastClient() {
-        return clientRepository.findTopByOrderByIdDesc();
     }
 }

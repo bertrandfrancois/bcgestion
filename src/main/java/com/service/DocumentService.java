@@ -12,8 +12,12 @@ import java.util.List;
 @Transactional
 public class DocumentService implements BaseService<Document> {
 
+    private final DocumentRepository documentRepository;
+
     @Autowired
-    private DocumentRepository documentRepository;
+    public DocumentService(DocumentRepository documentRepository) {
+        this.documentRepository = documentRepository;
+    }
 
     @Override
     public List<Document> findAll() {
@@ -21,8 +25,8 @@ public class DocumentService implements BaseService<Document> {
     }
 
     @Override
-    public void save(Document document) {
-        documentRepository.save(document);
+    public Document save(Document document) {
+        return documentRepository.save(document);
     }
 
     @Override
