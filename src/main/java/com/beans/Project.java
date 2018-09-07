@@ -1,5 +1,6 @@
 package com.beans;
 
+import com.beans.validation.ValidProject;
 import com.google.common.collect.Lists;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,6 +16,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ValidProject
 public class Project {
 
     @Id

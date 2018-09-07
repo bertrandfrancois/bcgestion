@@ -77,7 +77,6 @@ public class DocumentController {
         document.setClient(client);
         document.setProject(project);
         documentService.save(document);
-//        Project lastProject = projectService.findLastProject();
         return "redirect:/clients/" + clientId + "/projects/" +project.getId();
     }
 }
