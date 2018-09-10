@@ -24,6 +24,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
+import java.time.format.DateTimeFormatter;
 
 import static com.testbuilder.ClientTestBuilder.client;
 import static com.testbuilder.ProjectTestBuilder.project;
@@ -89,8 +90,8 @@ public class ProjectControllerTest {
         HtmlTable table = page.getHtmlElementById("projectDetail");
 
         Assertions.assertThat(table.getCellAt(0, 1).asText()).isEqualTo(createdProject.getDescription());
-        Assertions.assertThat(table.getCellAt(1, 1).asText()).isEqualTo(DateTestBuilder.toString(createdProject.getStartDate()));
-        Assertions.assertThat(table.getCellAt(2, 1).asText()).isEqualTo(DateTestBuilder.toString(createdProject.getEndDate()));
+        Assertions.assertThat(table.getCellAt(1, 1).asText()).isEqualTo(createdProject.getStartDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        Assertions.assertThat(table.getCellAt(2, 1).asText()).isEqualTo(createdProject.getEndDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         Assertions.assertThat(table.getCellAt(3, 1).asText()).isEqualTo(createdProject.getAddress().getStreet());
         Assertions.assertThat(table.getCellAt(4, 1).asText()).isEqualTo(createdProject.getAddress().getPostCode());
         Assertions.assertThat(table.getCellAt(5, 1).asText()).isEqualTo(createdProject.getAddress().getCity());

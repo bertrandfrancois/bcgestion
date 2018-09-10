@@ -14,6 +14,7 @@ public class ProjectValidator implements ConstraintValidator<ValidProject, Proje
 
     @Override
     public boolean isValid(Project value, ConstraintValidatorContext context) {
-        return value.getStartDate().before(value.getEndDate());
+        return value.getStartDate().isBefore(value.getEndDate())
+               || value.getStartDate().isEqual(value.getEndDate());
     }
 }

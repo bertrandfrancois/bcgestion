@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 import static com.testbuilder.DateTestBuilder.date;
@@ -18,8 +19,8 @@ public class ProjectTestBuilder {
     private Long id = null;
     private String description = "description";
     private Address address = new Address("street", "12345", "city");
-    private Date startDate = date("2017-01-01");
-    private Date endDate = date("2017-12-31");
+    private LocalDate startDate = LocalDate.of(2017,1,1);
+    private LocalDate endDate = LocalDate.of(2017,12,31);
     private Client client;
 
     public ProjectTestBuilder() throws ParseException {
@@ -54,15 +55,15 @@ public class ProjectTestBuilder {
         return this;
     }
 
-    public ProjectTestBuilder withStartDate(String startDate) {
-        this.startDate = date(startDate);
-        return this;
-    }
-
-    public ProjectTestBuilder withEndDate(String endDate) {
-        this.endDate = date(endDate);
-        return this;
-    }
+//    public ProjectTestBuilder withStartDate(String startDate) {
+//        this.startDate = date(startDate);
+//        return this;
+//    }
+//
+//    public ProjectTestBuilder withEndDate(String endDate) {
+//        this.endDate = date(endDate);
+//        return this;
+//    }
 
     public ProjectTestBuilder withClient(Client client) {
         this.client = client;

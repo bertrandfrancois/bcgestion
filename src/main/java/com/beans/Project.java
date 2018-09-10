@@ -1,22 +1,34 @@
 package com.beans;
 
+import com.beans.validation.ClassCheck;
 import com.beans.validation.ValidProject;
 import com.google.common.collect.Lists;
-import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.validation.GroupSequence;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import javax.validation.groups.Default;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity(name = "PROJECTS")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ValidProject
+@ValidProject(groups =  ClassCheck.class)
+@GroupSequence({Project.class, ClassCheck.class})
 public class Project {
 
     @Id
@@ -33,14 +45,12 @@ public class Project {
     private Address address;
 
     @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "START_DATE")
-    private Date startDate;
+    private LocalDate startDate;
 
     @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "END_DATE")
-    private Date endDate;
+    private LocalDate endDate;
 
     @OneToMany(mappedBy = "project")
     private List<Document> documents = Lists.newArrayList();
@@ -48,5 +58,4 @@ public class Project {
     @ManyToOne
     @JoinColumn(name = "CLIENT_ID")
     private Client client;
-
 }
