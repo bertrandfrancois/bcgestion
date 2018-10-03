@@ -17,12 +17,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ValidProject
-public class Project {
-
-    @Id
-    @GeneratedValue
-    @Column(name = "PROJECT_ID")
-    private Long id;
+@DiscriminatorValue("PROJECT")
+public class Project extends Service{
 
     @NotEmpty
     @Column(name = "DESCRIPTION")
@@ -41,9 +37,6 @@ public class Project {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "END_DATE")
     private Date endDate;
-
-    @OneToMany(mappedBy = "project")
-    private List<Document> documents = Lists.newArrayList();
 
     @ManyToOne
     @JoinColumn(name = "CLIENT_ID")
