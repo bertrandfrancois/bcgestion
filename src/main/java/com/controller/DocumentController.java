@@ -75,7 +75,7 @@ public class DocumentController {
             return "create_document";
         }
         document.setClient(client);
-        document.setProject(project);
+        document.setService(project);
         documentService.save(document);
         return "redirect:/clients/" + clientId + "/projects/" +project.getId();
     }

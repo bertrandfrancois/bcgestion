@@ -108,7 +108,7 @@ public class PdfView extends AbstractPdfView {
         cellulesInfos[0].setHorizontalAlignment(ALIGN_LEFT);
         tableInfo.addCell(cellulesInfos[0]);
 
-        cellulesInfos[1] = new PdfPCell(new Phrase(client().getLastName(), fontInfo));
+        cellulesInfos[1] = new PdfPCell(new Phrase(client().getLastName()+" " + client().getFirstName(), fontInfo));
         cellulesInfos[1].setBorder(0);
         cellulesInfos[1].setHorizontalAlignment(ALIGN_LEFT);
         tableInfo.addCell(cellulesInfos[1]);

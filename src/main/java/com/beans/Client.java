@@ -11,7 +11,9 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -21,7 +23,6 @@ import java.util.List;
 @Entity(name = "CLIENTS")
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class Client {
 
     @Id
@@ -61,6 +62,28 @@ public class Client {
     @OneToMany(mappedBy = "client", cascade= CascadeType.ALL)
     private List<Project> projects = Lists.newArrayList();
 
-    @OneToMany(mappedBy = "client")
+    @OneToOne(mappedBy = "client", cascade= CascadeType.ALL)
+    private Renting renting;
+
+    @OneToOne(mappedBy = "client", cascade= CascadeType.ALL)
+    @JoinColumn(name = "CLIENT_ID")
+    private Sale sale;
+
+    @OneToMany(mappedBy = "client", cascade= CascadeType.ALL)
     private List<Document> documents = List.of();
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
+
+    public Client() {
+//        renting = new Renting();
+//        sale = new Sale();
+//        renting.setClient(this);
+//        sale.setClient(this);
+    }
 }
