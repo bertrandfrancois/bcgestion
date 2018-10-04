@@ -39,8 +39,8 @@ public abstract class Document {
     private Client client;
 
     @ManyToOne
-    @JoinColumn(name = "PROJECT_ID")
-    private Project project;
+    @JoinColumn(name = "SERVICE_ID")
+    private Service service;
 
     @OneToMany
     @JoinColumn(name = "DOCUMENT_ID")
