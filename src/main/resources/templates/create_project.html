@@ -3,7 +3,6 @@
 
 <head th:replace="fragments/head :: head_default"></head>
 
-
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 <!-- Navigation-->
 <nav th:replace="fragments/nav :: nav"></nav>
@@ -57,15 +56,27 @@
                             </div>
                             <div class="form-group">
                                 <label for="startDate" th:text="#{project.startDate}" class="text-primary"></label>
-                                <span th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" class="text-danger"></span>
+                                <span th:if="${#fields.hasErrors('period.startDate')}"
+                                      th:errors="*{period.startDate}"
+                                      class="text-danger"></span>
                                 <span th:if="${#fields.hasErrors('global')}" th:errors="*{global}" class="text-danger"></span>
-                                <input class="form-control" id="startDate" type="date" th:field="*{startDate}" pattern="dd/MM/yyyyy"/>
+                                <input class="form-control"
+                                       id="startDate"
+                                       type="date"
+                                       th:field="*{period.startDate}"
+                                       pattern="dd/MM/yyyyy"/>
                             </div>
                             <div class="form-group">
                                 <label for="endDate" th:text="#{project.endDate}" class="text-primary"></label>
-                                <span th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"  class="text-danger"></span>
+                                <span th:if="${#fields.hasErrors('period.endDate')}"
+                                      th:errors="*{period.endDate}"
+                                      class="text-danger"></span>
                                 <span th:if="${#fields.hasErrors('global')}" th:errors="*{global}" class="text-danger"></span>
-                                <input class="form-control" id="endDate" type="date" th:field="*{endDate}" pattern="dd/MM/yyyyy"/>
+                                <input class="form-control"
+                                       id="endDate"
+                                       type="date"
+                                       th:field="*{period.endDate}"
+                                       pattern="dd/MM/yyyyy"/>
                             </div>
                         </div>
                     </div>

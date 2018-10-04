@@ -1,19 +1,19 @@
 package com.beans.validation;
 
-import com.beans.Project;
+import com.beans.Period;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class ProjectValidator implements ConstraintValidator<ValidProject, Project> {
+public class PeriodValidator implements ConstraintValidator<ValidPeriod, Period> {
 
     @Override
-    public void initialize(ValidProject constraintAnnotation) {
+    public void initialize(ValidPeriod constraintAnnotation) {
 
     }
 
     @Override
-    public boolean isValid(Project value, ConstraintValidatorContext context) {
+    public boolean isValid(Period value, ConstraintValidatorContext context) {
         return value.getStartDate().isBefore(value.getEndDate())
                || value.getStartDate().isEqual(value.getEndDate());
     }

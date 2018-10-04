@@ -2,6 +2,7 @@ package com.testbuilder;
 
 import com.beans.Address;
 import com.beans.Client;
+import com.beans.Period;
 import com.beans.Project;
 import com.google.common.collect.Lists;
 
@@ -20,10 +21,10 @@ public class ProjectTestBuilder {
     private LocalDate endDate = LocalDate.of(2017, 12, 31);
     private Client client;
 
-    public ProjectTestBuilder() throws ParseException {
+    public  ProjectTestBuilder() {
     }
 
-    public static ProjectTestBuilder project() throws ParseException {
+    public static ProjectTestBuilder project(){
         return new ProjectTestBuilder();
     }
 
@@ -31,8 +32,7 @@ public class ProjectTestBuilder {
         return new Project(id,
                            description,
                            address,
-                           startDate,
-                           endDate,
+                           new Period(startDate, endDate),
                            Lists.newArrayList(),
                            client);
     }

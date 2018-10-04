@@ -55,13 +55,13 @@
                                     <th th:text="#{project.startDate}"></th>
 
                                     <!--<td th:text="${#dates.format(project.startDate, 'dd/MM/yyyy')}"></td>-->
-                                    <td th:text="${#temporals.format(project.startDate, 'dd/MM/yyyy')}"></td>
+                                    <td th:text="${#temporals.format(project.period.startDate, 'dd/MM/yyyy')}"></td>
 
                                 </tr>
                                 <tr>
                                     <th th:text="#{project.endDate}"></th>
                                     <!--<td th:text="${#dates.format(project.endDate, 'dd/MM/yyyy')}"></td>-->
-                                    <td th:text="${#temporals.format(project.endDate, 'dd/MM/yyyy')}"></td>
+                                    <td th:text="${#temporals.format(project.period.endDate, 'dd/MM/yyyy')}"></td>
                                 </tr>
                                 <tr>
                                     <th th:text="#{address.street}"></th>

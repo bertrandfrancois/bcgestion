@@ -10,7 +10,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.service.ClientService;
 import com.service.ProjectService;
-import com.testbuilder.DateTestBuilder;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,10 +34,7 @@ import static org.mockito.Mockito.verify;
 @WithMockUser
 @RunWith(SpringRunner.class)
 @WebMvcTest(ProjectController.class)
-public class ProjectControllerTest {
-
-    @Autowired
-    private WebClient webClient;
+public class ProjectControllerTest extends ControllerTest{
 
     @MockBean
     private ProjectService projectService;
@@ -54,8 +50,9 @@ public class ProjectControllerTest {
     private Project createdProject;
 
     @Before
-    public void setUp() throws ParseException {
+    public void setUp() {
         webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+        webClient.getOptions().setThrowExceptionOnScriptError(false);
         client = client().withId(1L).build();
         createdProject = project().withClient(client).withId(5L).build();
         given(clientService.find(1L)).willReturn(client);
@@ -72,14 +69,15 @@ public class ProjectControllerTest {
         form.getInputByName("address.street").setValueAttribute("street");
         form.getInputByName("address.postCode").setValueAttribute("12345");
         form.getInputByName("address.city").setValueAttribute("city");
-        form.getInputByName("startDate").setValueAttribute("2017-01-01");
-        form.getInputByName("endDate").setValueAttribute("2017-12-31");
+        form.getInputByName("period.startDate").setValueAttribute("2017-01-01");
+        form.getInputByName("period.endDate").setValueAttribute("2017-12-31");
         HtmlButton button = form.getOneHtmlElementByAttribute("button", "type",
                                                               "submit");
         Page detailPage = button.click();
 
-        assertThat(capturedProject.getValue()).isEqualToIgnoringGivenFields(createdProject, "id", "address");
+        assertThat(capturedProject.getValue()).isEqualToIgnoringGivenFields(createdProject, "id", "address", "period");
         assertThat(capturedProject.getValue().getAddress()).isEqualToComparingFieldByField(createdProject.getAddress());
+        assertThat(capturedProject.getValue().getPeriod()).isEqualToComparingFieldByField(createdProject.getPeriod());
         assertThat(detailPage.getUrl().getPath()).isEqualTo("/clients/1/projects/5");
     }
 
@@ -90,8 +88,10 @@ public class ProjectControllerTest {
         HtmlTable table = page.getHtmlElementById("projectDetail");
 
         Assertions.assertThat(table.getCellAt(0, 1).asText()).isEqualTo(createdProject.getDescription());
-        Assertions.assertThat(table.getCellAt(1, 1).asText()).isEqualTo(createdProject.getStartDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        Assertions.assertThat(table.getCellAt(2, 1).asText()).isEqualTo(createdProject.getEndDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        Assertions.assertThat(table.getCellAt(1, 1).asText()).isEqualTo(
+                createdProject.getPeriod().getStartDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        Assertions.assertThat(table.getCellAt(2, 1).asText()).isEqualTo(
+                createdProject.getPeriod().getEndDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         Assertions.assertThat(table.getCellAt(3, 1).asText()).isEqualTo(createdProject.getAddress().getStreet());
         Assertions.assertThat(table.getCellAt(4, 1).asText()).isEqualTo(createdProject.getAddress().getPostCode());
         Assertions.assertThat(table.getCellAt(5, 1).asText()).isEqualTo(createdProject.getAddress().getCity());

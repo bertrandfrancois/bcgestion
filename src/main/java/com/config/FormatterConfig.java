@@ -12,18 +12,18 @@ import java.util.Locale;
 @Configuration
 public class FormatterConfig {
 
-    @Bean
-    public Formatter<LocalDate> localDateFormatter() {
-        return new Formatter<>() {
-            @Override
-            public LocalDate parse(String text, Locale locale) {
-                return LocalDate.parse(text, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            }
-
-            @Override
-            public String print(LocalDate object, Locale locale) {
-                return DateTimeFormatter.ofPattern("dd/MM/yyyy").format(object);
-            }
-        };
-    }
+//    @Bean
+//    public Formatter<LocalDate> localDateFormatter() {
+//        return new Formatter<>() {
+//            @Override
+//            public LocalDate parse(String text, Locale locale) {
+//                return LocalDate.parse(text, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//            }
+//
+//            @Override
+//            public String print(LocalDate object, Locale locale) {
+//                return DateTimeFormatter.ofPattern("dd/MM/yyyy").format(object);
+//            }
+//        };
+//    }
 }
