@@ -23,6 +23,7 @@ import java.util.List;
 @Entity(name = "CLIENTS")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Client {
 
     @Id
@@ -66,7 +67,6 @@ public class Client {
     private Renting renting;
 
     @OneToOne(mappedBy = "client", cascade= CascadeType.ALL)
-    @JoinColumn(name = "CLIENT_ID")
     private Sale sale;
 
     @OneToMany(mappedBy = "client", cascade= CascadeType.ALL)
@@ -80,10 +80,4 @@ public class Client {
         this.projects = projects;
     }
 
-    public Client() {
-//        renting = new Renting();
-//        sale = new Sale();
-//        renting.setClient(this);
-//        sale.setClient(this);
-    }
 }
