@@ -18,4 +18,9 @@ public class TaxRate {
     @Column(name = "TAX_RATE")
     @NumberFormat(style= NumberFormat.Style.PERCENT)
     private BigDecimal value;
+
+    @Override
+    public String toString() {
+        return value.multiply(BigDecimal.valueOf(100L)).toString() + " %";
+    }
 }
