@@ -2,8 +2,6 @@ package com.controller;
 
 import com.beans.Client;
 import com.beans.Project;
-import com.beans.Renting;
-import com.beans.Sale;
 import com.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,11 +42,9 @@ public class ClientController {
         if (bindingResult.hasErrors()) {
             return "new_client";
         }
-        client.setRenting(new Renting());
-        client.setSale(new Sale());
         Client newClient = clientService.save(client);
 
-        return "redirect:/clients/"+ newClient.getId() +"?createSuccess";
+        return "redirect:/clients/" + newClient.getId() + "?createSuccess";
     }
 
     @GetMapping("/clients/{id}")
@@ -57,7 +53,7 @@ public class ClientController {
         Project project = new Project();
         model.addAttribute("project", project);
         model.addAttribute("client", client);
-        return "showClient";
+        return "client_detail";
     }
 
     @GetMapping("/clients/{id}/edit")

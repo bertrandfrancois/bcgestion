@@ -2,6 +2,8 @@ package com.controller;
 
 import com.beans.Client;
 import com.beans.Document;
+import com.beans.DocumentLine;
+import com.beans.Estimate;
 import com.beans.Invoice;
 import com.beans.Project;
 import com.service.ClientService;
@@ -11,12 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/clients/{clientId}/projects/{projectId}/documents")
+@RequestMapping("/clients/{clientId}/")
 public class DocumentController {
 
     private final ClientService clientService;
@@ -32,14 +38,14 @@ public class DocumentController {
         this.documentService = documentService;
     }
 
-    @GetMapping("/{documentId}")
-    public String showProject(@PathVariable("clientId") long clientId,
-                                @PathVariable("projectId") long projectId,
-                                @PathVariable("documentId") long documentId,
-                                Model model) {
+    @GetMapping("projects/{projectId}/documents/{documentId}")
+    public String showProjectDocument(@PathVariable("clientId") long clientId,
+                               @PathVariable("projectId") long projectId,
+                               @PathVariable("documentId") long documentId,
+                               Model model) {
         Project project = projectService.find(projectId);
         Client client = clientService.find(clientId);
-        Invoice document= (Invoice) documentService.find(documentId);
+        Invoice document = (Invoice) documentService.find(documentId);
         model.addAttribute("project", project);
         model.addAttribute("client", client);
         model.addAttribute("document", document);
@@ -47,10 +53,24 @@ public class DocumentController {
         return "document_detail";
     }
 
-    @GetMapping("/create")
-    public String createProject(@PathVariable("clientId") long clientId,
-                                @PathVariable("projectId") long projectId,
-                                Model model) {
+    @GetMapping("estimates/documents/{documentId}")
+    public String showEstimateDocument(@PathVariable("clientId") long clientId,
+                               @PathVariable("documentId") long documentId,
+                               Model model) {
+        Client client = clientService.find(clientId);
+        Estimate document = (Estimate) documentService.find(documentId);
+        DocumentLine documentLine = new DocumentLine();
+        model.addAttribute("client", client);
+        model.addAttribute("document", document);
+        model.addAttribute("documentLine", documentLine);
+
+        return "estimate_document_detail";
+    }
+
+    @GetMapping("projects/{projectId}/documents/create")
+    public String createProjectDocument(@PathVariable("clientId") long clientId,
+                                        @PathVariable("projectId") long projectId,
+                                        Model model) {
         Project project = projectService.find(projectId);
         Client client = clientService.find(clientId);
         Invoice invoice = new Invoice();
@@ -61,12 +81,23 @@ public class DocumentController {
         return "create_document";
     }
 
-    @PostMapping("/create")
-    public String saveProject(@Valid @ModelAttribute Invoice document,
-                              BindingResult bindingResult,
-                              @PathVariable ("clientId") long clientId,
-                              @PathVariable ("projectId") long projectId,
-                              Model model) {
+    @GetMapping("estimates/documents/create")
+    public String createEstimateDocument(@PathVariable("clientId") long clientId,
+                                         Model model) {
+        Client client = clientService.find(clientId);
+        Estimate estimate = new Estimate();
+        model.addAttribute("client", client);
+        model.addAttribute("document", estimate);
+
+        return "create_estimate";
+    }
+
+    @PostMapping("projects/{projectId}/documents/create")
+    public String saveProjectDocument(@Valid @ModelAttribute Invoice document,
+                               BindingResult bindingResult,
+                               @PathVariable("clientId") long clientId,
+                               @PathVariable("projectId") long projectId,
+                               Model model) {
         Client client = clientService.find(clientId);
         Project project = projectService.find(projectId);
         if (bindingResult.hasErrors()) {
@@ -75,8 +106,23 @@ public class DocumentController {
             return "create_document";
         }
         document.setClient(client);
-        document.setService(project);
+        document.setProject(project);
         documentService.save(document);
-        return "redirect:/clients/" + clientId + "/projects/" +project.getId();
+        return "redirect:/clients/" + clientId + "/projects/" + project.getId();
+    }
+
+    @PostMapping("estimates/documents/create")
+    public String saveEstimateDocument(@Valid @ModelAttribute Estimate document,
+                               BindingResult bindingResult,
+                               @PathVariable("clientId") long clientId,
+                               Model model) {
+        Client client = clientService.find(clientId);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("client", client);
+            return "create_document";
+        }
+        document.setClient(client);
+        Document savedDocument = documentService.save(document);
+        return "redirect:/clients/" + clientId + "/estimates/documents/" +savedDocument.getId();
     }
 }

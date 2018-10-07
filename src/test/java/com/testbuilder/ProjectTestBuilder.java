@@ -30,10 +30,10 @@ public class ProjectTestBuilder {
 
     public Project build() {
         return new Project(id,
+                           Lists.newArrayList(),
                            description,
                            address,
                            new Period(startDate, endDate),
-                           Lists.newArrayList(),
                            client);
     }
 

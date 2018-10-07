@@ -63,12 +63,6 @@ public class Client {
     @OneToMany(mappedBy = "client", cascade= CascadeType.ALL)
     private List<Project> projects = Lists.newArrayList();
 
-    @OneToOne(mappedBy = "client", cascade= CascadeType.ALL)
-    private Renting renting;
-
-    @OneToOne(mappedBy = "client", cascade= CascadeType.ALL)
-    private Sale sale;
-
     @OneToMany(mappedBy = "client", cascade= CascadeType.ALL)
     private List<Document> documents = List.of();
 

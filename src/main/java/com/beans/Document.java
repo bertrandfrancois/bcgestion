@@ -1,15 +1,27 @@
 package com.beans;
 
+import com.enums.TaxRate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.NumberFormat;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import static javax.persistence.InheritanceType.SINGLE_TABLE;
@@ -32,21 +44,44 @@ public abstract class Document {
 
     @Column(name = "CREATION_DATE")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date creationDate;
+    private LocalDate creationDate;
+
+    @Column(name = "TAX_RATE")
+    @Enumerated(EnumType.STRING)
+    private TaxRate taxRate;
 
     @ManyToOne
     @JoinColumn(name = "CLIENT_ID")
     private Client client;
 
     @ManyToOne
-    @JoinColumn(name = "SERVICE_ID")
-    private Service service;
+    @JoinColumn(name = "PROJECT_ID")
+    private Project project;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "DOCUMENT_ID")
     protected List<DocumentLine> documentLines;
 
-    public abstract BigDecimal subTotal();
+    @NumberFormat(style = NumberFormat.Style.CURRENCY)
+    public BigDecimal getSubTotal() {
+        BigDecimal subTotal = BigDecimal.ZERO;
+        for (DocumentLine documentLine : documentLines) {
+            subTotal = subTotal.add(documentLine.getTotal());
+        }
+        return subTotal;
+    }
 
-    public abstract BigDecimal total();
+    @NumberFormat(style = NumberFormat.Style.CURRENCY)
+    public BigDecimal getTotal() {
+        return getSubTotal().add(getSubTotal().multiply(taxRate.getValue()));
+    }
+
+    @NumberFormat(style = NumberFormat.Style.CURRENCY)
+    public BigDecimal getTotalTax() {
+        return getSubTotal().multiply(taxRate.getValue());
+    }
+
+    public void addDocumentLine(DocumentLine documentLine) {
+        this.documentLines.add(documentLine);
+    }
 }

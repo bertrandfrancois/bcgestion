@@ -120,6 +120,46 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-lg-6">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fa fa-wrench">&nbsp;</i><span th:text="#{menu.estimates}"></span>
+                        <a th:href="@{'./'+ ${client.id} +'/estimates/documents/create'}"
+                           class="btn btn-primary btn-sm float-right">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </a>&nbsp;
+                    </div>
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-condensed table-hover table-striped" id="estimates">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <span th:text="#{document.code}"></span>
+                                    </th>
+                                    <th>
+                                        <span th:text="#{menu.detail}"></span>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="document : ${client.documents}">
+                                    <td th:text="${document.code}"></td>
+                                    <td>
+                                        <a th:href="@{'./' + ${client.id} +'/estimates/documents/' + ${document.id}}">
+                                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
     <!-- /.container-fluid-->

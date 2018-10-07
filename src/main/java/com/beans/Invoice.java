@@ -13,6 +13,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -22,31 +23,8 @@ import java.util.Date;
 @NoArgsConstructor
 public class Invoice extends Document {
 
-    @Embedded
-    private TaxRate taxRate;
-
     @Column(name = "PAYMENT_DATE")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date paymentDate;
+    private LocalDate paymentDate;
 
-    @Override
-    @NumberFormat(pattern = "###,##0.00")
-    public BigDecimal subTotal() {
-        BigDecimal subTotal = BigDecimal.ZERO;
-        for (DocumentLine documentLine : documentLines) {
-            subTotal = subTotal.add(documentLine.getTotal());
-        }
-        return subTotal;
-    }
-
-    @Override
-    @NumberFormat(pattern = "###,##0.00")
-    public BigDecimal total() {
-        return subTotal().add(subTotal().multiply(taxRate.getValue()));
-    }
-
-    @NumberFormat(pattern = "###,##0.00")
-    public BigDecimal getTotalTax(){
-        return subTotal().multiply(taxRate.getValue());
-    }
 }

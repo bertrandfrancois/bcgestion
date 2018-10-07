@@ -4,7 +4,14 @@ import com.beans.Client;
 import com.beans.DocumentLine;
 import com.beans.Estimate;
 import com.beans.Invoice;
-import com.lowagie.text.*;
+import com.lowagie.text.BadElementException;
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Font;
+import com.lowagie.text.Image;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
@@ -16,23 +23,27 @@ import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
-import static com.lowagie.text.Element.*;
-import static com.lowagie.text.Font.*;
+import static com.lowagie.text.Element.ALIGN_JUSTIFIED;
+import static com.lowagie.text.Element.ALIGN_LEFT;
+import static com.lowagie.text.Element.ALIGN_MIDDLE;
+import static com.lowagie.text.Element.ALIGN_RIGHT;
+import static com.lowagie.text.Font.BOLD;
+import static com.lowagie.text.Font.ITALIC;
+import static com.lowagie.text.Font.NORMAL;
 import static java.awt.Color.BLACK;
 import static java.awt.Color.WHITE;
 
-public class PdfView extends AbstractPdfView {
+public class InvoicePdfView extends AbstractPdfView {
 
     private DecimalFormatSymbols symbols;
     private Font fontInfo, fontTitre, fontDate, fontGreet, fontOutro, fontTitle;
     private final int MIN_HEIGHT = 20;
-    private Estimate invoice;
+    private Invoice invoice;
     private DecimalFormat twoDecimals;
     private DecimalFormat threeDecimals;
 
@@ -41,7 +52,7 @@ public class PdfView extends AbstractPdfView {
                                     Document document, PdfWriter writer, HttpServletRequest request,
                                     HttpServletResponse response) throws Exception {
 
-        invoice = (Estimate) model.get("document");
+        invoice = (Invoice) model.get("document");
         symbols = new DecimalFormatSymbols();
         symbols.setDecimalSeparator(',');
         symbols.setGroupingSeparator(' ');
@@ -61,8 +72,8 @@ public class PdfView extends AbstractPdfView {
         document.add(createTableEntetes());
         document.add(createTableDonnees());
         document.add(createTableTotaux());
-//        document.add(createGreetings());
-//        document.add(createOutro());
+                document.add(createGreetings());
+        document.add(createOutro());
 
 
     }
@@ -80,18 +91,18 @@ public class PdfView extends AbstractPdfView {
         return paraOutro;
     }
 
-//    private Paragraph createGreetings() {
-//        String greet = "Date Limite de paiement : " + dt.format(invoice.getPaymentDate()) + ".\n\nNous restons à votre disposition pour toute information complémentaire.\nCordialement,\n\nBoris Bertrand\n\n";
-//        Chunk phraseGreet = new Chunk(greet);
-//        phraseGreet.setFont(fontGreet);
-//        Paragraph paraGreet = new Paragraph();
-//        paraGreet.add(phraseGreet);
-//
-//        paraGreet.setAlignment(ALIGN_JUSTIFIED);
-//        paraGreet.setSpacingAfter(50F);
-//        paraGreet.setKeepTogether(true);
-//        return paraGreet;
-//    }
+        private Paragraph createGreetings() {
+            String greet = "Date Limite de paiement : " + invoice.getPaymentDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + ".\n\nNous restons à votre disposition pour toute information complémentaire.\nCordialement,\n\nBoris Bertrand\n\n";
+            Chunk phraseGreet = new Chunk(greet);
+            phraseGreet.setFont(fontGreet);
+            Paragraph paraGreet = new Paragraph();
+            paraGreet.add(phraseGreet);
+
+            paraGreet.setAlignment(ALIGN_JUSTIFIED);
+            paraGreet.setSpacingAfter(50F);
+            paraGreet.setKeepTogether(true);
+            return paraGreet;
+        }
 
     private PdfPTable createTableInfos() throws DocumentException {
         PdfPTable tableInfo = new PdfPTable(2);
@@ -422,7 +433,7 @@ public class PdfView extends AbstractPdfView {
             e.printStackTrace();
         }
         LocalDate date = invoice.getCreationDate();
-//        String dateString = date.toString(dateFormatter);
+        //        String dateString = date.toString(dateFormatter);
 
         Phrase phraseDate = new Phrase("Namur, le " + date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         phraseDate.setFont(fontDate);

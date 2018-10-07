@@ -10,6 +10,9 @@ import lombok.Setter;
 import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity(name = "DOCUMENT_LINES")
@@ -24,19 +27,23 @@ public class DocumentLine {
     private int id;
 
     @Column(name = "DESCRIPTION")
+    @NotEmpty
     private String description;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     private Unit unit;
 
     @NumberFormat(pattern = "###,##0.000")
+    @NotNull
     private BigDecimal quantity;
 
-    @NumberFormat(pattern = "###,##0.00")
+    @NumberFormat(style= NumberFormat.Style.CURRENCY)
+    @NotNull
     private BigDecimal price;
 
+    @NumberFormat(style= NumberFormat.Style.CURRENCY)
     public BigDecimal getTotal(){
         return price.multiply(quantity);
-
     }
 }

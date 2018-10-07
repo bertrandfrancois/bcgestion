@@ -1,20 +1,36 @@
 package com.beans;
 
+ import com.google.common.collect.Lists;
+ import lombok.AllArgsConstructor;
  import lombok.Data;
+ import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
+ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
+ import javax.persistence.GeneratedValue;
+ import javax.persistence.Id;
+ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.Valid;
+ import javax.persistence.OneToMany;
+ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+ import java.util.List;
 
-@Entity
+@Entity(name="PROJECTS")
 @Data
-@DiscriminatorValue("PROJECT")
-public class Project extends Service {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Project {
+
+    @Id
+    @GeneratedValue
+    @Column(name = "PROJECT_ID")
+    private Long id;
+
+    @OneToMany(mappedBy = "project")
+    private List<Document> documents = Lists.newArrayList();
 
     @NotEmpty
     @Column(name = "DESCRIPTION")

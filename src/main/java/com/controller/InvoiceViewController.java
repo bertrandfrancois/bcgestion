@@ -3,6 +3,7 @@ package com.controller;
 import com.beans.Estimate;
 import com.beans.Invoice;
 import com.google.common.collect.Maps;
+import com.pdf.InvoicePdfView;
 import com.pdf.PdfView;
 import com.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,22 +15,22 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.HashMap;
 
 @Controller
-public class DocumentViewController {
+public class InvoiceViewController {
 
     private final DocumentService documentService;
 
     @Autowired
-    public DocumentViewController(DocumentService documentService) {
+    public InvoiceViewController(DocumentService documentService) {
         this.documentService = documentService;
     }
 
-    @GetMapping("/doc/{documentId}")
+    @GetMapping("/docin/{documentId}")
     public ModelAndView document(@PathVariable("documentId") long id, ModelAndView model) {
-        Estimate document = (Estimate) documentService.find(id);
+        Invoice document = (Invoice) documentService.find(id);
         HashMap<String, Object> parameters = Maps.newHashMap();
         parameters.put("document", document);
 
-        return new ModelAndView(new PdfView(), parameters);
+        return new ModelAndView(new InvoicePdfView(), parameters);
     }
 
 }

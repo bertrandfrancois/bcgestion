@@ -58,11 +58,11 @@
                                 </tr>
                                 <tr>
                                     <th th:text="#{document.creationDate}"></th>
-                                    <td th:text="${#dates.format(document.creationDate, 'dd/MM/yyyy')}"></td>
+                                    <td th:text="${#temporals.format(document.creationDate, 'dd/MM/yyyy')}"></td>
                                 </tr>
                                 <tr>
                                     <th th:text="#{document.paymentDate}"></th>
-                                    <td th:text="${#dates.format(document.paymentDate, 'dd/MM/yyyy')}"></td>
+                                    <td th:text="${#temporals.format(document.paymentDate, 'dd/MM/yyyy')}"></td>
                                 </tr>
                                 <tr>
                                     <th th:text="#{document.taxRate}"></th>
