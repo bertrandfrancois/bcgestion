@@ -24,8 +24,7 @@
         </ol>
 
         <div class="card">
-            <div class="card-header"><i class="fa fa-edit">&nbsp;</i><span
-                    th:text="#{menu.edit.client}"></span></div>
+            <div class="card-header"><i class="fa fa-edit">&nbsp;</i><span th:text="#{menu.edit.client}"></span></div>
             <div class="card-body">
                 <form th:action="@{'/clients/' + ${client.id} + '/edit'}" name="editClient" th:object="${client}"
                       method="post">

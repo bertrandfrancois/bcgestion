@@ -25,32 +25,35 @@
 
         <div class="alert alert-success alert-dismissable" th:if="${param.editSuccess}">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <i class="fa fa-check" aria-hidden="true"></i>&nbsp;<span th:text="#{info.document.edit.success}"></span>
+            <i class="fa fa-chec<k" aria-hidden="true"></i>&nbsp;<span th:text="#{info.estimate.edit.success}"></span>
         </div>
         <div class="alert alert-success alert-dismissable" th:if="${param.createSuccess}">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <i class="fa fa-check" aria-hidden="true"></i>&nbsp;<span th:text="#{info.document.create.success}"></span>
+            <i class="fa fa-check" aria-hidden="true"></i>&nbsp;<span th:text="#{info.estimate.create.success}"></span>
         </div>
         <div class="row">
             <div class="col-lg-6">
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fa fa-user">&nbsp;</i><span th:text="#{menu.estimate.detail}"></span>
-                        <a data-toggle="modal" data-target="#deleteProject"
+                        <a data-toggle="modal" data-target="#deleteEstimate"
                            class="btn btn-danger btn-sm float-right" style="margin-left:5px;">
                             <i class="fa fa-trash text-white" aria-hidden="true"></i>
                         </a>
-                        <a class="btn btn-success btn-sm float-right" style="margin-left:5px;" th:href="@{'/doc/' + ${document.id}}" target="_blank">
+                        <a class="btn btn-success btn-sm float-right"
+                           style="margin-left:5px;"
+                           th:href="@{'/doc/' + ${document.id}}"
+                           target="_blank">
                             <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                         </a>
-                        <!--<a th:href="@{'./' + ${project.id} + '/edit'}" class="btn btn-primary btn-sm float-right">-->
-                        <!--<i class="fa fa-edit" aria-hidden="true"></i>-->
-                        <!--</a>&nbsp;-->
+                        <a th:href="@{'/clients/' + ${client.id} + '/estimates/' +${document.id}+ '/edit'}" class="btn btn-primary btn-sm float-right">
+                        <i class="fa fa-edit" aria-hidden="true"></i>
+                        </a>&nbsp;
                     </div>
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-condensed table-hover table-striped" id="projectDetail">
+                            <table class="table table-condensed table-hover table-striped" id="estimateDetail">
                                 <tr>
                                     <th th:text="#{document.code}"></th>
                                     <td th:text="${document.code}"></td>
@@ -105,6 +108,7 @@
                                     <th th:text="#{documentLine.unit}"></th>
                                     <th th:text="#{documentLine.price}"></th>
                                     <th th:text="#{documentLine.total}"></th>
+                                    <th th:text="Action"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -113,8 +117,14 @@
                                     <td th:text="${documentLine.description}"></td>
                                     <td th:text="${{documentLine.quantity}}"></td>
                                     <td th:text="${documentLine.unit.displayName}"></td>
-                                    <td th:text="${{documentLine.price}}"></td>
+                                    <td th:text="${{documentLine.formattedPrice}}"></td>
                                     <td th:text="${{documentLine.total}}"></td>
+                                    <td>
+                                        <a th:href="@{'/clients/' + ${client.id} + '/estimates/' + ${documentId} + '/deleteLine/' + ${documentLine.id}}"
+                                           class="btn btn-danger btn-sm">
+                                            <i class="fa fa-trash text-white" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -138,7 +148,7 @@
     </a>
     <!-- Logout Modal-->
     <div th:replace="fragments/modals :: logout"></div>
-    <!--<div th:replace="fragments/modals :: deleteProject"></div>-->
+    <div th:replace="fragments/modals :: deleteEstimate"></div>
 
     <!-- Bootstrap core JavaScript-->
     <th:block th:include="fragments/scripts :: scripts"/>

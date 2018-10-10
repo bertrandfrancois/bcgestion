@@ -36,6 +36,6 @@ public class DocumentService implements BaseService<Document> {
 
     @Override
     public void delete(long id) {
-
+        documentRepository.deleteById(id);
     }
 }

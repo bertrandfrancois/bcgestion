@@ -4,12 +4,14 @@ import com.beans.Client;
 import com.beans.Document;
 import com.beans.DocumentLine;
 import com.service.ClientService;
+import com.service.DocumentLineService;
 import com.service.DocumentService;
 import com.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,14 +29,20 @@ public class DocumentLineController {
 
     private final DocumentService documentService;
 
+    private final DocumentLineService documentLineService;
+
     @Autowired
-    public DocumentLineController(ClientService clientService, ProjectService projectService, DocumentService documentService) {
+    public DocumentLineController(ClientService clientService,
+                                  ProjectService projectService,
+                                  DocumentService documentService,
+                                  DocumentLineService documentLineService) {
         this.clientService = clientService;
         this.projectService = projectService;
         this.documentService = documentService;
+        this.documentLineService = documentLineService;
     }
 
-    @PostMapping("estimates/documents/{documentId}/addLine")
+    @PostMapping("estimates/{documentId}/addLine")
     public String addEstimateDocumentLine(@Valid @ModelAttribute DocumentLine documentLine,
                                           BindingResult bindingResult,
                                           @PathVariable("clientId") long clientId,
@@ -46,10 +54,18 @@ public class DocumentLineController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("document", document);
             model.addAttribute("client", client);
-            return "estimate_document_detail";
+            return "estimate_detail";
         }
         document.addDocumentLine(documentLine);
         documentService.save(document);
-        return "redirect:/clients/" + clientId + "/estimates/documents/" + document.getId();
+        return "redirect:/clients/" + clientId + "/estimates/" + document.getId();
+    }
+
+    @GetMapping("estimates/{documentId}/deleteLine/{documentLineId}")
+    public String deleteDocumentLine(@PathVariable("clientId") long clientId,
+                                     @PathVariable("documentId") long documentId,
+                                     @PathVariable("documentLineId") long documentLineId){
+        documentLineService.delete(documentLineId);
+        return "redirect:/clients/" + clientId + "/estimates/" + documentId;
     }
 }

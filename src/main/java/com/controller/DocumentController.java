@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/clients/{clientId}/")
+@RequestMapping("/clients/{clientId}")
 public class DocumentController {
 
     private final ClientService clientService;
@@ -38,11 +38,11 @@ public class DocumentController {
         this.documentService = documentService;
     }
 
-    @GetMapping("projects/{projectId}/documents/{documentId}")
+    @GetMapping("/projects/{projectId}/documents/{documentId}")
     public String showProjectDocument(@PathVariable("clientId") long clientId,
-                               @PathVariable("projectId") long projectId,
-                               @PathVariable("documentId") long documentId,
-                               Model model) {
+                                      @PathVariable("projectId") long projectId,
+                                      @PathVariable("documentId") long documentId,
+                                      Model model) {
         Project project = projectService.find(projectId);
         Client client = clientService.find(clientId);
         Invoice document = (Invoice) documentService.find(documentId);
@@ -53,10 +53,10 @@ public class DocumentController {
         return "document_detail";
     }
 
-    @GetMapping("estimates/documents/{documentId}")
+    @GetMapping("/estimates/{documentId}")
     public String showEstimateDocument(@PathVariable("clientId") long clientId,
-                               @PathVariable("documentId") long documentId,
-                               Model model) {
+                                       @PathVariable("documentId") long documentId,
+                                       Model model) {
         Client client = clientService.find(clientId);
         Estimate document = (Estimate) documentService.find(documentId);
         DocumentLine documentLine = new DocumentLine();
@@ -64,10 +64,10 @@ public class DocumentController {
         model.addAttribute("document", document);
         model.addAttribute("documentLine", documentLine);
 
-        return "estimate_document_detail";
+        return "estimate_detail";
     }
 
-    @GetMapping("projects/{projectId}/documents/create")
+    @GetMapping("/projects/{projectId}/documents/create")
     public String createProjectDocument(@PathVariable("clientId") long clientId,
                                         @PathVariable("projectId") long projectId,
                                         Model model) {
@@ -81,23 +81,23 @@ public class DocumentController {
         return "create_document";
     }
 
-    @GetMapping("estimates/documents/create")
+    @GetMapping("/estimates/create")
     public String createEstimateDocument(@PathVariable("clientId") long clientId,
                                          Model model) {
         Client client = clientService.find(clientId);
         Estimate estimate = new Estimate();
         model.addAttribute("client", client);
-        model.addAttribute("document", estimate);
+        model.addAttribute("estimate", estimate);
 
         return "create_estimate";
     }
 
-    @PostMapping("projects/{projectId}/documents/create")
+    @PostMapping("/projects/{projectId}/documents/create")
     public String saveProjectDocument(@Valid @ModelAttribute Invoice document,
-                               BindingResult bindingResult,
-                               @PathVariable("clientId") long clientId,
-                               @PathVariable("projectId") long projectId,
-                               Model model) {
+                                      BindingResult bindingResult,
+                                      @PathVariable("clientId") long clientId,
+                                      @PathVariable("projectId") long projectId,
+                                      Model model) {
         Client client = clientService.find(clientId);
         Project project = projectService.find(projectId);
         if (bindingResult.hasErrors()) {
@@ -111,18 +111,49 @@ public class DocumentController {
         return "redirect:/clients/" + clientId + "/projects/" + project.getId();
     }
 
-    @PostMapping("estimates/documents/create")
+    @PostMapping("/estimates/create")
     public String saveEstimateDocument(@Valid @ModelAttribute Estimate document,
-                               BindingResult bindingResult,
-                               @PathVariable("clientId") long clientId,
-                               Model model) {
+                                       BindingResult bindingResult,
+                                       @PathVariable("clientId") long clientId,
+                                       Model model) {
         Client client = clientService.find(clientId);
         if (bindingResult.hasErrors()) {
             model.addAttribute("client", client);
-            return "create_document";
+            return "create_estimate";
         }
         document.setClient(client);
         Document savedDocument = documentService.save(document);
-        return "redirect:/clients/" + clientId + "/estimates/documents/" +savedDocument.getId();
+        return "redirect:/clients/" + clientId + "/estimates/" + savedDocument.getId() + "?createSuccess";
+    }
+
+    @GetMapping("/estimates/{documentId}/edit")
+    public String editEstimate(@PathVariable("clientId") long clientId,
+                               @PathVariable("documentId") long documentId,
+                               Model model) {
+        Client client = clientService.find(clientId);
+        Estimate document = (Estimate) documentService.find(documentId);
+        model.addAttribute("document", document);
+        model.addAttribute("client", client);
+        return "edit_estimate";
+    }
+
+    @PostMapping("/estimates/{documentId}/edit")
+    public String editEstimate(@PathVariable("clientId") long clientId,
+                               @PathVariable("documentId") long documentId,
+                               @Valid @ModelAttribute Estimate estimate,
+                               BindingResult bindingResult,
+                               Model model) {
+        if (bindingResult.hasErrors()) {
+            return "edit_estimate";
+        }
+        documentService.save(estimate);
+        return "redirect:/clients/" + clientId + "/estimates/" + documentId + "?editSuccess";
+    }
+
+    @PostMapping("/estimates/{documentId}/delete")
+    public String deleteEstimateDocument(@PathVariable("clientId") long clientId,
+                                         @PathVariable("documentId") long documentId) {
+        documentService.delete(documentId);
+        return "redirect:/clients/" + clientId;
     }
 }
