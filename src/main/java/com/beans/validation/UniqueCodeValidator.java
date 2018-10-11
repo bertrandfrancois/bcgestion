@@ -5,7 +5,7 @@ import com.repository.DocumentRepository;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class UniqueCodeValidator implements ConstraintValidator<UniqueCode, Document> {
 
@@ -22,8 +22,11 @@ public class UniqueCodeValidator implements ConstraintValidator<UniqueCode, Docu
 
     @Override
     public boolean isValid(Document document, ConstraintValidatorContext context) {
-        Optional<Document> existingDocument = documentRepository.findByCode(document.getCode());
-        return !existingDocument.isPresent() ||
-               (document.getId() != null && existingDocument.get().getId().equals(document.getId()));
+       return documentRepository
+                .findDocumentsByCode(document.getCode())
+                .stream()
+                .filter(d -> !d.getId().equals(document.getId()))
+                .collect(Collectors.toList())
+                .isEmpty();
     }
 }
