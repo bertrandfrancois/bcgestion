@@ -131,8 +131,8 @@ public class DocumentController {
                                @PathVariable("documentId") long documentId,
                                Model model) {
         Client client = clientService.find(clientId);
-        Estimate document = (Estimate) documentService.find(documentId);
-        model.addAttribute("document", document);
+        Estimate estimate = (Estimate) documentService.find(documentId);
+        model.addAttribute("estimate", estimate);
         model.addAttribute("client", client);
         return "edit_estimate";
     }
@@ -144,6 +144,8 @@ public class DocumentController {
                                BindingResult bindingResult,
                                Model model) {
         if (bindingResult.hasErrors()) {
+            Client client = clientService.find(clientId);
+            model.addAttribute("client", client);
             return "edit_estimate";
         }
         documentService.save(estimate);

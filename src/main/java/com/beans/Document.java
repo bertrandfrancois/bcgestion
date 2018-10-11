@@ -1,5 +1,6 @@
 package com.beans;
 
+import com.beans.validation.ClassCheck;
 import com.beans.validation.UniqueCode;
 import com.beans.validation.ValidCode;
 import com.enums.TaxRate;
@@ -21,6 +22,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.GroupSequence;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -35,6 +37,8 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@UniqueCode(groups = ClassCheck.class)
+@GroupSequence({Document.class, ClassCheck.class})
 public abstract class Document {
 
     @Id
@@ -42,7 +46,6 @@ public abstract class Document {
     @Column(name = "DOCUMENT_ID")
     private Long id;
 
-    @UniqueCode
     @ValidCode
     @NotEmpty
     @Column(name = "DOCUMENT_CODE")

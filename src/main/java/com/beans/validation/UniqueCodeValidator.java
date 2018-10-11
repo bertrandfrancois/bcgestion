@@ -1,11 +1,13 @@
 package com.beans.validation;
 
+import com.beans.Document;
 import com.repository.DocumentRepository;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.Optional;
 
-public class UniqueCodeValidator implements ConstraintValidator<UniqueCode, String> {
+public class UniqueCodeValidator implements ConstraintValidator<UniqueCode, Document> {
 
     private DocumentRepository documentRepository;
 
@@ -19,7 +21,9 @@ public class UniqueCodeValidator implements ConstraintValidator<UniqueCode, Stri
     }
 
     @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
-        return !documentRepository.findByCode(value).isPresent();
+    public boolean isValid(Document document, ConstraintValidatorContext context) {
+        Optional<Document> existingDocument = documentRepository.findByCode(document.getCode());
+        return !existingDocument.isPresent() ||
+               (document.getId() != null && existingDocument.get().getId().equals(document.getId()));
     }
 }
