@@ -11,9 +11,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -32,11 +30,10 @@ public class Client {
     private Long id;
 
     @NotEmpty
-    @Size(max = 30)
+    @Size(max = 60)
     @Column(name = "LAST_NAME")
     private String lastName;
 
-    @NotEmpty
     @Size(max = 30)
     @Column(name = "FIRST_NAME")
     private String firstName;
