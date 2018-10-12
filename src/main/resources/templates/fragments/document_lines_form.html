@@ -3,15 +3,21 @@
 <div class="col-lg-6" th:fragment="form">
     <div class="card mb-3">
         <div class="card-header">
-            <i class="fa fa-user">&nbsp;</i><span th:text="#{menu.documentLine.new}"></span>
+            <i th:if="${mode == 'NEW'}" class="fa fa-plus">&nbsp;</i>
+            <i th:if="${mode == 'EDIT'}" class="fa fa-edit">&nbsp;</i>
+            <span th:if="${mode == 'NEW'}" th:text="#{menu.documentLine.new}"></span>
+            <span th:if="${mode == 'EDIT'}" th:text="#{menu.documentLine.edit}"></span>
         </div>
 
         <div class="card-body">
             <div class="table-responsive">
-                <form th:action="@{'/clients/' + ${client.id} + '/estimates/' + ${document.id} + '/addLine'}"
+                <form th:action="${documentLine.id == null} ?
+                                 @{'/clients/' + ${client.id} + '/estimates/' + ${document.id} + '/addLine'} :
+                                 @{'/clients/' + ${client.id} + '/estimates/' + ${document.id} + '/editLine/' + ${documentLine.id}}"
                       name="createDocumentLine"
                       th:object="${documentLine}"
                       method="post">
+                    <input class="form-control" id="id" type="hidden" th:field="*{id}"/>
 
                     <table class="table table-condensed table-hover table-striped" id="clientDetail">
                         <tr>
@@ -61,8 +67,8 @@
                             </td>
                         </tr>
                     </table>
-                    <button type="submit" class="btn btn-primary btn-block"
-                            th:text="#{button.add}"></button>
+                    <button th:if="${mode == 'NEW'}" type="submit" class="btn btn-primary btn-block" th:text="#{button.add}"></button>
+                    <button th:if="${mode == 'EDIT'}" type="submit" class="btn btn-warning btn-block" th:text="#{button.update}"></button>
                 </form>
             </div>
         </div>

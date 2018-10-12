@@ -26,7 +26,7 @@ public class DocumentLineService implements BaseService<DocumentLine> {
 
     @Override
     public DocumentLine save(DocumentLine param) {
-        return null;
+        return documentLineRepository.save(param);
     }
 
     @Override

@@ -120,6 +120,9 @@
                                     <td th:text="${{documentLine.formattedPrice}}"></td>
                                     <td th:text="${{documentLine.total}}"></td>
                                     <td>
+                                        <a th:href="@{'/clients/' + ${client.id} + '/estimates/' +${document.id}+ '/editLine/' + ${documentLine.id}}" class="btn btn-primary btn-sm">
+                                            <i class="fa fa-edit" aria-hidden="true"></i>
+                                        </a>&nbsp;
                                         <a th:href="@{'/clients/' + ${client.id} + '/estimates/' + ${documentId} + '/deleteLine/' + ${documentLine.id}}"
                                            class="btn btn-danger btn-sm">
                                             <i class="fa fa-trash text-white" aria-hidden="true"></i>

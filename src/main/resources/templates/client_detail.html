@@ -145,10 +145,10 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="document : ${client.documents}">
-                                    <td th:text="${document.code}"></td>
+                                <tr th:each="estimate : ${client.estimates}">
+                                    <td th:text="${estimate.code}"></td>
                                     <td>
-                                        <a th:href="@{'./' + ${client.id} +'/estimates/' + ${document.id}}">
+                                        <a th:href="@{'./' + ${client.id} +'/estimates/' + ${estimate.id}}">
                                             <i class="fa fa-arrow-right" aria-hidden="true"></i>
                                         </a>
                                     </td>

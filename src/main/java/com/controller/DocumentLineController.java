@@ -56,15 +56,50 @@ public class DocumentLineController {
             model.addAttribute("client", client);
             return "estimate_detail";
         }
+
         document.addDocumentLine(documentLine);
         documentService.save(document);
+        return "redirect:/clients/" + clientId + "/estimates/" + document.getId();
+    }
+
+    @GetMapping("estimates/{documentId}/editLine/{documentLineId}")
+    public String editEstimateDocumentLine(@PathVariable("clientId") long clientId,
+                                           @PathVariable("documentId") long documentId,
+                                           @PathVariable("documentLineId") long documentLineId,
+                                           Model model) {
+        Document document = documentService.find(documentId);
+        Client client = clientService.find(clientId);
+        DocumentLine documentLine = document.getDocumentLines().stream().filter(dl -> dl.getId().equals(documentLineId)).findFirst().get();
+        String mode = "EDIT";
+            model.addAttribute("document", document);
+            model.addAttribute("client", client);
+            model.addAttribute("documentLine", documentLine);
+            model.addAttribute("mode", mode);
+            return "estimate_detail";
+    }
+
+    @PostMapping("estimates/{documentId}/editLine/{documentLineId}")
+    public String editEstimateDocumentLine(@Valid @ModelAttribute DocumentLine documentLine,
+                                          BindingResult bindingResult,
+                                          @PathVariable("clientId") long clientId,
+                                          @PathVariable("documentId") long documentId,
+                                          Model model) {
+        Document document = documentService.find(documentId);
+        Client client = clientService.find(clientId);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("document", document);
+            model.addAttribute("client", client);
+            return "estimate_detail";
+        }
+        documentLineService.save(documentLine);
         return "redirect:/clients/" + clientId + "/estimates/" + document.getId();
     }
 
     @GetMapping("estimates/{documentId}/deleteLine/{documentLineId}")
     public String deleteDocumentLine(@PathVariable("clientId") long clientId,
                                      @PathVariable("documentId") long documentId,
-                                     @PathVariable("documentLineId") long documentLineId){
+                                     @PathVariable("documentLineId") long documentLineId) {
         documentLineService.delete(documentLineId);
         return "redirect:/clients/" + clientId + "/estimates/" + documentId;
     }

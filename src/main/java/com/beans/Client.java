@@ -17,6 +17,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity(name = "CLIENTS")
 @Data
@@ -62,6 +63,14 @@ public class Client {
 
     @OneToMany(mappedBy = "client", cascade= CascadeType.ALL)
     private List<Document> documents = List.of();
+
+    public List<Estimate> getEstimates(){
+        return documents
+                .stream()
+                .filter(Estimate.class::isInstance)
+                .map(Estimate.class::cast)
+                .collect(Collectors.toList());
+    }
 
     public List<Project> getProjects() {
         return projects;

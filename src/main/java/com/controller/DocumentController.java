@@ -60,6 +60,8 @@ public class DocumentController {
         Client client = clientService.find(clientId);
         Estimate document = (Estimate) documentService.find(documentId);
         DocumentLine documentLine = new DocumentLine();
+        String mode = "NEW";
+        model.addAttribute("mode", mode);
         model.addAttribute("client", client);
         model.addAttribute("document", document);
         model.addAttribute("documentLine", documentLine);
