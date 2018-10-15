@@ -59,9 +59,11 @@
                         <tr>
                             <th th:text="#{documentLine.price}"></th>
                             <td>
-                                <div class="form-group">
+                                <div class="form-group input-group">
                                     <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}"
                                           class="text-danger"></span>
+                                    <span class="input-group-addon"><i class="fa fa-eur"></i>
+                                            </span>
                                     <input class="form-control" id="price" type="text" th:field="*{price}"/>
                                 </div>
                             </td>

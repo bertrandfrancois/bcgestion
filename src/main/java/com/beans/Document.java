@@ -23,7 +23,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.GroupSequence;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -47,7 +46,6 @@ public abstract class Document {
     private Long id;
 
     @ValidCode
-    @NotEmpty
     @Column(name = "DOCUMENT_CODE")
     private String code;
 

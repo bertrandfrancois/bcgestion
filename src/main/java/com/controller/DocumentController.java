@@ -90,8 +90,8 @@ public class DocumentController {
         Estimate estimate = new Estimate();
         model.addAttribute("client", client);
         model.addAttribute("estimate", estimate);
-
-        return "create_estimate";
+        model.addAttribute("mode", Mode.NEW);
+        return "estimate_form";
     }
 
     @PostMapping("/projects/{projectId}/documents/create")
@@ -121,7 +121,8 @@ public class DocumentController {
         Client client = clientService.find(clientId);
         if (bindingResult.hasErrors()) {
             model.addAttribute("client", client);
-            return "create_estimate";
+            model.addAttribute("mode", Mode.NEW);
+            return "estimate_form";
         }
         document.setClient(client);
         Document savedDocument = documentService.save(document);
@@ -136,7 +137,8 @@ public class DocumentController {
         Estimate estimate = (Estimate) documentService.find(documentId);
         model.addAttribute("estimate", estimate);
         model.addAttribute("client", client);
-        return "edit_estimate";
+        model.addAttribute("mode", Mode.EDIT);
+        return "estimate_form";
     }
 
     @PostMapping("/estimates/{documentId}/edit")
@@ -147,8 +149,9 @@ public class DocumentController {
                                Model model) {
         if (bindingResult.hasErrors()) {
             Client client = clientService.find(clientId);
+            model.addAttribute("mode", Mode.EDIT);
             model.addAttribute("client", client);
-            return "edit_estimate";
+            return "estimate_form";
         }
         documentService.save(estimate);
         return "redirect:/clients/" + clientId + "/estimates/" + documentId + "?editSuccess";
