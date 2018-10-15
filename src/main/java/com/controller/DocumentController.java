@@ -5,6 +5,7 @@ import com.beans.Document;
 import com.beans.DocumentLine;
 import com.beans.Estimate;
 import com.beans.Invoice;
+import com.beans.Mode;
 import com.beans.Project;
 import com.service.ClientService;
 import com.service.DocumentService;
@@ -60,11 +61,10 @@ public class DocumentController {
         Client client = clientService.find(clientId);
         Estimate document = (Estimate) documentService.find(documentId);
         DocumentLine documentLine = new DocumentLine();
-        String mode = "NEW";
-        model.addAttribute("mode", mode);
         model.addAttribute("client", client);
         model.addAttribute("document", document);
         model.addAttribute("documentLine", documentLine);
+        model.addAttribute("mode", Mode.NEW);
 
         return "estimate_detail";
     }

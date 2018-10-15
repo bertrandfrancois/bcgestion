@@ -3,6 +3,7 @@ package com.controller;
 import com.beans.Client;
 import com.beans.Document;
 import com.beans.DocumentLine;
+import com.beans.Mode;
 import com.service.ClientService;
 import com.service.DocumentLineService;
 import com.service.DocumentService;
@@ -54,6 +55,7 @@ public class DocumentLineController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("document", document);
             model.addAttribute("client", client);
+            model.addAttribute("mode", Mode.NEW);
             return "estimate_detail";
         }
 
@@ -70,11 +72,10 @@ public class DocumentLineController {
         Document document = documentService.find(documentId);
         Client client = clientService.find(clientId);
         DocumentLine documentLine = document.getDocumentLines().stream().filter(dl -> dl.getId().equals(documentLineId)).findFirst().get();
-        String mode = "EDIT";
             model.addAttribute("document", document);
             model.addAttribute("client", client);
             model.addAttribute("documentLine", documentLine);
-            model.addAttribute("mode", mode);
+            model.addAttribute("mode", Mode.EDIT);
             return "estimate_detail";
     }
 
@@ -90,6 +91,7 @@ public class DocumentLineController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("document", document);
             model.addAttribute("client", client);
+            model.addAttribute("mode", Mode.EDIT);
             return "estimate_detail";
         }
         documentLineService.save(documentLine);

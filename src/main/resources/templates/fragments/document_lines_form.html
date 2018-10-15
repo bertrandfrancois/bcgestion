@@ -11,7 +11,7 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <form th:action="${documentLine.id == null} ?
+                <form th:action="${mode == 'NEW'} ?
                                  @{'/clients/' + ${client.id} + '/estimates/' + ${document.id} + '/addLine'} :
                                  @{'/clients/' + ${client.id} + '/estimates/' + ${document.id} + '/editLine/' + ${documentLine.id}}"
                       name="createDocumentLine"
