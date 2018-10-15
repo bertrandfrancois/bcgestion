@@ -1,5 +1,6 @@
 package com.beans;
 
+import com.beans.validation.TaxNumber;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -55,6 +56,7 @@ public class Client {
     private String mail;
 
     @Size(max = 30)
+    @TaxNumber
     @Column(name = "TAX_NUMBER")
     private String taxNumber;
 
