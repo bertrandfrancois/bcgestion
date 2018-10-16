@@ -25,7 +25,7 @@
 
         <div class="alert alert-success alert-dismissable" th:if="${param.editSuccess}">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <i class="fa fa-chec<k" aria-hidden="true"></i>&nbsp;<span th:text="#{info.estimate.edit.success}"></span>
+            <i class="fa fa-check" aria-hidden="true"></i>&nbsp;<span th:text="#{info.estimate.edit.success}"></span>
         </div>
         <div class="alert alert-success alert-dismissable" th:if="${param.createSuccess}">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -33,9 +33,9 @@
         </div>
         <div class="row">
             <div class="col-lg-6">
-                <div class="card mb-3">
+                <div class="card mb-3 ">
                     <div class="card-header">
-                        <i class="fa fa-user">&nbsp;</i><span th:text="#{menu.estimate.detail}"></span>
+                        <i class="fa fa-eur">&nbsp;</i><span th:text="#{menu.estimate.detail}"></span>
                         <a data-toggle="modal" data-target="#deleteEstimate"
                            class="btn btn-danger btn-sm float-right" style="margin-left:5px;">
                             <i class="fa fa-trash text-white" aria-hidden="true"></i>
@@ -89,9 +89,9 @@
         <div class="row">
 
             <div class="col-lg-12">
-                <div class="card mb-3">
+                <div class="card mb-3 ">
                     <div class="card-header">
-                        <i class="fa fa-user">&nbsp;</i><span th:text="#{menu.estimate.detail}"></span>
+                        <i class="fa fa-list-ul">&nbsp;</i><span th:text="#{menu.estimate.detail}"></span>
                         <!--<a th:href="@{'./' + ${project.id} + '/edit'}" class="btn btn-primary btn-sm float-right">-->
                         <!--<i class="fa fa-edit" aria-hidden="true"></i>-->
                         <!--</a>&nbsp;-->
