@@ -1,6 +1,6 @@
 package com.repository;
 
-import com.beans.Document;
+import com.model.Document;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

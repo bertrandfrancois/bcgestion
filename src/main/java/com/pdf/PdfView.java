@@ -1,9 +1,8 @@
 package com.pdf;
 
-import com.beans.Client;
-import com.beans.DocumentLine;
-import com.beans.Estimate;
-import com.beans.Invoice;
+import com.model.Client;
+import com.model.DocumentLine;
+import com.model.Estimate;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
@@ -16,7 +15,6 @@ import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;

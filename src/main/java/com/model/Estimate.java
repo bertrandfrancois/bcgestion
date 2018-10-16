@@ -1,4 +1,4 @@
-package com.beans;
+package com.model;
 
 import lombok.Data;
 

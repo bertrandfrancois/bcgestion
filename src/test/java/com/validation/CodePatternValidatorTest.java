@@ -1,4 +1,4 @@
-package com.beans.validation;
+package com.validation;
 
 import com.config.MockitoTest;
 import org.junit.Test;

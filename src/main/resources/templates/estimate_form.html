@@ -29,12 +29,12 @@
             <div class="card-header">
                 <i th:if="${mode == 'NEW'}" class="fa fa-plus">&nbsp;</i>
                 <i th:if="${mode == 'EDIT'}" class="fa fa-edit">&nbsp;</i>
-                <span th:if="${mode == 'NEW'}"  th:text="#{menu.estimate.new}"></span>
-                <span th:if="${mode == 'EDIT'}"  th:text="#{menu.estimate.edit}"></span>
+                <span th:if="${mode == 'NEW'}" th:text="#{menu.estimate.new}"></span>
+                <span th:if="${mode == 'EDIT'}" th:text="#{menu.estimate.edit}"></span>
             </div>
 
-        <div class="card-body">
-            <form th:action="${mode == 'NEW'} ?
+            <div class="card-body">
+                <form th:action="${mode == 'NEW'} ?
                                  @{'/clients/' + ${client.id} + '/estimates/create'} :
                                  @{'/clients/' + ${client.id}+ '/estimates/' + ${estimate.id} + '/edit'}"
                       th:name="createDocument"
@@ -76,13 +76,25 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <a th:href="@{'/clients/' + ${client.id} + '/estimates/' + ${estimate.id}}" class="btn btn-danger btn-block"><span
-                                    th:text="#{button.cancel}"></span></a>
+                            <a th:if="${mode == 'NEW'}" th:href="@{'/clients/' + ${client.id}}" class="btn btn-danger btn-block">
+                                <span th:text="#{button.cancel}"></span>
+                            </a>
+                            <a th:if="${mode == 'EDIT'}"
+                               th:href="@{'/clients/' + ${client.id} + '/estimates/' + ${estimate.id}}"
+                               class="btn btn-danger btn-block">
+                                <span th:text="#{button.cancel}"></span>
+                            </a>
                         </div>
                         <div class="col-lg-6">
 
-                            <button th:if="${mode == 'NEW'}" type="submit" class="btn btn-primary btn-block" th:text="#{button.validate}"></button>
-                            <button th:if="${mode == 'EDIT'}" type="submit" class="btn btn-warning btn-block" th:text="#{button.update}"></button>
+                            <button th:if="${mode == 'NEW'}"
+                                    type="submit"
+                                    class="btn btn-primary btn-block"
+                                    th:text="#{button.validate}"></button>
+                            <button th:if="${mode == 'EDIT'}"
+                                    type="submit"
+                                    class="btn btn-warning btn-block"
+                                    th:text="#{button.update}"></button>
                         </div>
                     </div>
                 </form>

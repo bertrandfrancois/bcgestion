@@ -1,6 +1,6 @@
 package com.service;
 
-import com.beans.Client;
+import com.model.Client;
 import com.google.common.collect.Lists;
 import com.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;

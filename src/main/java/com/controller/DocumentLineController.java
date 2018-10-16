@@ -1,9 +1,9 @@
 package com.controller;
 
-import com.beans.Client;
-import com.beans.Document;
-import com.beans.DocumentLine;
-import com.beans.Mode;
+import com.model.Client;
+import com.model.Document;
+import com.model.DocumentLine;
+import com.model.Mode;
 import com.service.ClientService;
 import com.service.DocumentLineService;
 import com.service.DocumentService;

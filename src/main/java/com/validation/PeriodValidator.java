@@ -1,6 +1,6 @@
-package com.beans.validation;
+package com.validation;
 
-import com.beans.Period;
+import com.model.Period;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

@@ -1,6 +1,6 @@
 package com.repository;
 
-import com.beans.Client;
+import com.model.Client;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

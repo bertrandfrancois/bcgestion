@@ -1,9 +1,9 @@
 package com.testbuilder;
 
-import com.beans.Address;
-import com.beans.Client;
-import com.beans.Document;
-import com.beans.Project;
+import com.model.Address;
+import com.model.Client;
+import com.model.Document;
+import com.model.Project;
 import org.assertj.core.util.Lists;
 
 import java.util.List;

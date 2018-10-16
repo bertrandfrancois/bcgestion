@@ -1,8 +1,8 @@
-package com.beans;
+package com.model;
 
-import com.beans.validation.ClassCheck;
-import com.beans.validation.UniqueCode;
-import com.beans.validation.ValidCode;
+import com.validation.ClassCheck;
+import com.validation.UniqueCode;
+import com.validation.ValidCode;
 import com.enums.TaxRate;
 import lombok.AllArgsConstructor;
 import lombok.Data;

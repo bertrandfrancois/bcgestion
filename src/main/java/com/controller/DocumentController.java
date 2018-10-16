@@ -1,12 +1,12 @@
 package com.controller;
 
-import com.beans.Client;
-import com.beans.Document;
-import com.beans.DocumentLine;
-import com.beans.Estimate;
-import com.beans.Invoice;
-import com.beans.Mode;
-import com.beans.Project;
+import com.model.Client;
+import com.model.Document;
+import com.model.DocumentLine;
+import com.model.Estimate;
+import com.model.Invoice;
+import com.model.Mode;
+import com.model.Project;
 import com.service.ClientService;
 import com.service.DocumentService;
 import com.service.ProjectService;

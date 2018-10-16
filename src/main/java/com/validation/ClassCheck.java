@@ -1,4 +1,4 @@
-package com.beans.validation;
+package com.validation;
 
 public interface ClassCheck {
 

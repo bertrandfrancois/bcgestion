@@ -1,18 +1,13 @@
 package com.service;
 
-import com.beans.Project;
+import com.model.Project;
 import com.config.MockitoTest;
 import com.repository.ProjectRepository;
 import com.testbuilder.ProjectTestBuilder;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 

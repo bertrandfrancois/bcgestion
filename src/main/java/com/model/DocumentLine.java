@@ -1,4 +1,4 @@
-package com.beans;
+package com.model;
 
 import com.enums.Unit;
 import lombok.AllArgsConstructor;

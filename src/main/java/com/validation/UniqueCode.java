@@ -1,4 +1,4 @@
-package com.beans.validation;
+package com.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -7,10 +7,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = PeriodValidator.class)
+@Constraint(validatedBy = UniqueCodeValidator.class)
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidPeriod {
+public @interface UniqueCode {
 
     String message() default "";
 

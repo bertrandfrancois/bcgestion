@@ -1,7 +1,6 @@
 package com.controller;
 
-import com.beans.Estimate;
-import com.beans.Invoice;
+import com.model.Estimate;
 import com.google.common.collect.Maps;
 import com.pdf.PdfView;
 import com.service.DocumentService;

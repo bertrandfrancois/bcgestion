@@ -1,4 +1,4 @@
-package com.beans;
+package com.model;
 
  import com.google.common.collect.Lists;
  import lombok.AllArgsConstructor;
@@ -6,8 +6,7 @@ package com.beans;
  import lombok.NoArgsConstructor;
 
  import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Embedded;
+ import javax.persistence.Embedded;
 import javax.persistence.Entity;
  import javax.persistence.GeneratedValue;
  import javax.persistence.Id;

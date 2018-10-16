@@ -1,6 +1,6 @@
-package com.beans.validation;
+package com.validation;
 
-import com.beans.Period;
+import com.model.Period;
 import com.config.MockitoTest;
 import org.junit.Test;
 import org.mockito.InjectMocks;

@@ -1,6 +1,6 @@
 package com.service;
 
-import com.beans.DocumentLine;
+import com.model.DocumentLine;
 import com.repository.DocumentLineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

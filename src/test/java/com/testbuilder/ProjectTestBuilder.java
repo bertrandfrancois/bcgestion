@@ -1,12 +1,11 @@
 package com.testbuilder;
 
-import com.beans.Address;
-import com.beans.Client;
-import com.beans.Period;
-import com.beans.Project;
+import com.model.Address;
+import com.model.Client;
+import com.model.Period;
+import com.model.Project;
 import com.google.common.collect.Lists;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 

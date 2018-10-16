@@ -1,6 +1,6 @@
-package com.beans.validation;
+package com.validation;
 
-import com.beans.Document;
+import com.model.Document;
 import com.config.MockitoTest;
 import com.repository.DocumentRepository;
 import org.assertj.core.api.Assertions;

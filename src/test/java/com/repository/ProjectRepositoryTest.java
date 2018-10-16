@@ -1,7 +1,7 @@
 package com.repository;
 
-import com.beans.Client;
-import com.beans.Project;
+import com.model.Client;
+import com.model.Project;
 import com.testbuilder.ClientTestBuilder;
 import com.testbuilder.ProjectTestBuilder;
 import org.junit.Before;

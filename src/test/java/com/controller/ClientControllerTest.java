@@ -1,6 +1,6 @@
 package com.controller;
 
-import com.beans.Client;
+import com.model.Client;
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlButton;

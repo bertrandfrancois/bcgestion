@@ -1,7 +1,6 @@
 package com.repository;
 
-import com.beans.Client;
-import com.beans.Project;
+import com.model.Project;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

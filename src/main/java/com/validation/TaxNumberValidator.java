@@ -1,4 +1,4 @@
-package com.beans.validation;
+package com.validation;
 
 import org.apache.commons.lang3.math.NumberUtils;
 

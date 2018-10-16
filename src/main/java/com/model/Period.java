@@ -1,7 +1,7 @@
-package com.beans;
+package com.model;
 
-import com.beans.validation.ClassCheck;
-import com.beans.validation.ValidPeriod;
+import com.validation.ClassCheck;
+import com.validation.ValidPeriod;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

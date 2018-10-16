@@ -1,10 +1,8 @@
 package com.controller;
 
-import com.beans.Estimate;
-import com.beans.Invoice;
+import com.model.Invoice;
 import com.google.common.collect.Maps;
 import com.pdf.InvoicePdfView;
-import com.pdf.PdfView;
 import com.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

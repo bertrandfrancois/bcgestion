@@ -1,9 +1,8 @@
 package com.pdf;
 
-import com.beans.Client;
-import com.beans.DocumentLine;
-import com.beans.Estimate;
-import com.beans.Invoice;
+import com.model.Client;
+import com.model.DocumentLine;
+import com.model.Invoice;
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;

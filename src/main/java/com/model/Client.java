@@ -1,6 +1,6 @@
-package com.beans;
+package com.model;
 
-import com.beans.validation.TaxNumber;
+import com.validation.TaxNumber;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
