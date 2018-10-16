@@ -1,5 +1,7 @@
 package com.beans.validation;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -15,12 +17,11 @@ public class TaxNumberValidator implements ConstraintValidator<TaxNumber, String
     @Override
     public boolean isValid(String taxNumber, ConstraintValidatorContext context) {
         return taxNumber.isEmpty() ||
-               taxNumber.length() == 10 && hasValidCheckNumber(taxNumber);
+               (NumberUtils.isDigits(taxNumber)
+                && taxNumber.length() == 10 && hasValidCheckNumber(taxNumber));
     }
 
     private boolean hasValidCheckNumber(String taxNumber) {
-        //        0600834826
-
         String base = taxNumber.substring(0, 8);
         String checkNumber = taxNumber.substring(8);
         int modulo = valueOf(base) % 97;

@@ -1,5 +1,7 @@
 package com.beans.validation;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -12,6 +14,7 @@ public class CodePatternValidator implements ConstraintValidator<ValidCode, Stri
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return value.matches("^([0-9]{7})$");
+        return value.length() == 7
+               && NumberUtils.isDigits(value);
     }
 }

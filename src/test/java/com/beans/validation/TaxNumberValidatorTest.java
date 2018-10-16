@@ -7,6 +7,8 @@ import org.mockito.Mock;
 
 import javax.validation.ConstraintValidatorContext;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class TaxNumberValidatorTest extends MockitoTest {
 
     @InjectMocks
@@ -24,7 +26,6 @@ public class TaxNumberValidatorTest extends MockitoTest {
     public void isValid_ValidTaxNumber_ReturnsTrue() {
         assertThat(taxNumberValidator.isValid("0600834826", context)).isTrue();
     }
-
 
     @Test
     public void isValid_DoesNotCoontainsOnlyDigits_ReturnsFalse() {
