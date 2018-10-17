@@ -1,6 +1,7 @@
 package com.controller;
 
 import com.model.Client;
+import com.model.Mode;
 import com.model.Project;
 import com.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +35,15 @@ public class ClientController {
     @GetMapping("/clients/create")
     public String createClient(Model model) {
         model.addAttribute("client", new Client());
-        return "new_client";
+        model.addAttribute("mode", Mode.NEW);
+        return "client_form";
     }
 
     @PostMapping("/clients/create")
     public String createClient(@Valid @ModelAttribute Client client, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "new_client";
+            model.addAttribute("mode", Mode.NEW);
+            return "client_form";
         }
         Client newClient = clientService.save(client);
 
@@ -60,13 +63,15 @@ public class ClientController {
     public String editClient(@PathVariable long id, Model model) {
         Client client = clientService.find(id);
         model.addAttribute("client", client);
-        return "edit_client";
+        model.addAttribute("mode", Mode.EDIT);
+        return "client_form";
     }
 
     @PostMapping("/clients/{id}/edit")
     public String editClient(@PathVariable long id, @Valid @ModelAttribute Client client, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "edit_client";
+            model.addAttribute("mode", Mode.EDIT);
+            return "client_form";
         }
         clientService.save(client);
         return "redirect:/clients/" + id + "?editSuccess";

@@ -3,7 +3,6 @@
 
 <head th:replace="fragments/head :: head_default"></head>
 
-
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 <!-- Navigation-->
 <nav th:replace="fragments/nav :: nav"></nav>
@@ -16,15 +15,30 @@
             <li class="breadcrumb-item">
                 <a th:href="@{/clients}" th:text="#{menu.clients}"></a>
             </li>
+            <li th:if="${mode == 'EDIT'}" class="breadcrumb-item">
+                <a th:href="@{'/clients/' + ${client.id}}" th:text="#{menu.client.detail}"></a>
+            </li>
 
-            <li class="breadcrumb-item active"><span th:text="#{menu.new.client}"></span></li>
+            <li th:if="${mode == 'EDIT'}" class="breadcrumb-item active"><span th:text="#{menu.edit.client}"></span></li>
+            <li th:if="${mode == 'NEW'}" class="breadcrumb-item active"><span th:text="#{menu.new.client}"></span></li>
         </ol>
 
         <div class="card">
-            <div class="card-header"><i class="fa fa-user-plus">&nbsp;</i><span
-                    th:text="#{menu.new.client}"></span></div>
+            <div class="card-header">
+                <i th:if="${mode == 'NEW'}" class="fa fa-plus">&nbsp;</i>
+                <i th:if="${mode == 'EDIT'}" class="fa fa-edit">&nbsp;</i>
+                <span th:if="${mode == 'NEW'}" th:text="#{menu.new.client}"></span>
+                <span th:if="${mode == 'EDIT'}" th:text="#{menu.edit.client}"></span>
+            </div>
             <div class="card-body">
-                <form th:action="@{/clients/create}" name="createClient" th:object="${client}" method="post">
+
+                <form th:action="${mode == 'NEW'} ?
+                                 @{'/clients/create'} :
+                                 @{'/clients/' + ${client.id} + '/edit'}"
+                      th:name="createClient"
+                      th:object="${client}"
+                      th:method="post">
+                    <input class="form-control" id="id" type="hidden" th:field="*{id}"/>
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
@@ -32,8 +46,6 @@
                                 <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
                                       class="text-danger"></span>
                                 <input class="form-control" id="lastName" type="text" th:field="*{lastName}"/>
-                                <!--<input class="form-control" id="lastName" type="text"-->
-                                <!--th:placeholder="#{client.lastName}" th:field="*{lastName}"/>-->
                             </div>
                             <div class="form-group">
                                 <label for="firstName" th:text="#{client.firstName}" class="text-primary"></label>
@@ -85,13 +97,22 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <a th:href="@{/clients}" class="btn btn-danger btn-block"><span
-                                    th:text="#{button.cancel}"></span></a>
+
+                            <a th:href="${mode == 'NEW'} ?
+                            @{'/clients'} :
+                            @{'/clients/' + ${client.id}}" class="btn btn-danger btn-block">
+                                <span th:text="#{button.cancel}"></span>
+                            </a>
                         </div>
                         <div class="col-lg-6">
-
-                            <button type="submit" class="btn btn-primary btn-block"
+                            <button th:if="${mode == 'NEW'}"
+                                    type="submit"
+                                    class="btn btn-primary btn-block"
                                     th:text="#{button.validate}"></button>
+                            <button th:if="${mode == 'EDIT'}"
+                                    type="submit"
+                                    class="btn btn-warning btn-block"
+                                    th:text="#{button.update}"></button>
                         </div>
                     </div>
                 </form>

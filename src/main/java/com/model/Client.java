@@ -49,7 +49,6 @@ public class Client {
     @Column(name = "PHONE_NUMBER")
     private String phoneNumber;
 
-    @NotEmpty
     @Email
     @Size(max = 30)
     @Column(name = "MAIL")

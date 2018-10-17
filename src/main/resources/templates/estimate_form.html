@@ -18,7 +18,7 @@
             <li class="breadcrumb-item">
                 <a th:href="@{'/clients/' + ${client.id}}" th:text="#{menu.client.detail}"></a>
             </li>
-            <li class="breadcrumb-item">
+            <li th:if="${mode == 'EDIT'}" class="breadcrumb-item">
                 <a th:href="@{'/clients/' + ${client.id}+ 'estimates/' + ${estimate.id}}" th:text="#{menu.estimate.detail}"></a>
             </li>
             <li th:if="${mode == 'NEW'}" class="breadcrumb-item active"><span th:text="#{menu.estimate.new}"></span></li>
