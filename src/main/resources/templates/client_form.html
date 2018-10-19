@@ -42,7 +42,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="lastName" th:text="#{client.lastName}" class="text-primary"></label>
+                                <label for="lastName" th:text="#{client.lastName}" class="text-primary required"></label>
                                 <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
                                       class="text-danger"></span>
                                 <input class="form-control" id="lastName" type="text" th:field="*{lastName}"/>
@@ -54,13 +54,13 @@
                                 <input class="form-control" id="firstName" type="text" th:field="*{firstName}"/>
                             </div>
                             <div class="form-group">
-                                <label for="street" th:text="#{address.street}" class="text-primary"></label>
+                                <label for="street" th:text="#{address.street}" class="text-primary required"></label>
                                 <span th:if="${#fields.hasErrors('address.street')}" th:errors="*{address.street}"
                                       class="text-danger"></span>
                                 <input class="form-control" id="street" type="text" th:field="*{address.street}"/>
                             </div>
                             <div class="form-group">
-                                <label for="postCode" th:text="#{address.postCode}" class="text-primary"></label>
+                                <label for="postCode" th:text="#{address.postCode}" class="text-primary required"></label>
                                 <span th:if="${#fields.hasErrors('address.postCode')}" th:errors="*{address.postCode}"
                                       class="text-danger"></span>
                                 <input class="form-control" id="postCode" type="text" th:field="*{address.postCode}"/>
@@ -68,7 +68,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="city" th:text="#{address.city}" class="text-primary"></label>
+                                <label for="city" th:text="#{address.city}" class="text-primary required"></label>
                                 <span th:if="${#fields.hasErrors('address.city')}" th:errors="*{address.city}"
                                       class="text-danger"></span>
                                 <input class="form-control" id="city" type="text" th:field="*{address.city}"/>
@@ -80,7 +80,7 @@
                                 <input class="form-control" id="mail" type="text" th:field="*{mail}"/>
                             </div>
                             <div class="form-group">
-                                <label for="phoneNumber" th:text="#{client.phoneNumber}" class="text-primary"></label>
+                                <label for="phoneNumber" th:text="#{client.phoneNumber}" class="text-primary required"></label>
                                 <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"
                                       class="text-danger"></span>
                                 <input class="form-control" id="phoneNumber" type="text" th:field="*{phoneNumber}"/>

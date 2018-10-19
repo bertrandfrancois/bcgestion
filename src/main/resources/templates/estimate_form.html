@@ -46,13 +46,13 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="code" th:text="#{document.code}" class="text-primary"></label>
+                                <label for="code" th:text="#{document.code}" class="text-primary required"></label>
                                 <span th:if="${#fields.hasErrors('global')}" th:errors="*{global}" class="text-danger"></span>
                                 <span th:if="${#fields.hasErrors('code')}" th:errors="*{code}" class="text-danger"></span>
                                 <input class="form-control" id="code" type="text" th:field="*{code}"/>
                             </div>
                             <div class="form-group">
-                                <label for="taxRate" th:text="#{document.taxRate}" class="text-primary"></label>
+                                <label for="taxRate" th:text="#{document.taxRate}" class="text-primary required"></label>
                                 <span th:if="${#fields.hasErrors('taxRate')}" th:errors="*{taxRate}"
                                       class="text-danger"></span>
                                 <!--<input class="form-control" id="taxRate" type="text" th:field="*{taxRate}"/>-->
@@ -65,7 +65,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="creationDate" th:text="#{document.creationDate}"
-                                       class="text-primary"></label>
+                                       class="text-primary required"></label>
                                 <span th:if="${#fields.hasErrors('creationDate')}" th:errors="*{creationDate}"
                                       class="text-danger"></span>
                                 <input class="form-control" id="creationDate" type="date" th:field="*{creationDate}"/>
