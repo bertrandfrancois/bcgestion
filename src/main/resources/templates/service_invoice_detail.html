@@ -20,22 +20,22 @@
             <li class="breadcrumb-item">
                 <a th:href="@{'/clients/' + ${client.id}}" th:text="#{menu.client.detail}"></a>
             </li>
-            <li class="breadcrumb-item active"><span th:text="#{menu.estimate.detail}"></span></li>
+            <li class="breadcrumb-item active"><span th:text="#{menu.invoice.detail}"></span></li>
         </ol>
 
         <div class="alert alert-success alert-dismissable" th:if="${param.editSuccess}">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <i class="fa fa-check" aria-hidden="true"></i>&nbsp;<span th:text="#{info.estimate.edit.success}"></span>
+            <i class="fa fa-check" aria-hidden="true"></i>&nbsp;<span th:text="#{info.invoice.edit.success}"></span>
         </div>
         <div class="alert alert-success alert-dismissable" th:if="${param.createSuccess}">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <i class="fa fa-check" aria-hidden="true"></i>&nbsp;<span th:text="#{info.estimate.create.success}"></span>
+            <i class="fa fa-check" aria-hidden="true"></i>&nbsp;<span th:text="#{info.invoice.create.success}"></span>
         </div>
         <div class="row">
             <div class="col-lg-6">
                 <div class="card mb-3 ">
                     <div class="card-header">
-                        <i class="fa fa-eur">&nbsp;</i><span th:text="#{menu.estimate.detail}"></span>
+                        <i class="fa fa-eur">&nbsp;</i><span th:text="#{menu.invoice.detail}"></span>
                         <a data-toggle="modal" data-target="#deleteEstimate"
                            class="btn btn-danger btn-sm float-right" style="margin-left:5px;">
                             <i class="fa fa-trash text-white" aria-hidden="true"></i>
@@ -46,7 +46,7 @@
                            target="_blank">
                             <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                         </a>
-                        <a th:href="@{'/clients/' + ${client.id} + '/estimates/' +${document.id}+ '/edit'}"
+                        <a th:href="@{'/clients/' + ${client.id} + '/services/' +${document.id}+ '/edit'}"
                            class="btn btn-primary btn-sm float-right">
                             <i class="fa fa-edit" aria-hidden="true"></i>
                         </a>&nbsp;
@@ -54,7 +54,7 @@
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-condensed table-hover table-striped" id="estimateDetail">
+                            <table class="table table-condensed table-hover table-striped" id="serviceDetail">
                                 <tr>
                                     <th th:text="#{document.code}"></th>
                                     <td th:text="${document.code}"></td>
@@ -92,7 +92,7 @@
             <div class="col-lg-12">
                 <div class="card mb-3 ">
                     <div class="card-header">
-                        <i class="fa fa-list-ul">&nbsp;</i><span th:text="#{menu.estimate.lines}"></span>
+                        <i class="fa fa-list-ul">&nbsp;</i><span th:text="#{menu.invoice.lines}"></span>
                         <!--<a th:href="@{'./' + ${project.id} + '/edit'}" class="btn btn-primary btn-sm float-right">-->
                         <!--<i class="fa fa-edit" aria-hidden="true"></i>-->
                         <!--</a>&nbsp;-->
@@ -120,11 +120,11 @@
                                     <td th:text="${{documentLine.formattedPrice}}"></td>
                                     <td th:text="${{documentLine.total}}"></td>
                                     <td>
-                                        <a th:href="@{'/clients/' + ${client.id} + '/estimates/' +${document.id}+ '/editLine/' + ${documentLine.id}}"
+                                        <a th:href="@{'/clients/' + ${client.id} + '/services/' +${document.id}+ '/editLine/' + ${documentLine.id}}"
                                            class="btn btn-primary btn-sm">
                                             <i class="fa fa-edit" aria-hidden="true"></i>
                                         </a>&nbsp;
-                                        <a th:href="@{'/clients/' + ${client.id} + '/estimates/' + ${documentId} + '/deleteLine/' + ${documentLine.id}}"
+                                        <a th:href="@{'/clients/' + ${client.id} + '/services/' + ${documentId} + '/deleteLine/' + ${documentLine.id}}"
                                            class="btn btn-danger btn-sm">
                                             <i class="fa fa-trash text-white" aria-hidden="true"></i>
                                         </a>

@@ -73,6 +73,14 @@ public class Client {
                 .collect(Collectors.toList());
     }
 
+    public List<ServiceInvoice> getServices(){
+        return documents
+                .stream()
+                .filter(ServiceInvoice.class::isInstance)
+                .map(ServiceInvoice.class::cast)
+                .collect(Collectors.toList());
+    }
+
     public List<Project> getProjects() {
         return projects;
     }

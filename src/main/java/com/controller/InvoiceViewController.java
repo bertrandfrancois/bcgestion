@@ -1,6 +1,6 @@
 package com.controller;
 
-import com.model.Invoice;
+import com.model.ProjectInvoice;
 import com.google.common.collect.Maps;
 import com.pdf.InvoicePdfView;
 import com.service.DocumentService;
@@ -24,7 +24,7 @@ public class InvoiceViewController {
 
     @GetMapping("/docin/{documentId}")
     public ModelAndView document(@PathVariable("documentId") long id, ModelAndView model) {
-        Invoice document = (Invoice) documentService.find(id);
+        ProjectInvoice document = (ProjectInvoice) documentService.find(id);
         HashMap<String, Object> parameters = Maps.newHashMap();
         parameters.put("document", document);
 

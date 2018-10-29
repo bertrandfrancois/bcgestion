@@ -29,7 +29,7 @@ public class Project {
     private Long id;
 
     @OneToMany(mappedBy = "project")
-    private List<Document> documents = Lists.newArrayList();
+    private List<ProjectInvoice> documents = Lists.newArrayList();
 
     @NotEmpty
     @Column(name = "DESCRIPTION")

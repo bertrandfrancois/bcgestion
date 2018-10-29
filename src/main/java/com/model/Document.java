@@ -62,10 +62,6 @@ public abstract class Document {
     @JoinColumn(name = "CLIENT_ID")
     private Client client;
 
-    @ManyToOne
-    @JoinColumn(name = "PROJECT_ID")
-    private Project project;
-
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "DOCUMENT_ID")
     protected List<DocumentLine> documentLines;
