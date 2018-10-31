@@ -73,7 +73,7 @@ public class ProjectController {
         }
         project.setClient(client);
         Project savedProject = projectService.save(project);
-        return "redirect:/clients/" + clientId + "/projects/" + savedProject.getId();
+        return "redirect:/clients/" + clientId + "/projects/" + savedProject.getId() + "?createSuccess";
     }
 
     @GetMapping("/{projectId}/edit")
@@ -102,7 +102,7 @@ public class ProjectController {
             return "project_form";
         }
         projectService.save(project);
-        return "redirect:/clients/" + clientId + "/projects/" + project.getId();
+        return "redirect:/clients/" + clientId + "/projects/" + project.getId()+ "?editSuccess";
     }
 
     @PostMapping("/{projectId}/delete")

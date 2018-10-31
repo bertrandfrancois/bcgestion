@@ -85,4 +85,46 @@
         </form>
     </div>
 </div>
+<div class="modal fade" id="deleteService" tabindex="-1" role="dialog" aria-labelledby="deleteEstimateLabel"
+     aria-hidden="true" th:fragment="deleteService">
+    <div class="modal-dialog" role="document">
+        <form th:action="@{'/clients/'+ ${client.id} + '/services/' + ${document.id} + '/delete'}" name="deleteService" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteServiceLabel"><span th:text="#{menu.invoice.delete}"></span></h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body"><span th:text="#{message.service.delete}"></span>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal" th:text="#{button.cancel}"></button>
+                    <button type="submit" class="btn btn-danger" th:text="#{button.delete}"></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="deleteProjectInvoice" tabindex="-1" role="dialog" aria-labelledby="deleteProjectInvoiceLabel"
+     aria-hidden="true" th:fragment="deleteProjectInvoice">
+    <div class="modal-dialog" role="document">
+        <form th:action="@{'/clients/'+ ${client.id} + '/projects/' + ${project.id}+ '/documents/' + ${document.id} + '/delete'}" name="deleteEstimate" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteProjectInvoiceLabel"><span th:text="#{menu.invoice.delete}"></span></h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body"><span th:text="#{message.invoice.delete}"></span>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal" th:text="#{button.cancel}"></button>
+                    <button type="submit" class="btn btn-danger" th:text="#{button.delete}"></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 </html>

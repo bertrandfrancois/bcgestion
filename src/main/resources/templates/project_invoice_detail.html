@@ -20,6 +20,9 @@
             <li class="breadcrumb-item">
                 <a th:href="@{'/clients/' + ${client.id}}" th:text="#{menu.client.detail}"></a>
             </li>
+            <li class="breadcrumb-item">
+                <a th:href="@{'/clients/' + ${client.id} + '/projects/' + ${project.id}}" th:text="#{menu.project.detail}"></a>
+            </li>
             <li class="breadcrumb-item active"><span th:text="#{menu.invoice.detail}"></span></li>
         </ol>
 
@@ -36,7 +39,7 @@
                 <div class="card mb-3 ">
                     <div class="card-header">
                         <i class="fa fa-eur">&nbsp;</i><span th:text="#{menu.invoice.detail}"></span>
-                        <a data-toggle="modal" data-target="#deleteService"
+                        <a data-toggle="modal" data-target="#deleteProjectInvoice"
                            class="btn btn-danger btn-sm float-right" style="margin-left:5px;">
                             <i class="fa fa-trash text-white" aria-hidden="true"></i>
                         </a>
@@ -46,7 +49,7 @@
                            target="_blank">
                             <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                         </a>
-                        <a th:href="@{'/clients/' + ${client.id} + '/services/' +${document.id}+ '/edit'}"
+                        <a th:href="@{'/clients/' + ${client.id} + '/projects/' + ${project.id} + '/documents/' +${document.id}+ '/edit'}"
                            class="btn btn-primary btn-sm float-right">
                             <i class="fa fa-edit" aria-hidden="true"></i>
                         </a>&nbsp;
@@ -124,11 +127,11 @@
                                     <td th:text="${{documentLine.formattedPrice}}"></td>
                                     <td th:text="${{documentLine.total}}"></td>
                                     <td>
-                                        <a th:href="@{'/clients/' + ${client.id} + '/services/' +${document.id}+ '/editLine/' + ${documentLine.id}}"
+                                        <a th:href="@{'/clients/' + ${client.id} + '/projects/' + ${project.id} + '/documents/' +  ${document.id}+ '/editLine/' + ${documentLine.id}}"
                                            class="btn btn-primary btn-sm">
                                             <i class="fa fa-edit" aria-hidden="true"></i>
                                         </a>&nbsp;
-                                        <a th:href="@{'/clients/' + ${client.id} + '/services/' + ${documentId} + '/deleteLine/' + ${documentLine.id}}"
+                                        <a th:href="@{'/clients/' + ${client.id} + '/projects/' + ${project.id} + '/documents/' +  ${documentId} + '/deleteLine/' + ${documentLine.id}}"
                                            class="btn btn-danger btn-sm">
                                             <i class="fa fa-trash text-white" aria-hidden="true"></i>
                                         </a>
@@ -156,7 +159,7 @@
     </a>
     <!-- Logout Modal-->
     <div th:replace="fragments/modals :: logout"></div>
-    <div th:replace="fragments/modals :: deleteService"></div>
+    <div th:replace="fragments/modals :: deleteProjectInvoice"></div>
 
     <!-- Bootstrap core JavaScript-->
     <th:block th:include="fragments/scripts :: scripts"/>

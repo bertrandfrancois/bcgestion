@@ -28,4 +28,12 @@ public class UrlFactory {
     public String editProject(long clientId, long projectId) {
         return "/clients/"+ clientId + "/projects/" + projectId +"/edit";
     }
+
+    public String newProjectInvoiceDocumentLine(long clientId, long projectId, long documentId) {
+        return "/clients/" + clientId + "/projects/" + projectId + "/documents/" + documentId + "/addLine";
+    }
+
+    public String editProjectInvoiceDocumentLine(long clientId, long projectId, long documentId, long documentLineId) {
+        return "/clients/" + clientId + "/projects/" + projectId + "/documents/" + documentId + "/editLine/" + documentLineId;
+    }
 }

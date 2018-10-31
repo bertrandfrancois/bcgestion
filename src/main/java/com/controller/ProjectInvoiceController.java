@@ -2,91 +2,230 @@ package com.controller;
 
 import com.factory.UrlFactory;
 import com.model.Client;
-import com.model.ProjectInvoice;
+import com.model.Document;
+import com.model.DocumentLine;
+import com.model.Mode;
 import com.model.Project;
+import com.model.ProjectInvoice;
 import com.service.ClientService;
+import com.service.DocumentLineService;
 import com.service.DocumentService;
 import com.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 
+@Controller
+@RequestMapping("/clients/{clientId}/projects/{projectId}/documents/")
 public class ProjectInvoiceController {
 
+    private ClientService clientService;
 
-    private final ClientService clientService;
+    private DocumentService documentService;
 
-    private final ProjectService projectService;
+    private ProjectService projectService;
 
-    private final DocumentService documentService;
+    private UrlFactory urlFactory;
 
-    private final UrlFactory urlFactory;
+    private DocumentLineService documentLineService;
 
     @Autowired
     public ProjectInvoiceController(ClientService clientService,
-                              ProjectService projectService,
-                              DocumentService documentService,
-                              UrlFactory urlFactory) {
+                                    DocumentService documentService,
+                                    UrlFactory urlFactory,
+                                    DocumentLineService documentLineService,
+                                    ProjectService projectService) {
         this.clientService = clientService;
-        this.projectService = projectService;
         this.documentService = documentService;
         this.urlFactory = urlFactory;
+        this.documentLineService = documentLineService;
+        this.projectService = projectService;
     }
 
-    @GetMapping("/projects/{projectId}/documents/{documentId}")
-    public String showProjectDocument(@PathVariable("clientId") long clientId,
-                                      @PathVariable("projectId") long projectId,
-                                      @PathVariable("documentId") long documentId,
-                                      Model model) {
-        Project project = projectService.find(projectId);
+    @GetMapping("/{documentId}")
+    public String showProjectInvoiceDocument(@PathVariable("clientId") long clientId,
+                                             @PathVariable("documentId") long documentId,
+                                             @PathVariable("projectId") long projectId,
+                                             Model model) {
         Client client = clientService.find(clientId);
+        Project project = projectService.find(projectId);
         ProjectInvoice document = (ProjectInvoice) documentService.find(documentId);
-        model.addAttribute("project", project);
+        DocumentLine documentLine = new DocumentLine();
         model.addAttribute("client", client);
         model.addAttribute("document", document);
-
-        return "document_detail";
-    }
-
-    @GetMapping("/projects/{projectId}/documents/create")
-    public String createProjectDocument(@PathVariable("clientId") long clientId,
-                                        @PathVariable("projectId") long projectId,
-                                        Model model) {
-        Project project = projectService.find(projectId);
-        Client client = clientService.find(clientId);
-        ProjectInvoice projectInvoice = new ProjectInvoice();
+        model.addAttribute("documentLine", documentLine);
         model.addAttribute("project", project);
-        model.addAttribute("client", client);
-        model.addAttribute("document", projectInvoice);
+        model.addAttribute("mode", Mode.NEW);
+        model.addAttribute("url", urlFactory.newProjectInvoiceDocumentLine(clientId, projectId, documentId));
 
-        return "create_document";
+        return "project_invoice_detail";
     }
 
-    @PostMapping("/projects/{projectId}/documents/create")
-    public String saveProjectDocument(@Valid @ModelAttribute ProjectInvoice document,
-                                      BindingResult bindingResult,
-                                      @PathVariable("clientId") long clientId,
-                                      @PathVariable("projectId") long projectId,
-                                      Model model) {
+    @GetMapping("/create")
+    public String createProjectInvoiceDocument(@PathVariable("clientId") long clientId,
+                                               @PathVariable("projectId") long projectId,
+                                               Model model) {
         Client client = clientService.find(clientId);
         Project project = projectService.find(projectId);
+        ProjectInvoice projectInvoice = new ProjectInvoice();
+        model.addAttribute("client", client);
+        model.addAttribute("project", project);
+        model.addAttribute("projectInvoice", projectInvoice);
+        model.addAttribute("mode", Mode.NEW);
+        return "project_invoice_form";
+    }
+
+    @PostMapping("/create")
+    public String saveProjectInvoiceDocument(@Valid @ModelAttribute ProjectInvoice document,
+                                             BindingResult bindingResult,
+                                             @PathVariable("clientId") long clientId,
+                                             @PathVariable("projectId") long projectId,
+                                             Model model) {
+        Client client = clientService.find(clientId);
+        Project project = projectService.find(projectId);
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("client", client);
             model.addAttribute("project", project);
-            return "create_document";
+            model.addAttribute("mode", Mode.NEW);
+            return "project_invoice_form";
         }
         document.setClient(client);
         document.setProject(project);
-        documentService.save(document);
-        return "redirect:/clients/" + clientId + "/projects/" + project.getId();
+        Document savedDocument = documentService.save(document);
+        return "redirect:/clients/" + clientId + "/projects/" + projectId + "/documents/" + savedDocument.getId() + "?createSuccess";
     }
 
+    @GetMapping("/{documentId}/edit")
+    public String editProjectInvoice(@PathVariable("clientId") long clientId,
+                                     @PathVariable("projectId") long projectId,
+                                     @PathVariable("documentId") long documentId,
+                                     Model model) {
+        Client client = clientService.find(clientId);
+        Project project = projectService.find(projectId);
+        ProjectInvoice serviceInvoice = (ProjectInvoice) documentService.find(documentId);
+        model.addAttribute("projectInvoice", serviceInvoice);
+        model.addAttribute("client", client);
+        model.addAttribute("project", project);
 
+        model.addAttribute("mode", Mode.EDIT);
+        return "project_invoice_form";
+    }
 
+    @PostMapping("/{documentId}/edit")
+    public String editProjectInvoice(@PathVariable("clientId") long clientId,
+                                     @PathVariable("projectId") long projectId,
+                                     @PathVariable("documentId") long documentId,
+                                     @Valid @ModelAttribute ProjectInvoice serviceInvoice,
+                                     BindingResult bindingResult,
+                                     Model model) {
+        if (bindingResult.hasErrors()) {
+
+            Project project = projectService.find(projectId);
+            Client client = clientService.find(clientId);
+            model.addAttribute("mode", Mode.EDIT);
+            model.addAttribute("client", client);
+            model.addAttribute("project", project);
+
+            return "project_invoice_form";
+        }
+        documentService.save(serviceInvoice);
+        return "redirect:/clients/" + clientId + "/projects/" + projectId + "/documents/" + documentId + "?editSuccess";
+    }
+
+    @PostMapping("/{documentId}/delete")
+    public String deleteProjectInvoiceDocument(@PathVariable("clientId") long clientId,
+                                               @PathVariable("projectId") long projectId,
+                                               @PathVariable("documentId") long documentId) {
+        documentService.delete(documentId);
+        return "redirect:/clients/" + clientId + "/projects/" + projectId;
+    }
+
+    @PostMapping("/{documentId}/addLine")
+    public String addProjectInvoiceDocumentLine(@Valid @ModelAttribute DocumentLine documentLine,
+                                                BindingResult bindingResult,
+                                                @PathVariable("clientId") long clientId,
+                                                @PathVariable("projectId") long projectId,
+                                                @PathVariable("documentId") long documentId,
+                                                Model model) {
+        Document document = documentService.find(documentId);
+        Client client = clientService.find(clientId);
+        Project project = projectService.find(projectId);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("document", document);
+            model.addAttribute("client", client);
+            model.addAttribute("project", project);
+
+            model.addAttribute("mode", Mode.NEW);
+            model.addAttribute("url", urlFactory.newProjectInvoiceDocumentLine(clientId, projectId, documentId));
+            return "project_invoice_detail";
+        }
+
+        document.addDocumentLine(documentLine);
+        documentService.save(document);
+        return "redirect:/clients/" + clientId + "/projects/" + projectId + "/documents/" + document.getId();
+    }
+
+    @GetMapping("/{documentId}/editLine/{documentLineId}")
+    public String editProjectInvoiceDocumentLine(@PathVariable("clientId") long clientId,
+                                                 @PathVariable("projectId") long projectId,
+                                                 @PathVariable("documentId") long documentId,
+                                                 @PathVariable("documentLineId") long documentLineId,
+                                                 Model model) {
+        Document document = documentService.find(documentId);
+        Client client = clientService.find(clientId);
+        Project project = projectService.find(projectId);
+
+        DocumentLine documentLine = document.getDocumentLines().stream().filter(dl -> dl.getId().equals(documentLineId)).findFirst().get();
+        model.addAttribute("document", document);
+        model.addAttribute("client", client);
+        model.addAttribute("project", project);
+        model.addAttribute("documentLine", documentLine);
+        model.addAttribute("mode", Mode.EDIT);
+        model.addAttribute("url", urlFactory.editProjectInvoiceDocumentLine(clientId, projectId, documentId, documentLineId));
+
+        return "project_invoice_detail";
+    }
+
+    @PostMapping("/{documentId}/editLine/{documentLineId}")
+    public String editProjectInvoiceDocumentLine(@Valid @ModelAttribute DocumentLine documentLine,
+                                                 BindingResult bindingResult,
+                                                 @PathVariable("clientId") long clientId,
+                                                 @PathVariable("projectId") long projectId,
+                                                 @PathVariable("documentId") long documentId,
+                                                 @PathVariable("documentLineId") long documentLineId,
+                                                 Model model) {
+        Document document = documentService.find(documentId);
+        Client client = clientService.find(clientId);
+        Project project = projectService.find(projectId);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("document", document);
+            model.addAttribute("client", client);
+            model.addAttribute("project", project);
+            model.addAttribute("mode", Mode.EDIT);
+            model.addAttribute("url", urlFactory.editProjectInvoiceDocumentLine(clientId, projectId, documentId, documentLineId));
+            return "project_invoice_detail";
+        }
+        documentLineService.save(documentLine);
+        return "redirect:/clients/" + clientId + "/projects/" + projectId + "/documents/" + document.getId();
+    }
+
+    @GetMapping("/{documentId}/deleteLine/{documentLineId}")
+    public String deleteDocumentLine(@PathVariable("clientId") long clientId,
+                                     @PathVariable("projectId") long projectId,
+                                     @PathVariable("documentId") long documentId,
+                                     @PathVariable("documentLineId") long documentLineId) {
+        documentLineService.delete(documentLineId);
+        return "redirect:/clients/" + clientId + "/projects/" + projectId + "/documents/" + documentId;
+    }
 }
