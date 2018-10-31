@@ -6,6 +6,7 @@ import com.pdf.InvoicePdfView;
 import com.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,16 +14,16 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.HashMap;
 
 @Controller
-public class InvoiceViewController {
+public class ServiceInvoiceViewController {
 
     private final DocumentService documentService;
 
     @Autowired
-    public InvoiceViewController(DocumentService documentService) {
+    public ServiceInvoiceViewController(DocumentService documentService) {
         this.documentService = documentService;
     }
 
-    @GetMapping("/docin/{documentId}")
+    @GetMapping("/display/serviceInvoice/{documentId}")
     public ModelAndView document(@PathVariable("documentId") long id, ModelAndView model) {
         ProjectInvoice document = (ProjectInvoice) documentService.find(id);
         HashMap<String, Object> parameters = Maps.newHashMap();

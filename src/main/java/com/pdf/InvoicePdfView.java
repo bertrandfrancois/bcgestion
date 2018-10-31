@@ -51,6 +51,7 @@ public class InvoicePdfView extends AbstractPdfView {
                                     Document document, PdfWriter writer, HttpServletRequest request,
                                     HttpServletResponse response) throws Exception {
 
+        if(model.get("document") instanceof ProjectInvoice)
         projectInvoice = (ProjectInvoice) model.get("document");
         symbols = new DecimalFormatSymbols();
         symbols.setDecimalSeparator(',');
