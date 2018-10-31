@@ -18,14 +18,31 @@
             <li class="breadcrumb-item">
                 <a th:href="@{'/clients/' + ${client.id}}" th:text="#{menu.client.detail}"></a>
             </li>
-            <li class="breadcrumb-item active"><span th:text="#{menu.project.new}"></span></li>
+
+            <li th:if="${mode == 'EDIT'}" class="breadcrumb-item">
+                <a th:href="@{'/clients/' + ${client.id} + '/projects/' + ${project.id}}" th:text="#{menu.project.detail}"></a>
+            </li>
+
+            <li th:if="${mode == 'EDIT'}" class="breadcrumb-item active"><span th:text="#{menu.project.edit}"></span></li>
+            <li th:if="${mode == 'NEW'}" class="breadcrumb-item active"><span th:text="#{menu.project.new}"></span></li>
+
         </ol>
 
         <div class="card">
-            <div class="card-header"><i class="fa fa-wrench">&nbsp;</i><span
-                    th:text="#{menu.project.new}"></span></div>
+            <div class="card-header">
+                <i th:if="${mode == 'NEW'}" class="fa fa-plus">&nbsp;</i>
+                <i th:if="${mode == 'EDIT'}" class="fa fa-edit">&nbsp;</i>
+                <span th:if="${mode == 'NEW'}" th:text="#{menu.project.new}"></span>
+                <span th:if="${mode == 'EDIT'}" th:text="#{menu.project.edit}"></span>
+            </div>
+
             <div class="card-body">
-                <form th:action="@{./create}" name="createProject" th:object="${project}" method="post">
+                <form th:action="@{${url}}"
+                      name="editProject"
+                      th:object="${project}"
+                      method="post">
+                    <input id="id" type="hidden" th:field="*{id}"/>
+                    <input id="client" type="hidden" th:field="*{client.id}"/>
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
@@ -56,26 +73,19 @@
                             </div>
                             <div class="form-group">
                                 <label for="startDate" th:text="#{project.startDate}" class="text-primary"></label>
-                                <span th:if="${#fields.hasErrors('period.startDate')}"
-                                      th:errors="*{period.startDate}"
+                                <span th:if="${#fields.hasErrors('period.startDate')}" th:errors="*{period.startDate}"
                                       class="text-danger"></span>
-                                <span th:if="${#fields.hasErrors('global')}" th:errors="*{global}" class="text-danger"></span>
-                                <input class="form-control"
-                                       id="startDate"
-                                       type="date"
-                                       th:field="*{period.startDate}"
+                                <span th:if="${#fields.hasErrors('period')}" th:errors="*{period}" class="text-danger"></span>
+                                <input class="form-control" id="startDate" type="date" th:field="*{period.startDate}"
                                        pattern="dd/MM/yyyyy"/>
                             </div>
                             <div class="form-group">
                                 <label for="endDate" th:text="#{project.endDate}" class="text-primary"></label>
-                                <span th:if="${#fields.hasErrors('period.endDate')}"
-                                      th:errors="*{period.endDate}"
+                                <span th:if="${#fields.hasErrors('period.endDate')}" th:errors="*{period.endDate}"
                                       class="text-danger"></span>
-                                <span th:if="${#fields.hasErrors('global')}" th:errors="*{global}" class="text-danger"></span>
-                                <input class="form-control"
-                                       id="endDate"
-                                       type="date"
-                                       th:field="*{period.endDate}"
+                                <span th:if="${#fields.hasErrors('period')}" th:errors="*{period}" class="text-danger"></span>
+
+                                <input class="form-control" id="endDate" type="date" th:field="*{period.endDate}"
                                        pattern="dd/MM/yyyyy"/>
                             </div>
                         </div>
@@ -84,13 +94,24 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <a th:href="@{'/clients/' + ${client.id}}" class="btn btn-danger btn-block"><span
-                                    th:text="#{button.cancel}"></span></a>
+                            <a th:if="${mode == 'NEW'}" th:href="@{'/clients/' + ${client.id}}" class="btn btn-danger btn-block">
+                                <span th:text="#{button.cancel}"></span>
+                            </a>
+                            <a th:if="${mode == 'EDIT'}"
+                               th:href="@{'/clients/' + ${client.id} + '/projects/' + ${project.id}}"
+                               class="btn btn-danger btn-block">
+                                <span th:text="#{button.cancel}"></span>
+                            </a>
                         </div>
                         <div class="col-lg-6">
-
-                            <button type="submit" class="btn btn-primary btn-block"
+                            <button th:if="${mode == 'NEW'}"
+                                    type="submit"
+                                    class="btn btn-primary btn-block"
                                     th:text="#{button.validate}"></button>
+                            <button th:if="${mode == 'EDIT'}"
+                                    type="submit"
+                                    class="btn btn-warning btn-block"
+                                    th:text="#{button.update}"></button>
                         </div>
                     </div>
                 </form>

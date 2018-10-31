@@ -38,6 +38,6 @@ public class ProjectService implements BaseService<Project>{
 
     @Override
     public void delete(long id) {
-
+        projectRepository.deleteById(id);
     }
 }

@@ -1,6 +1,8 @@
 package com.controller;
 
+import com.factory.UrlFactory;
 import com.model.Client;
+import com.model.Mode;
 import com.model.Project;
 import com.service.ClientService;
 import com.service.ProjectService;
@@ -8,43 +10,56 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/clients/{clientId}")
+@RequestMapping("/clients/{clientId}/projects")
 public class ProjectController {
 
-    private final ProjectService projectService;
+    private ProjectService projectService;
 
-    private final ClientService clientService;
+    private ClientService clientService;
+
+    private UrlFactory urlFactory;
 
     @Autowired
-    public ProjectController(ProjectService projectService, ClientService clientService) {
+    public ProjectController(ProjectService projectService,
+                             ClientService clientService,
+                             UrlFactory urlFactory) {
         this.projectService = projectService;
         this.clientService = clientService;
+        this.urlFactory = urlFactory;
     }
 
-    @GetMapping("/projects/{projectId}")
-    public String createProject(@PathVariable("clientId") long clientId, @PathVariable("projectId") long projectId, Model model) {
+    @GetMapping("/{projectId}")
+    public String showProject(@PathVariable("clientId") long clientId, @PathVariable("projectId") long projectId, Model model) {
         Project project = projectService.find(projectId);
         Client client = clientService.find(clientId);
         model.addAttribute("project", project);
         model.addAttribute("client", client);
+
         return "project_detail";
     }
 
-    @GetMapping("/projects/create")
+    @GetMapping("/create")
     public String createProject(@PathVariable("clientId") long clientId, Model model) {
         Project project = new Project();
         Client client = clientService.find(clientId);
         model.addAttribute("project", project);
         model.addAttribute("client", client);
-        return "create_project";
+        model.addAttribute("mode", Mode.NEW);
+        model.addAttribute("url", urlFactory.newProject(clientId));
+
+        return "project_form";
     }
 
-    @PostMapping("/projects/create")
+    @PostMapping("/create")
     public String saveProject(@Valid @ModelAttribute Project project,
                               BindingResult bindingResult,
                               @PathVariable("clientId") long clientId,
@@ -52,14 +67,16 @@ public class ProjectController {
         Client client = clientService.find(clientId);
         if (bindingResult.hasErrors()) {
             model.addAttribute("client", client);
-            return "create_project";
+            model.addAttribute("mode", Mode.NEW);
+            model.addAttribute("url", urlFactory.newProject(clientId));
+            return "project_form";
         }
         project.setClient(client);
-        Project lastProject = projectService.save(project);
-        return "redirect:/clients/" + clientId + "/projects/" + lastProject.getId();
+        Project savedProject = projectService.save(project);
+        return "redirect:/clients/" + clientId + "/projects/" + savedProject.getId();
     }
 
-    @GetMapping("/projects/{projectId}/edit")
+    @GetMapping("/{projectId}/edit")
     public String editProject(@PathVariable("clientId") long clientId,
                               @PathVariable("projectId") long projectId,
                               Model model) {
@@ -67,20 +84,31 @@ public class ProjectController {
         Client client = clientService.find(clientId);
         model.addAttribute("project", project);
         model.addAttribute("client", client);
-        return "edit_project";
+        model.addAttribute("mode", Mode.EDIT);
+        model.addAttribute("url", urlFactory.editProject(clientId, projectId));
+        return "project_form";
     }
 
-    @PostMapping("/projects/{projectId}/edit")
+    @PostMapping("/{projectId}/edit")
     public String editProject(@Valid @ModelAttribute Project project,
                               BindingResult bindingResult,
                               @PathVariable("clientId") long clientId,
                               Model model) {
-        Client client  = clientService.find(clientId);
+        Client client = clientService.find(clientId);
         if (bindingResult.hasErrors()) {
             model.addAttribute("client", client);
-            return "edit_project";
+            model.addAttribute("mode", Mode.EDIT);
+            model.addAttribute("url", urlFactory.editProject(clientId, project.getId()));
+            return "project_form";
         }
         projectService.save(project);
         return "redirect:/clients/" + clientId + "/projects/" + project.getId();
+    }
+
+    @PostMapping("/{projectId}/delete")
+    public String deleteDocumentLine(@PathVariable("clientId") long clientId,
+                                     @PathVariable("projectId") long projectId) {
+        projectService.delete(projectId);
+        return "redirect:/clients/" + clientId;
     }
 }
