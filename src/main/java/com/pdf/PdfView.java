@@ -408,7 +408,7 @@ public class PdfView extends AbstractPdfView {
         tableTitle.setWidthPercentage(100);
         Image image1;
         try {
-            image1 = Image.getInstance("http://localhost:8080/images/logo.jpg");
+            image1 = Image.getInstance("./images/logo.jpg");
             image1.scalePercent(100f);
             PdfPCell cellLeft = new PdfPCell(image1);
             cellLeft.setBorder(0);
