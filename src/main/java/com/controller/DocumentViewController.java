@@ -2,7 +2,7 @@ package com.controller;
 
 import com.model.Estimate;
 import com.google.common.collect.Maps;
-import com.pdf.PdfView;
+import com.pdf.EstimatePdfView;
 import com.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +28,7 @@ public class DocumentViewController {
         HashMap<String, Object> parameters = Maps.newHashMap();
         parameters.put("document", document);
 
-        return new ModelAndView(new PdfView(), parameters);
+        return new ModelAndView(new EstimatePdfView(), parameters);
     }
 
 }

@@ -2,15 +2,8 @@ package com.pdf;
 
 import com.model.Client;
 import com.model.DocumentLine;
-import com.model.ProjectInvoice;
-import com.lowagie.text.BadElementException;
-import com.lowagie.text.Chunk;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Font;
-import com.lowagie.text.Image;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
+import com.model.Estimate;
+import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
@@ -28,22 +21,17 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
-import static com.lowagie.text.Element.ALIGN_JUSTIFIED;
-import static com.lowagie.text.Element.ALIGN_LEFT;
-import static com.lowagie.text.Element.ALIGN_MIDDLE;
-import static com.lowagie.text.Element.ALIGN_RIGHT;
-import static com.lowagie.text.Font.BOLD;
-import static com.lowagie.text.Font.ITALIC;
-import static com.lowagie.text.Font.NORMAL;
+import static com.lowagie.text.Element.*;
+import static com.lowagie.text.Font.*;
 import static java.awt.Color.BLACK;
 import static java.awt.Color.WHITE;
 
-public class InvoicePdfView extends AbstractPdfView {
+public class EstimatePdfView extends AbstractPdfView {
 
     private DecimalFormatSymbols symbols;
     private Font fontInfo, fontTitre, fontDate, fontGreet, fontOutro, fontTitle;
     private final int MIN_HEIGHT = 20;
-    private ProjectInvoice projectInvoice;
+    private Estimate estimate;
     private DecimalFormat twoDecimals;
     private DecimalFormat threeDecimals;
 
@@ -52,8 +40,7 @@ public class InvoicePdfView extends AbstractPdfView {
                                     Document document, PdfWriter writer, HttpServletRequest request,
                                     HttpServletResponse response) throws Exception {
 
-        if(model.get("document") instanceof ProjectInvoice)
-        projectInvoice = (ProjectInvoice) model.get("document");
+        estimate = (Estimate) model.get("document");
         symbols = new DecimalFormatSymbols();
         symbols.setDecimalSeparator(',');
         symbols.setGroupingSeparator(' ');
@@ -73,8 +60,8 @@ public class InvoicePdfView extends AbstractPdfView {
         document.add(createTableEntetes());
         document.add(createTableDonnees());
         document.add(createTableTotaux());
-                document.add(createGreetings());
-        document.add(createOutro());
+//        document.add(createGreetings());
+//        document.add(createOutro());
 
 
     }
@@ -92,18 +79,18 @@ public class InvoicePdfView extends AbstractPdfView {
         return paraOutro;
     }
 
-        private Paragraph createGreetings() {
-            String greet = "Date Limite de paiement : " + projectInvoice.getPaymentDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + ".\n\nNous restons à votre disposition pour toute information complémentaire.\nCordialement,\n\nBoris Bertrand\n\n";
-            Chunk phraseGreet = new Chunk(greet);
-            phraseGreet.setFont(fontGreet);
-            Paragraph paraGreet = new Paragraph();
-            paraGreet.add(phraseGreet);
-
-            paraGreet.setAlignment(ALIGN_JUSTIFIED);
-            paraGreet.setSpacingAfter(50F);
-            paraGreet.setKeepTogether(true);
-            return paraGreet;
-        }
+//    private Paragraph createGreetings() {
+//        String greet = "Date Limite de paiement : " + dt.format(estimate.getPaymentDate()) + ".\n\nNous restons à votre disposition pour toute information complémentaire.\nCordialement,\n\nBoris Bertrand\n\n";
+//        Chunk phraseGreet = new Chunk(greet);
+//        phraseGreet.setFont(fontGreet);
+//        Paragraph paraGreet = new Paragraph();
+//        paraGreet.add(phraseGreet);
+//
+//        paraGreet.setAlignment(ALIGN_JUSTIFIED);
+//        paraGreet.setSpacingAfter(50F);
+//        paraGreet.setKeepTogether(true);
+//        return paraGreet;
+//    }
 
     private PdfPTable createTableInfos() throws DocumentException {
         PdfPTable tableInfo = new PdfPTable(2);
@@ -233,7 +220,7 @@ public class InvoicePdfView extends AbstractPdfView {
     }
 
     private Paragraph createTitle() {
-        Chunk title = new Chunk("Devis N°" + projectInvoice.getCode());
+        Chunk title = new Chunk("Devis N°" + estimate.getCode());
         title.setFont(fontTitle);
         Paragraph paraTitle = new Paragraph();
         paraTitle.add(title);
@@ -372,7 +359,7 @@ public class InvoicePdfView extends AbstractPdfView {
                     tableTotaux.addCell(cellulesTotaux[i]);
                     break;
                 case 1:
-                    cellulesTotaux[i] = new PdfPCell(new Phrase(twoDecimals.format(projectInvoice.getSubTotal()) + " EUR", fontTitre));
+                    cellulesTotaux[i] = new PdfPCell(new Phrase(twoDecimals.format(estimate.getSubTotal()) + " EUR", fontTitre));
                     cellulesTotaux[i].setBorder(0);
                     cellulesTotaux[i].setHorizontalAlignment(ALIGN_RIGHT);
                     cellulesTotaux[i].setVerticalAlignment(ALIGN_MIDDLE);
@@ -380,7 +367,7 @@ public class InvoicePdfView extends AbstractPdfView {
                     tableTotaux.addCell(cellulesTotaux[i]);
                     break;
                 case 2:
-                    cellulesTotaux[i] = new PdfPCell(new Phrase("TVA (" + (projectInvoice.getTaxRate().getValue().multiply(new BigDecimal("100"))).intValueExact() + "%)", fontTitre));
+                    cellulesTotaux[i] = new PdfPCell(new Phrase("TVA (" + (estimate.getTaxRate().getValue().multiply(new BigDecimal("100"))).intValueExact() + "%)", fontTitre));
                     cellulesTotaux[i].setBorder(0);
                     cellulesTotaux[i].setHorizontalAlignment(ALIGN_LEFT);
                     cellulesTotaux[i].setVerticalAlignment(ALIGN_MIDDLE);
@@ -388,7 +375,7 @@ public class InvoicePdfView extends AbstractPdfView {
                     tableTotaux.addCell(cellulesTotaux[i]);
                     break;
                 case 3:
-                    cellulesTotaux[i] = new PdfPCell(new Phrase(twoDecimals.format(projectInvoice.getTotalTax()) + " EUR", fontTitre));
+                    cellulesTotaux[i] = new PdfPCell(new Phrase(twoDecimals.format(estimate.getTotalTax()) + " EUR", fontTitre));
                     cellulesTotaux[i].setBorder(0);
                     cellulesTotaux[i].setHorizontalAlignment(ALIGN_RIGHT);
                     cellulesTotaux[i].setVerticalAlignment(ALIGN_MIDDLE);
@@ -404,7 +391,7 @@ public class InvoicePdfView extends AbstractPdfView {
                     tableTotaux.addCell(cellulesTotaux[i]);
                     break;
                 case 5:
-                    cellulesTotaux[i] = new PdfPCell(new Phrase(twoDecimals.format(projectInvoice.getTotal()) + " EUR", fontTitre));
+                    cellulesTotaux[i] = new PdfPCell(new Phrase(twoDecimals.format(estimate.getTotal()) + " EUR", fontTitre));
                     cellulesTotaux[i].setBorder(0);
                     cellulesTotaux[i].setHorizontalAlignment(ALIGN_RIGHT);
                     cellulesTotaux[i].setVerticalAlignment(ALIGN_MIDDLE);
@@ -433,8 +420,8 @@ public class InvoicePdfView extends AbstractPdfView {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        LocalDate date = projectInvoice.getCreationDate();
-        //        String dateString = date.toString(dateFormatter);
+        LocalDate date = estimate.getCreationDate();
+//        String dateString = date.toString(dateFormatter);
 
         Phrase phraseDate = new Phrase("Namur, le " + date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         phraseDate.setFont(fontDate);
@@ -454,11 +441,11 @@ public class InvoicePdfView extends AbstractPdfView {
     }
 
     private List<DocumentLine> documentLines() {
-        return projectInvoice.getDocumentLines();
+        return estimate.getDocumentLines();
     }
 
     private DocumentLine documentLine(int j) {
-        return projectInvoice.getDocumentLines().get(j);
+        return estimate.getDocumentLines().get(j);
     }
 
     private boolean isThreeDecimals(int j) {
@@ -466,7 +453,7 @@ public class InvoicePdfView extends AbstractPdfView {
     }
 
     private Client client() {
-        return projectInvoice.getClient();
+        return estimate.getClient();
     }
 
 }

@@ -2,7 +2,7 @@ package com.controller;
 
 import com.model.ProjectInvoice;
 import com.google.common.collect.Maps;
-import com.pdf.InvoicePdfView;
+import com.pdf.ProjectInvoicePdfView;
 import com.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +28,7 @@ public class ProjectInvoiceViewController {
         HashMap<String, Object> parameters = Maps.newHashMap();
         parameters.put("document", document);
 
-        return new ModelAndView(new InvoicePdfView(), parameters);
+        return new ModelAndView(new ProjectInvoicePdfView(), parameters);
     }
 
 }
