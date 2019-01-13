@@ -7,6 +7,7 @@ import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
+import org.springframework.util.ResourceUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -408,7 +409,7 @@ public class PdfView extends AbstractPdfView {
         tableTitle.setWidthPercentage(100);
         Image image1;
         try {
-            image1 = Image.getInstance("./images/logo.jpg");
+            image1 = Image.getInstance(ResourceUtils.getFile("classpath:static/images/logo.jpg").getPath());
             image1.scalePercent(100f);
             PdfPCell cellLeft = new PdfPCell(image1);
             cellLeft.setBorder(0);
