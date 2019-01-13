@@ -214,7 +214,7 @@ public class ServiceInvoicePdfView extends AbstractPdfView {
     }
 
     private Paragraph createTitle() {
-        Chunk title = new Chunk("Devis N°" + serviceInvoice.getCode());
+        Chunk title = new Chunk("Facture N°" + serviceInvoice.getCode());
         title.setFont(fontTitle);
         Paragraph paraTitle = new Paragraph();
         paraTitle.add(title);
