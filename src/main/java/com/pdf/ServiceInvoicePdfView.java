@@ -126,7 +126,7 @@ public class ServiceInvoicePdfView extends AbstractPdfView {
         cellulesInfos[1].setHorizontalAlignment(ALIGN_LEFT);
         tableInfo.addCell(cellulesInfos[1]);
 
-        cellulesInfos[2] = new PdfPCell(new Phrase("Rue de l'île des béguines 5", fontInfo));
+        cellulesInfos[2] = new PdfPCell(new Phrase("Rue du progrès 1", fontInfo));
         cellulesInfos[2].setBorder(0);
         cellulesInfos[2].setHorizontalAlignment(ALIGN_LEFT);
         tableInfo.addCell(cellulesInfos[2]);
@@ -136,7 +136,7 @@ public class ServiceInvoicePdfView extends AbstractPdfView {
         cellulesInfos[3].setHorizontalAlignment(ALIGN_LEFT);
         tableInfo.addCell(cellulesInfos[3]);
 
-        cellulesInfos[4] = new PdfPCell(new Phrase("5300 Seilles", fontInfo));
+        cellulesInfos[4] = new PdfPCell(new Phrase("5300 Petit-Warêt", fontInfo));
         cellulesInfos[4].setBorder(0);
         cellulesInfos[4].setHorizontalAlignment(ALIGN_LEFT);
         tableInfo.addCell(cellulesInfos[4]);
