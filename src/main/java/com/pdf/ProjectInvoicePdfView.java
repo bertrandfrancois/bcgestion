@@ -195,7 +195,7 @@ public class ProjectInvoicePdfView extends AbstractPdfView {
         cellulesInfos[14].setHorizontalAlignment(ALIGN_LEFT);
         tableInfo.addCell(cellulesInfos[14]);
 
-        cellulesInfos[15] = new PdfPCell(new Phrase("", fontInfo));
+        cellulesInfos[15] = new PdfPCell(new Phrase("Chantier :", fontInfo));
         cellulesInfos[15].setBorder(0);
         cellulesInfos[15].setHorizontalAlignment(ALIGN_LEFT);
         tableInfo.addCell(cellulesInfos[15]);
